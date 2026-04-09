@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
+using DBProject.Helpers;
 using System.Data;
 
 
@@ -14,10 +15,17 @@ namespace DBProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["freeSlot"] = "";
+            // Check authentication using cloud-ready session helper
+            if (!SessionHelper.IsAuthenticated)
+            {
+                Response.Redirect("~/SignUp.aspx");
+                return;
+            }
+
+            // Use cloud-ready session helper
+            SessionHelper.SetValue("freeSlot", "");
             freeSlots(sender, e);
         }
-
 
         //---------------Function Called whenever a Free Slot is selected from the Grid View----//
         protected void PAppointmentGrid_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -30,7 +38,8 @@ namespace DBProject
 
                 string[] tokens = appointment.Split(':');
 
-                Session["freeSlot"] = tokens[0];
+                // Use cloud-ready session helper
+                SessionHelper.SetValue("freeSlot", tokens[0]);
 
                 Response.BufferOutput = true;
                 Response.Redirect("AppointmentRequestSent.aspx");
@@ -39,37 +48,40 @@ namespace DBProject
             }
         }
 
-
         //-----------------------Function1--------------------------//
-
         protected void freeSlots(object sender, EventArgs e)
         {
             myDAL objmyDAl = new myDAL();
 
             DataTable DT = new DataTable();
 
-
-            string dID1 = (string)Session["dID"];
+            // Use cloud-ready session helper
+            string dID1 = SessionHelper.GetValue<string>("dID");
+            if (string.IsNullOrEmpty(dID1))
+            {
+                Response.Redirect("~/Patient/ViewDoctors.aspx");
+                return;
+            }
 
             int dID = Convert.ToInt32(dID1);
 
+            int? pID = SessionHelper.UserId;
+            if (!pID.HasValue)
+            {
+                Response.Redirect("~/SignUp.aspx");
+                return;
+            }
 
-            int pID = (int)Session["idoriginal"];
-
-            
-            int status = objmyDAl.getFreeSlots(dID, pID, ref DT);
-
+            int status = objmyDAl.getFreeSlots(dID, pID.Value, ref DT);
 
             if (status == -1)
             {
                 PAppointment.Text = "There was some error in retrieving the Doctors's Free Slots.";
             }
-
             else if (status == 0)
             {
                 PAppointment.Text = "There is currently no free slot of this doctor.";
             }
-
             else if (status > 0)
             {
                 PAppointment.Text = "The following are the " + status  + " free slots of this doctor for today :";
@@ -79,9 +91,5 @@ namespace DBProject
 
             return;
         }
-
-
-        //-----------------------Add a new function here------------------//
-
     }
 }

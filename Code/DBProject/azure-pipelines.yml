@@ -1,0 +1,112 @@
+# Azure DevOps Pipeline for Hospital Management System
+# Builds and deploys to Azure App Service
+
+trigger:
+  branches:
+    include:
+    - main
+    - develop
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  azureSubscription: 'Azure-Service-Connection' # Update with your service connection name
+  appServiceName: 'hospital-management-app' # Update with your App Service name
+
+stages:
+- stage: Build
+  displayName: 'Build Application'
+  jobs:
+  - job: Build
+    displayName: 'Build Job'
+    steps:
+    - task: NuGetToolInstaller@1
+      displayName: 'Install NuGet'
+
+    - task: NuGetCommand@2
+      displayName: 'Restore NuGet Packages'
+      inputs:
+        restoreSolution: '$(solution)'
+
+    - task: VSBuild@1
+      displayName: 'Build Solution'
+      inputs:
+        solution: '$(solution)'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+
+    - task: VSTest@2
+      displayName: 'Run Tests'
+      inputs:
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+      continueOnError: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifacts'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+- stage: Deploy_Dev
+  displayName: 'Deploy to Development'
+  dependsOn: Build
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+  jobs:
+  - deployment: Deploy
+    displayName: 'Deploy to Dev App Service'
+    environment: 'Development'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureRmWebAppDeployment@4
+            displayName: 'Deploy to Azure App Service'
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: '$(azureSubscription)'
+              appType: 'webApp'
+              WebAppName: '$(appServiceName)-dev'
+              packageForLinux: '$(Pipeline.Workspace)/drop/**/*.zip'
+              AppSettings: |
+                -ASPNETCORE_ENVIRONMENT Development
+                -SQL_CONNECTION_STRING "$(DevSqlConnectionString)"
+                -APPINSIGHTS_INSTRUMENTATIONKEY "$(DevAppInsightsKey)"
+
+- stage: Deploy_Prod
+  displayName: 'Deploy to Production'
+  dependsOn: Build
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  jobs:
+  - deployment: Deploy
+    displayName: 'Deploy to Prod App Service'
+    environment: 'Production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureRmWebAppDeployment@4
+            displayName: 'Deploy to Azure App Service'
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: '$(azureSubscription)'
+              appType: 'webApp'
+              WebAppName: '$(appServiceName)'
+              packageForLinux: '$(Pipeline.Workspace)/drop/**/*.zip'
+              AppSettings: |
+                -ASPNETCORE_ENVIRONMENT Production
+                -SQL_CONNECTION_STRING "$(ProdSqlConnectionString)"
+                -APPINSIGHTS_INSTRUMENTATIONKEY "$(ProdAppInsightsKey)"
+
+          - task: AzureAppServiceManage@0
+            displayName: 'Restart App Service'
+            inputs:
+              azureSubscription: '$(azureSubscription)'
+              Action: 'Restart Azure App Service'
+              WebAppName: '$(appServiceName)'

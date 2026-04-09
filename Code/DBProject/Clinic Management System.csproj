@@ -15,13 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DBProject</RootNamespace>
     <AssemblyName>DBProject</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
-    <UseGlobalApplicationHostFile />
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <Use64BitIISExpress />
@@ -236,12 +230,8 @@
     </Compile>
     <Compile Include="Admin\DoctorRegistrationForm.aspx.cs">
       <DependentUpon>DoctorRegistrationForm.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\DoctorRegistrationForm.aspx.designer.cs">
-      <DependentUpon>DoctorRegistrationForm.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Doctor\HistoryUpdate.aspx.cs">
+    <Compile Include="DAL\ConnectionManager.cs" />
+    <Compile Include="Helpers\SessionHelper.cs" />
       <DependentUpon>HistoryUpdate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
