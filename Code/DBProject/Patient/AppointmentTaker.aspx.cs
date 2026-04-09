@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
+using DBProject.CloudInfrastructure;
 using System.Data;
 
 
@@ -14,7 +15,8 @@ namespace DBProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["freeSlot"] = "";
+            // Use distributed session manager for cloud-ready session handling
+            DistributedSessionManager.SetSessionValue("freeSlot", "");
             freeSlots(sender, e);
         }
 
@@ -30,7 +32,8 @@ namespace DBProject
 
                 string[] tokens = appointment.Split(':');
 
-                Session["freeSlot"] = tokens[0];
+                // Store in distributed session for horizontal scaling
+                DistributedSessionManager.SetSessionValue("freeSlot", tokens[0]);
 
                 Response.BufferOutput = true;
                 Response.Redirect("AppointmentRequestSent.aspx");
@@ -48,13 +51,13 @@ namespace DBProject
 
             DataTable DT = new DataTable();
 
-
-            string dID1 = (string)Session["dID"];
+            // Retrieve from distributed session
+            string dID1 = DistributedSessionManager.GetSessionValue<string>("dID", "");
 
             int dID = Convert.ToInt32(dID1);
 
-
-            int pID = (int)Session["idoriginal"];
+            // Retrieve from distributed session
+            int pID = DistributedSessionManager.GetSessionValue<int>("idoriginal", 0);
 
             
             int status = objmyDAl.getFreeSlots(dID, pID, ref DT);

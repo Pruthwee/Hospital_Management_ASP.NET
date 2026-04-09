@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
+using DBProject.CloudInfrastructure;
 using System.Data;
 
 
@@ -14,7 +15,8 @@ namespace DBProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["dID"] = "";
+            // Use distributed session manager for cloud-ready session handling
+            DistributedSessionManager.SetSessionValue("dID", "");
             deptDoctorInfo(sender, e);
         }
 
@@ -27,7 +29,8 @@ namespace DBProject
 
                 string dID = TDoctorGrid.Rows[num].Cells[2].Text;
   
-                Session["dID"] = dID;
+                // Store in distributed session for horizontal scaling
+                DistributedSessionManager.SetSessionValue("dID", dID);
 
                 Response.BufferOutput = true;
                 Response.Redirect("DoctorProfile.aspx");
@@ -46,7 +49,8 @@ namespace DBProject
 
             DataTable DT = new DataTable();
 
-            string deptName = (string) Session["deptOriginal"];
+            // Retrieve from distributed session
+            string deptName = DistributedSessionManager.GetSessionValue<string>("deptOriginal", "");
 
             int status = objmyDAl.getDeptDoctorInfo(deptName, ref DT);
 
@@ -58,7 +62,8 @@ namespace DBProject
 
             else
             {
-                TDoctor.Text = "Following are our Specialized Doctors of " + Session["deptOriginal"] + " Department:";
+                string deptOriginal = DistributedSessionManager.GetSessionValue<string>("deptOriginal", "");
+                TDoctor.Text = "Following are our Specialized Doctors of " + deptOriginal + " Department:";
                 TDoctorGrid.DataSource = DT;
                 TDoctorGrid.DataBind();
             }
