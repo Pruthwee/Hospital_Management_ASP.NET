@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # Hospital Management Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - DB_CONNECTION_STRING=Server=sqlserver;Database=DBProject;User Id=sa;Password=YourStrong@Passw0rd;
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_ACCESS_KEY=
+    depends_on:
+      - sqlserver
+      - redis
+    networks:
+      - hospital-network
+
+  # SQL Server
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - hospital-network
+
+  # Redis for Session State
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - hospital-network
+
+networks:
+  hospital-network:
+    driver: bridge
+
+volumes:
+  sqlserver-data:
+  redis-data:

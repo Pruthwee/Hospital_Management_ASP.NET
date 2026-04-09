@@ -1,0 +1,71 @@
+# .dockerignore for Hospital Management System
+
+# Build artifacts
+bin/
+obj/
+*.dll
+*.pdb
+*.exe
+
+# NuGet packages
+packages/
+*.nupkg
+
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Documentation
+*.md
+!README.md
+!CLOUD_READINESS_GUIDE.md
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Scripts
+*.sh
+*.ps1
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+*.bak
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
