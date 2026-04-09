@@ -1,0 +1,51 @@
+# .dockerignore for Hospital Management System
+
+# Build artifacts
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+
+# Visual Studio files
+.vs/
+*.sln.docstates
+*.userprefs
+
+# NuGet packages (restore during build)
+packages/
+*.nupkg
+
+# Temporary files
+Thumbs.db
+Desktop.ini
+*.tmp
+*.temp
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# Documentation (not needed in container)
+*.md
+!README.md
+
+# Kubernetes and deployment files (not needed in container)
+kubernetes-deployment.yaml
+Dockerfile
+.dockerignore
+
+# Development files
+*.DotSettings
+*.DotSettings.user
+
+# Test files
+**/TestResults/
+**/*.Test/
+**/*.Tests/
+
+# Backup files
+*.bak
+*.backup

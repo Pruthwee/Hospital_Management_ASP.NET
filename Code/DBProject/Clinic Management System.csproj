@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DBProject</RootNamespace>
     <AssemblyName>DBProject</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -192,12 +192,7 @@
       <DependentUpon>AppointmentTaker.aspx</DependentUpon>
     </Compile>
     <Compile Include="Doctor\Bill.aspx.cs">
-      <DependentUpon>Bill.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Doctor\Bill.aspx.designer.cs">
-      <DependentUpon>Bill.aspx</DependentUpon>
-    </Compile>
+    <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Patient\BillsHistory.aspx.cs">
       <DependentUpon>BillsHistory.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
