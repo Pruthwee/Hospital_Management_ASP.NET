@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI.WebControls;
 using System.Web.UI;
 using System.Data;
-using System.Data.SqlClient;
+using Npgsql;
 
  
 namespace DBProject.DAL
@@ -15,7 +15,7 @@ namespace DBProject.DAL
     {
 		//connection string of the server database
         private static readonly string connString =
-            System.Configuration.ConfigurationManager.ConnectionStrings["sqlCon1"].ConnectionString;
+            System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
 
 

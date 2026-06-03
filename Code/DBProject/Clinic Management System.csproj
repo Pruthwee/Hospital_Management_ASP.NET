@@ -5,15 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>ClinicManagementSystem</RootNamespace>
     <AssemblyName>ClinicManagementSystem.Web</AssemblyName>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="**\*.cs" Exclude="bin\**;obj\**" />
-    <Content Include="**\*.*" Exclude="bin\**;obj\**;**\*.cs;**\*.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
+    <PackageReference Include="Npgsql" Version="8.0.5" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+    <PackageReference Include="EFCore.NamingConventions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
   </ItemGroup>
