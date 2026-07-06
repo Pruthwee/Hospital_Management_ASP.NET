@@ -1,0 +1,78 @@
+@page
+@model ClinicManagement.Web.Pages.Patient.TakeAppointmentModel
+@{
+    ViewData["Title"] = "Take Appointment";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4><i class="fas fa-calendar-plus me-2"></i>Take Appointment</h4>
+            </div>
+            <div class="card-body">
+                @if (!string.IsNullOrEmpty(Model.Message))
+                {
+                    <div class="alert alert-info">@Model.Message</div>
+                }
+                <form method="get">
+                    <div class="mb-3">
+                        <label class="form-label">Select Department</label>
+                        <select name="department" class="form-select"
+                            asp-items="@(new SelectList(Model.Departments, "DeptName", "DeptName", Model.SelectedDepartment))">
+                            <option value="">Select Department</option>
+                        </select>
+                    </div>
+                    @if (Model.Doctors.Any())
+                    {
+                        <div class="mb-3">
+                            <label class="form-label">Select Doctor</label>
+                            <select name="doctorId" class="form-select"
+                                asp-items="@(new SelectList(Model.Doctors, "DoctorId", "Name", Model.SelectedDoctorId))">
+                                <option value="">Select Doctor</option>
+                            </select>
+                        </div>
+                    }
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search me-2"></i>Find Slots
+                    </button>
+                </form>
+
+                @if (Model.FreeSlots.Any())
+                {
+                    <hr />
+                    <h5>Available Slots</h5>
+                    <form method="post">
+                        <input type="hidden" name="doctorId" value="@Model.SelectedDoctorId" />
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>Slot ID</th>
+                                        <th>Date/Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var slot in Model.FreeSlots)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="radio" name="slotId" value="@slot.AppointId" class="form-check-input" />
+                                            </td>
+                                            <td>@slot.AppointId</td>
+                                            <td>@slot.Timings</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-calendar-check me-2"></i>Book Appointment
+                        </button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>

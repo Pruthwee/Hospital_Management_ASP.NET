@@ -1,0 +1,79 @@
+@page
+@model ClinicManagement.Web.Pages.Patient.PatientHomeModel
+@{
+    ViewData["Title"] = "Patient Dashboard";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h2><i class="fas fa-user me-2"></i>Patient Dashboard</h2>
+        <hr />
+    </div>
+</div>
+
+@if (Model.PatientInfo != null)
+{
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <i class="fas fa-user-circle fa-5x text-primary mb-3"></i>
+                    <h4>@Model.PatientInfo.Name</h4>
+                    <p><strong>Age:</strong> @Model.PatientInfo.Age years</p>
+                    <p><strong>Gender:</strong> @Model.PatientInfo.Gender</p>
+                    <p><strong>Phone:</strong> @Model.PatientInfo.Phone</p>
+                    <p><strong>Address:</strong> @Model.PatientInfo.Address</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            @if (Model.CurrentAppointment != null)
+            {
+                <div class="alert alert-info mb-3">
+                    <h5><i class="fas fa-calendar-check me-2"></i>Current Appointment</h5>
+                    <p><strong>Doctor:</strong> @Model.CurrentAppointment.DoctorName</p>
+                    <p><strong>Time:</strong> @Model.CurrentAppointment.Timings</p>
+                </div>
+            }
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5><i class="fas fa-tools me-2"></i>Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <a asp-page="/Patient/TakeAppointment" class="btn btn-outline-primary w-100 py-3">
+                                <i class="fas fa-calendar-plus fa-2x d-block mb-2"></i>Take Appointment
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a asp-page="/Patient/ViewDoctors" class="btn btn-outline-success w-100 py-3">
+                                <i class="fas fa-user-md fa-2x d-block mb-2"></i>View Doctors
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a asp-page="/Patient/BillsHistory" class="btn btn-outline-warning w-100 py-3">
+                                <i class="fas fa-file-invoice fa-2x d-block mb-2"></i>Bills History
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a asp-page="/Patient/TreatmentHistory" class="btn btn-outline-info w-100 py-3">
+                                <i class="fas fa-notes-medical fa-2x d-block mb-2"></i>Treatment History
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a asp-page="/Patient/PatientNotifications" class="btn btn-outline-danger w-100 py-3">
+                                <i class="fas fa-bell fa-2x d-block mb-2"></i>Notifications
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a asp-page="/Patient/PatientFeedback" class="btn btn-outline-secondary w-100 py-3">
+                                <i class="fas fa-star fa-2x d-block mb-2"></i>Feedback
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

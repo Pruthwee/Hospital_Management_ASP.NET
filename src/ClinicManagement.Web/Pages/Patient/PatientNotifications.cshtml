@@ -1,0 +1,29 @@
+@page
+@model ClinicManagement.Web.Pages.Patient.PatientNotificationsModel
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<div class="row mb-3">
+    <div class="col-12">
+        <h2><i class="fas fa-bell me-2"></i>Notifications</h2>
+        <hr />
+    </div>
+</div>
+
+@if (Model.Notification != null)
+{
+    <div class="alert alert-success">
+        <h5><i class="fas fa-check-circle me-2"></i>Appointment Approved!</h5>
+        <p><strong>Doctor:</strong> @Model.Notification.DoctorName</p>
+        <p><strong>Time:</strong> @Model.Notification.Timings</p>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">No new notifications.</div>
+}
+
+<a asp-page="/Patient/PatientHome" class="btn btn-secondary mt-3">
+    <i class="fas fa-arrow-left me-2"></i>Back
+</a>
