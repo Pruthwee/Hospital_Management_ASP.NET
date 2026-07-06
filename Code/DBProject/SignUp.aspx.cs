@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,7 +14,9 @@ namespace DBProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["idoriginal"] = "";
+            // Cloud-ready: Session set via CloudSessionHelper for Amazon ElastiCache for Redis
+            // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+            CloudSessionHelper.Set(Session, "idoriginal", "");
         }
 
         //-----------------------Function1--------------------------//
@@ -33,7 +35,8 @@ namespace DBProject
 
             if (status == 0)
             {
-                Session["idoriginal"] = id;
+                // Cloud-ready: Session set via CloudSessionHelper for distributed session state
+                CloudSessionHelper.Set(Session, "idoriginal", id);
 
                 if (type == 1)
                 {
@@ -106,9 +109,8 @@ namespace DBProject
 
             else if (status == 1)
             {
-                Session["idoriginal"] = id;
-
-              //Response.Write("<script>alert('Registration Successful !');</script>");
+                // Cloud-ready: Session set via CloudSessionHelper for distributed session state
+                CloudSessionHelper.Set(Session, "idoriginal", id);
 
                 Response.BufferOutput = true;
                 Response.Redirect("~/Patient/PatientHome.aspx");

@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
+using DBProject;
 using System.Data;
 
 namespace doctor
@@ -20,15 +21,18 @@ namespace doctor
         {
             myDAL objmyDAL = new myDAL();
             int found;
-            int did = (int)Session["idoriginal"];
-            string disease= Disease.Text;
+
+            // Cloud-ready: Session accessed via CloudSessionHelper for Amazon ElastiCache for Redis
+            // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+            int did = CloudSessionHelper.GetInt(Session, "idoriginal");
+            string disease = Disease.Text;
             string progres = progress.Text;
             string prescrip = Prescription.Text;
 
-            int appid = (int)Session["appointid"];
+            int appid = CloudSessionHelper.GetInt(Session, "appointid");
 
             
-            found = objmyDAL.update_prescription_DAL(did,appid,disease,progres,prescrip);
+            found = objmyDAL.update_prescription_DAL(did, appid, disease, progres, prescrip);
 
             if (found != 1)
             { Response.Write("<script>alert('There was some error');</script>"); }

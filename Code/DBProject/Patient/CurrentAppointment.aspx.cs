@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,7 +25,9 @@ namespace DBProject
         {
             myDAL objmyDAl = new myDAL();
 
-            int pid = (int)Session["idoriginal"];
+            // Cloud-ready: Session accessed via CloudSessionHelper for Amazon ElastiCache for Redis
+            // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+            int pid = CloudSessionHelper.GetInt(Session, "idoriginal");
 
             string dName = "";
             string timings = "";
@@ -69,10 +71,6 @@ namespace DBProject
 
 
         //-----------------------Add a new function here------------------//
-
-
-
-
 
 
     }

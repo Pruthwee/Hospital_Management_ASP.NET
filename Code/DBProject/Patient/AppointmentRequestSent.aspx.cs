@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,16 +24,15 @@ namespace DBProject
         {
             myDAL objmyDAl = new myDAL();
 
-            
-            string dID1 = (string)Session["dID"];
+            // Cloud-ready: Session accessed via CloudSessionHelper for Amazon ElastiCache for Redis
+            // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+            string dID1 = CloudSessionHelper.GetString(Session, "dID");
 
             int dID = Convert.ToInt32(dID1);
 
+            int pID = CloudSessionHelper.GetInt(Session, "idoriginal");
 
-            int pID = (int)Session["idoriginal"];
-
-
-            string temp = (string)Session["freeSlot"];
+            string temp = CloudSessionHelper.GetString(Session, "freeSlot");
 
             int freeSlot = Convert.ToInt32(temp);
 

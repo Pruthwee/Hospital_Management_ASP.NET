@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
+using DBProject;
 using System.Data;
 
 
@@ -22,9 +23,11 @@ namespace doctor
         {
                 myDAL objDAL = new myDAL();
                 
-               int did = (int)Session["idoriginal"];
+                // Cloud-ready: Session accessed via CloudSessionHelper for Amazon ElastiCache for Redis
+                // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+                int did = CloudSessionHelper.GetInt(Session, "idoriginal");
 
-                    DataTable DT = new DataTable();
+                DataTable DT = new DataTable();
 
                 objDAL.GetAllpendingappointments_DAL(did, ref DT);
 

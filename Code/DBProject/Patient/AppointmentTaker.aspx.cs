@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,7 +14,9 @@ namespace DBProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["freeSlot"] = "";
+            // Cloud-ready: Session set via CloudSessionHelper for Amazon ElastiCache for Redis
+            // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+            CloudSessionHelper.Set(Session, "freeSlot", "");
             freeSlots(sender, e);
         }
 
@@ -30,7 +32,8 @@ namespace DBProject
 
                 string[] tokens = appointment.Split(':');
 
-                Session["freeSlot"] = tokens[0];
+                // Cloud-ready: Session set via CloudSessionHelper for distributed session state
+                CloudSessionHelper.Set(Session, "freeSlot", tokens[0]);
 
                 Response.BufferOutput = true;
                 Response.Redirect("AppointmentRequestSent.aspx");
@@ -48,13 +51,12 @@ namespace DBProject
 
             DataTable DT = new DataTable();
 
-
-            string dID1 = (string)Session["dID"];
+            // Cloud-ready: Session accessed via CloudSessionHelper for distributed session state
+            string dID1 = CloudSessionHelper.GetString(Session, "dID");
 
             int dID = Convert.ToInt32(dID1);
 
-
-            int pID = (int)Session["idoriginal"];
+            int pID = CloudSessionHelper.GetInt(Session, "idoriginal");
 
             
             int status = objmyDAl.getFreeSlots(dID, pID, ref DT);

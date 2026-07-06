@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -26,7 +26,9 @@ namespace DBProject
         {
             myDAL objmyDAl = new myDAL();
 
-            string dID1 = (string) Session["dID"];
+            // Cloud-ready: Session accessed via CloudSessionHelper for Amazon ElastiCache for Redis
+            // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+            string dID1 = CloudSessionHelper.GetString(Session, "dID");
 
             int dID = Convert.ToInt32(dID1);
 
@@ -42,13 +44,13 @@ namespace DBProject
             int workE = 0;
             int age = 0;
 
-            string deptName = (string)Session["deptOriginal"];
+            string deptName = CloudSessionHelper.GetString(Session, "deptOriginal");
 
             int status = objmyDAl.doctorInfoDisplayer(dID, ref name, ref phone, ref gender, ref charges_Per_Visit, ref ReputeIndex, ref PatientsTreated, ref qualification, ref specialization, ref workE, ref age);
 
             if (status == -1)
             {
-                Response.Write("<script>alert('There was some error in retrieving the Doctor's Info.');</script>");
+                Response.Write("<script>alert('There was some error in retrieving the Doctor\\'s Info.');</script>");
             }
 
             else if (status == 0)

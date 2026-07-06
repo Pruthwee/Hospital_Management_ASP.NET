@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,7 +14,9 @@ namespace DBProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["deptOriginal"] = "";
+            // Cloud-ready: Session set via CloudSessionHelper for Amazon ElastiCache for Redis
+            // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+            CloudSessionHelper.Set(Session, "deptOriginal", "");
             deptInfo(sender, e);
 
         }
@@ -28,7 +30,8 @@ namespace DBProject
 
                 string deptName = TDeptGrid.Rows[num].Cells[2].Text;
 
-                Session["deptOriginal"] = deptName;
+                // Cloud-ready: Session set via CloudSessionHelper for distributed session state
+                CloudSessionHelper.Set(Session, "deptOriginal", deptName);
 
                 Response.BufferOutput = true;
                 Response.Redirect("ViewDoctors.aspx");
@@ -68,9 +71,6 @@ namespace DBProject
 
 
         //-----------------------Add a new function here------------------//
-
-
-
 
 
     }

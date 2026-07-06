@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,7 +18,9 @@ namespace DBProject
         {
 			if (!IsPostBack)
 			{
-				Session["aID"] = "";
+                // Cloud-ready: Session set via CloudSessionHelper for Amazon ElastiCache for Redis
+                // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+                CloudSessionHelper.Set(Session, "aID", "");
 				pendingFeedback(sender, e);
 			}
         }
@@ -32,7 +34,8 @@ namespace DBProject
         {
             myDAL objmyDAl = new myDAL();
 
-            int pid = (int)Session["idoriginal"];
+            // Cloud-ready: Session accessed via CloudSessionHelper for distributed session state
+            int pid = CloudSessionHelper.GetInt(Session, "idoriginal");
 
             string dName = "";
             string timings = "";
@@ -53,7 +56,8 @@ namespace DBProject
 
             else
             {
-                Session["aID"] = aID;
+                // Cloud-ready: Session set via CloudSessionHelper for distributed session state
+                CloudSessionHelper.Set(Session, "aID", aID);
 
                 FDoctor.Text = "Your feedback for the appointment with Doctor " + dName + " is pending. Kindly give it.";
                 FTimings.Text = "The Appointment Timings were : " + timings;
@@ -76,11 +80,10 @@ namespace DBProject
         {
             myDAL objmyDAl = new myDAL();
 
-            int aID = (int)Session["aID"];
-
+            // Cloud-ready: Session accessed via CloudSessionHelper for distributed session state
+            int aID = CloudSessionHelper.GetInt(Session, "aID");
 
             int rating = Convert.ToInt32(List.SelectedItem.Value);
-
 
             int status = objmyDAl.givePendingFeedback(aID);
 

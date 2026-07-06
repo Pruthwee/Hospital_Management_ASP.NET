@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,7 +14,9 @@ namespace DBProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["dID"] = "";
+            // Cloud-ready: Session set via CloudSessionHelper for Amazon ElastiCache for Redis
+            // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+            CloudSessionHelper.Set(Session, "dID", "");
             deptDoctorInfo(sender, e);
         }
 
@@ -27,7 +29,8 @@ namespace DBProject
 
                 string dID = TDoctorGrid.Rows[num].Cells[2].Text;
   
-                Session["dID"] = dID;
+                // Cloud-ready: Session set via CloudSessionHelper for distributed session state
+                CloudSessionHelper.Set(Session, "dID", dID);
 
                 Response.BufferOutput = true;
                 Response.Redirect("DoctorProfile.aspx");
@@ -46,7 +49,8 @@ namespace DBProject
 
             DataTable DT = new DataTable();
 
-            string deptName = (string) Session["deptOriginal"];
+            // Cloud-ready: Session accessed via CloudSessionHelper for distributed session state
+            string deptName = CloudSessionHelper.GetString(Session, "deptOriginal");
 
             int status = objmyDAl.getDeptDoctorInfo(deptName, ref DT);
 
@@ -58,7 +62,7 @@ namespace DBProject
 
             else
             {
-                TDoctor.Text = "Following are our Specialized Doctors of " + Session["deptOriginal"] + " Department:";
+                TDoctor.Text = "Following are our Specialized Doctors of " + CloudSessionHelper.GetString(Session, "deptOriginal") + " Department:";
                 TDoctorGrid.DataSource = DT;
                 TDoctorGrid.DataBind();
             }

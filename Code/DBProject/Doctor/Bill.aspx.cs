@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
+using DBProject;
 using System.Data;
 
 namespace doctor
@@ -13,12 +14,13 @@ namespace doctor
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
             myDAL objmyDAL = new myDAL();
             DataTable dt = new DataTable();
             int found;
 
-            int did = (int)Session["idoriginal"];
+            // Cloud-ready: Session accessed via CloudSessionHelper for Amazon ElastiCache for Redis
+            // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+            int did = CloudSessionHelper.GetInt(Session, "idoriginal");
             
             found = objmyDAL.generate_bill_DAL(did, ref dt);
 
@@ -35,9 +37,11 @@ namespace doctor
         {
             myDAL objmyDAL = new myDAL();
             
-            int  did = (int)Session["idoriginal"];
-            int appoint = (int)Session["appointid"];
-            objmyDAL.paid_bill_DAL(did,appoint);
+            // Cloud-ready: Session accessed via CloudSessionHelper for Amazon ElastiCache for Redis
+            // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+            int did = CloudSessionHelper.GetInt(Session, "idoriginal");
+            int appoint = CloudSessionHelper.GetInt(Session, "appointid");
+            objmyDAL.paid_bill_DAL(did, appoint);
 
 			Response.BufferOutput = false;
             Response.Redirect("patienthistory.aspx");
@@ -48,8 +52,10 @@ namespace doctor
         {
             myDAL objmyDAL = new myDAL();
 
-            int did = (int)Session["idoriginal"];
-            int appoint = (int)Session["appointid"];
+            // Cloud-ready: Session accessed via CloudSessionHelper for Amazon ElastiCache for Redis
+            // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+            int did = CloudSessionHelper.GetInt(Session, "idoriginal");
+            int appoint = CloudSessionHelper.GetInt(Session, "appointid");
             objmyDAL.Unpaid_bill_DAL(did, appoint);
 
             Response.BufferOutput = false;

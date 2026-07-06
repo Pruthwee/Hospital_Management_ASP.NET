@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -27,9 +27,9 @@ namespace DBProject
 
             DataTable DT = new DataTable();
 
-
-            int id = (int)Session["idoriginal"];
-
+            // Cloud-ready: Session accessed via CloudSessionHelper for Amazon ElastiCache for Redis
+            // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+            int id = CloudSessionHelper.GetInt(Session, "idoriginal");
 
             int status = objmyDAl.getTreatmentHistory(id, ref DT);
 
@@ -56,8 +56,6 @@ namespace DBProject
         
 
         //-----------------------Add a new function here------------------//
-
-
 
 
     }

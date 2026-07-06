@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
+using DBProject;
 using System.Data;
 
 
@@ -27,9 +28,9 @@ namespace DBProject.Doctor
 
             DataTable DT = new DataTable();
 
-
-            int id = (int)Session["idoriginal"];
-
+            // Cloud-ready: Session accessed via CloudSessionHelper for Amazon ElastiCache for Redis
+            // distributed session state (cr-dotnet-0045, cr-dotnet-0126)
+            int id = CloudSessionHelper.GetInt(Session, "idoriginal");
 
             int status = objmyDAl.getPHistory(id, ref DT);
 
@@ -51,9 +52,6 @@ namespace DBProject.Doctor
 
 
         //-----------------------Add a new function here------------------//
-
-
-
 
 
     }
