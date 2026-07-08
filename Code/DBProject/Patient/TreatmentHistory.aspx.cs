@@ -1,64 +1,29 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DBProject.DAL;
-using System.Data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
-
-
-namespace DBProject
+namespace HospitalManagement.Pages.Patient
 {
-    public partial class TreatmentHistory : System.Web.UI.Page
+    public class TreatmentHistoryModel : PageModel
     {
-        protected void Page_Load(object sender, EventArgs e)
+        private readonly HospitalManagement.Models.ApplicationDbContext _context;
+
+        public TreatmentHistoryModel(HospitalManagement.Models.ApplicationDbContext context)
         {
-            treatmentHistory(sender, e);
+            _context = context;
         }
 
+        public List<PatientHistoryRecord> Histories { get; set; } = new();
 
-        //-----------------------Function1--------------------------//
-
-        protected void treatmentHistory(object sender, EventArgs e)
+        public async Task OnGetAsync(int patientId)
         {
-            myDAL objmyDAl = new myDAL();
-
-            DataTable DT = new DataTable();
-
-
-            int id = (int)Session["idoriginal"];
-
-
-            int status = objmyDAl.getTreatmentHistory(id, ref DT);
-
-
-            if (status == -1)
-            {
-                THistory.Text = "There was some error in retrieving the Patient's Treatment History.";
-            }
-
-            else if (status == 0)
-            {
-                THistory.Text = "There is currently no treatment history of yours.";
-            }
-
-            else
-            {
-                THistory.Text = "Treatment History of " + status + " Appointment(s) is found: ";
-                THistoryGrid.DataSource = DT;
-                THistoryGrid.DataBind();
-            }
-
-            return;
+            Histories = await _context.PatientHistories
+                .Where(h => h.PatientId == patientId)
+                .ToListAsync();
         }
-        
-
-        //-----------------------Add a new function here------------------//
-
-
-
-
     }
 }

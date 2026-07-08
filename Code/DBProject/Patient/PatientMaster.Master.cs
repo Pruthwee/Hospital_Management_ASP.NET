@@ -1,17 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace DBProject
+namespace HospitalManagement.Pages.Patient
 {
-    public partial class PatientMaster : System.Web.UI.MasterPage
+    public class PatientMasterModel : PageModel
     {
-        protected void Page_Load(object sender, EventArgs e)
-        {
-
-        }
+        public void OnGet() { }
     }
 }

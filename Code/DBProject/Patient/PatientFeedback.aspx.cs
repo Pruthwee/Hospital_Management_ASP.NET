@@ -1,107 +1,46 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DBProject.DAL;
-using System.Data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 
-
-
-
-namespace DBProject
+namespace HospitalManagement.Pages.Patient
 {
-    public partial class PatientFeedback : System.Web.UI.Page
+    public class PatientFeedbackModel : PageModel
     {
-        protected void Page_Load(object sender, EventArgs e)
+        private readonly HospitalManagement.Models.ApplicationDbContext _context;
+        private readonly IDistributedCache _cache;
+
+        public PatientFeedbackModel(HospitalManagement.Models.ApplicationDbContext context, IDistributedCache cache)
         {
-			if (!IsPostBack)
-			{
-				Session["aID"] = "";
-				pendingFeedback(sender, e);
-			}
+            _context = context;
+            _cache = cache;
         }
 
+        [BindProperty]
+        public Feedback Feedback { get; set; } = new();
 
+        public void OnGet() { }
 
-        
-        //-----------------------Function1--------------------------//
-
-        protected void pendingFeedback(object sender, EventArgs e)
+        public async Task<IActionResult> OnPostAsync()
         {
-            myDAL objmyDAl = new myDAL();
+            if (!ModelState.IsValid) return Page();
 
-            int pid = (int)Session["idoriginal"];
+            _context.Feedbacks.Add(Feedback);
+            await _context.SaveChangesAsync();
 
-            string dName = "";
-            string timings = "";
-
-            int aID = 0;
-
-            int status = objmyDAl.isFeedbackPending(pid, ref dName, ref timings, ref aID);
-
-            if (status == -1)
-            {
-                Feedback.Text = "There was some error in retrieving the Pending Feedbacks.";
-            }
-
-            else if (status == 0)
-            {
-                Feedback.Text = "There are no pending feedbacks :)";
-            }
-
-            else
-            {
-                Session["aID"] = aID;
-
-                FDoctor.Text = "Your feedback for the appointment with Doctor " + dName + " is pending. Kindly give it.";
-                FTimings.Text = "The Appointment Timings were : " + timings;
-
-                //Make the things visible -- Magic O.O --
-                Message.Visible = true;
-                List.Visible = true;
-                button1.Visible = true;
-
-                return;
-            }
+            return RedirectToPage("PatientHome");
         }
+    }
 
-
-
-
-        //-----------------------Function2--------------------------//
-
-        protected void giveFeedback(object sender, EventArgs e)
-        {
-            myDAL objmyDAl = new myDAL();
-
-            int aID = (int)Session["aID"];
-
-
-            int rating = Convert.ToInt32(List.SelectedItem.Value);
-
-
-            int status = objmyDAl.givePendingFeedback(aID);
-
-            if (status == -1)
-            {
-                F.Text = "There was some error.";
-            }
-
-            else if (status == 0)
-            {
-                F.Text = "Thank you for your feedback :)";
-            }
-
-            return;
-        }
-
-
-
-        //-----------------------Add a new function here------------------//
-
-
-
+    public class Feedback
+    {
+        public int FeedbackId { get; set; }
+        public int PatientId { get; set; }
+        public string Comments { get; set; } = string.Empty;
+        public int Rating { get; set; }
     }
 }

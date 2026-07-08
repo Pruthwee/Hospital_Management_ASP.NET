@@ -1,43 +1,23 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="Bill.aspx.cs" Inherits="doctor.bill" %>
+@page "/Doctor/Bill"
+@model HospitalManagement.Pages.Doctor.BillModel
+@{
+    ViewData["Title"] = "Create Bill";
+}
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<h2>Create Bill</h2>
 
-<title>Generate Bill</title>
-
-</asp:Content>
-
-
-
-<asp:Content ID="Content4" ContentPlaceHolderID="Cp3" runat="server">
-
-
-
-    <h1>Your Bill For this Appointment is :      <asp:Label ID="Label1" runat="server" Text="Label" Font-Bold="true" Font-Size="Medium" ></asp:Label> </h1>
-   
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-
-
-    &nbsp&nbsp&nbsp&nbsp<asp:Button ID="Bill" runat="server" Text="Bill Paid" OnClick="bill_paid" Font-Bold ="true" />
-   
-
-     &nbsp&nbsp&nbsp&nbsp<asp:Button ID="Button1" runat="server" Text="Bill Unpaid" OnClick="bill_Unpaid" Font-Bold ="true" />
-   
-
-
-
-
-</asp:Content>
+<form method="post">
+    <div class="form-group">
+        <label>Patient ID:</label>
+        <input asp-for="Bill.PatientId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Amount:</label>
+        <input asp-for="Bill.Amount" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Date:</label>
+        <input asp-for="Bill.Date" class="form-control" type="date" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save Bill</button>
+</form>

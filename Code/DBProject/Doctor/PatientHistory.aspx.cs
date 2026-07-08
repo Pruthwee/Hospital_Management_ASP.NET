@@ -1,52 +1,41 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DBProject.DAL;
-using System.Data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 
-
-namespace doctor
+namespace HospitalManagement.Pages.Doctor
 {
-    public partial class patienthistory : System.Web.UI.Page
+    public class PatientHistoryModel : PageModel
     {
-        protected void Page_Load(object sender, EventArgs e)
+        private readonly HospitalManagement.Models.ApplicationDbContext _context;
+        private readonly IDistributedCache _cache;
+
+        public PatientHistoryModel(HospitalManagement.Models.ApplicationDbContext context, IDistributedCache cache)
         {
-                myDAL objmydal = new myDAL();
-                DataTable dt = new DataTable();
-                int found = 0;
-
-                int did = (int)Session["idoriginal"];
-
-                found = objmydal.search_patient_DAL(did, ref dt);
-                if (found != 1)
-                { Response.Write("<script>alert('There was some error');</script>"); }
-                else
-                {
-                    patientsgrid.DataSource = dt;
-                    patientsgrid.DataBind();
-                }
+            _context = context;
+            _cache = cache;
         }
 
-        
-        protected void patientsgrid_RowCommand(object sender, GridViewCommandEventArgs e)
+        public List<PatientHistoryRecord> Histories { get; set; } = new();
+
+        public async Task OnGetAsync(int patientId)
         {
-            if (e.CommandName == "Select")
-            {
-
-                Int16 num = Convert.ToInt16(e.CommandArgument);
-
-                string aId = patientsgrid.Rows[num].Cells[1].Text;
-
-                //retrieve appointmentid  from that row (key-non editable)
-                int appointmentid = Convert.ToInt32(aId);
-
-                Session["appointid"] = appointmentid;
-                Response.Redirect("Historyupdate.aspx");
-            }
+            // Using distributed cache (Redis) instead of in-memory session for cloud readiness
+            Histories = await _context.PatientHistories
+                .Where(h => h.PatientId == patientId)
+                .ToListAsync();
         }
     }
 
+    public class PatientHistoryRecord
+    {
+        public int HistoryId { get; set; }
+        public int PatientId { get; set; }
+        public string Diagnosis { get; set; } = string.Empty;
+        public string Treatment { get; set; } = string.Empty;
+    }
 }

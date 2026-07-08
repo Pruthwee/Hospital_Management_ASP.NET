@@ -1,77 +1,38 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DBProject.DAL;
-using System.Data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 
-
-namespace DBProject
+namespace HospitalManagement.Pages.Patient
 {
-    public partial class TakeAppointment : System.Web.UI.Page
+    public class TakeAppointmentModel : PageModel
     {
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            Session["deptOriginal"] = "";
-            deptInfo(sender, e);
+        private readonly HospitalManagement.Models.ApplicationDbContext _context;
+        private readonly IDistributedCache _cache;
 
+        public TakeAppointmentModel(HospitalManagement.Models.ApplicationDbContext context, IDistributedCache cache)
+        {
+            _context = context;
+            _cache = cache;
         }
 
-        //---------------Function Called whenever a Department is selected from the Grid View----//
-        protected void TDeptGrid_RowCommand(object sender, GridViewCommandEventArgs e)
+        [BindProperty]
+        public AppointmentRequest Request { get; set; } = new();
+
+        public void OnGet() { }
+
+        public async Task<IActionResult> OnPostAsync()
         {
-            if (e.CommandName == "Select")
-            {
-                Int16 num = Convert.ToInt16(e.CommandArgument);
+            if (!ModelState.IsValid) return Page();
 
-                string deptName = TDeptGrid.Rows[num].Cells[2].Text;
+            _context.AppointmentRequests.Add(Request);
+            await _context.SaveChangesAsync();
 
-                Session["deptOriginal"] = deptName;
-
-                Response.BufferOutput = true;
-                Response.Redirect("ViewDoctors.aspx");
-
-                return;
-            }
+            return RedirectToPage("AppointmentRequestSent");
         }
-
-
-
-        //-----------------------Function1--------------------------//
-
-        protected void deptInfo(object sender, EventArgs e)
-        {
-            myDAL objmyDAl = new myDAL();
-
-            DataTable DT = new DataTable();
-
-
-            int status = objmyDAl.getdeptInfo(ref DT);
-
-
-            if (status == -1)
-            {
-                TDept.Text = "There was some error in retrieving the Departments Information.";
-            }
-
-            else
-            {
-                TDept.Text = "Following are the departments available at our Clinic : ";
-                TDeptGrid.DataSource = DT;
-                TDeptGrid.DataBind();
-            }
-
-            return;
-        }
-
-
-        //-----------------------Add a new function here------------------//
-
-
-
-
-
     }
 }

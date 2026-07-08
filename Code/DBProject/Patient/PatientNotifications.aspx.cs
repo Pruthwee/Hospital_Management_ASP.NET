@@ -1,92 +1,37 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DBProject.DAL;
-using System.Data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
-
-
-
-namespace DBProject
+namespace HospitalManagement.Pages.Patient
 {
-    public partial class PatientNotifications : System.Web.UI.Page
+    public class PatientNotificationsModel : PageModel
     {
-        protected void Page_Load(object sender, EventArgs e)
+        private readonly HospitalManagement.Models.ApplicationDbContext _context;
+
+        public PatientNotificationsModel(HospitalManagement.Models.ApplicationDbContext context)
         {
-            Notifications(sender, e);
+            _context = context;
         }
 
+        public List<Notification> Notifications { get; set; } = new();
 
-
-        //-----------------------Function1--------------------------//
-        
-        protected void Notifications(object sender, EventArgs e)
+        public async Task OnGetAsync(int patientId)
         {
-            myDAL objmyDAl = new myDAL();
-
-            int pid = (int)Session["idoriginal"];
-
-            string dName = "";
-            string timings = "";
-
-            int status = objmyDAl.getNotifications(pid, ref dName, ref timings);
-
-            if (status == -1)
-            {
-                Notify.Text = "There was some error in retrieving the Patient's notifications.";
-            }
-
-            else if (status == 0)
-            {
-                Notify.Text = "There are no new notifications :)";
-            }
-
-            else
-            {
-                if (status == 1)
-                {
-                    NDoctor.Text = "Your requested appointment with Doctor " + dName + " has been accepted by him! :)";
-                    NTimings.Text = "The Appointment Timings are : " + timings;
-                    return;
-                }
-
-                else if (status == 2)
-                {
-                    NDoctor.Text = "Your requested appointment with Doctor " + dName + " has been rejected by him! :(";
-                    NTimings.Text = "The Appointment Timings were : " + timings;
-                    return;
-                }
-
-                else if (status == 3)
-                {
-                    NDoctor.Text = "Your appointment with Doctor " + dName + " has been completed now. We hope you are feeling better now!";
-                    NTimings.Text = "The Appointment Timings were : " + timings;
-                    return;
-                }
-
-                return;
-            }
+            Notifications = await _context.Notifications
+                .Where(n => n.PatientId == patientId)
+                .ToListAsync();
         }
+    }
 
-    
-        //-----------------------Add a new function here------------------//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public class Notification
+    {
+        public int NotificationId { get; set; }
+        public int PatientId { get; set; }
+        public string Message { get; set; } = string.Empty;
+        public DateTime Date { get; set; }
     }
 }

@@ -1,72 +1,30 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DBProject.DAL;
-using System.Data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 
-
-namespace DBProject
+namespace HospitalManagement.Pages.Patient
 {
-    public partial class ViewDoctors : System.Web.UI.Page
+    public class ViewDoctorsModel : PageModel
     {
-        protected void Page_Load(object sender, EventArgs e)
+        private readonly HospitalManagement.Models.ApplicationDbContext _context;
+        private readonly IDistributedCache _cache;
+
+        public ViewDoctorsModel(HospitalManagement.Models.ApplicationDbContext context, IDistributedCache cache)
         {
-            Session["dID"] = "";
-            deptDoctorInfo(sender, e);
+            _context = context;
+            _cache = cache;
         }
 
-        //---------------Function Called whenever a Doctor is selected from the Grid View----//
-        protected void TDoctorGrid_RowCommand(object sender, GridViewCommandEventArgs e)
+        public List<DoctorRecord> Doctors { get; set; } = new();
+
+        public async Task OnGetAsync()
         {
-            if (e.CommandName == "Select")
-            {
-                Int16 num = Convert.ToInt16(e.CommandArgument);
-
-                string dID = TDoctorGrid.Rows[num].Cells[2].Text;
-  
-                Session["dID"] = dID;
-
-                Response.BufferOutput = true;
-                Response.Redirect("DoctorProfile.aspx");
-
-                return;
-            }
+            Doctors = await _context.Doctors.ToListAsync();
         }
-
-
-
-        //-----------------------Function1--------------------------//
-
-        protected void deptDoctorInfo(object sender, EventArgs e)
-        {
-            myDAL objmyDAl = new myDAL();
-
-            DataTable DT = new DataTable();
-
-            string deptName = (string) Session["deptOriginal"];
-
-            int status = objmyDAl.getDeptDoctorInfo(deptName, ref DT);
-
-
-            if (status == -1)
-            {
-                TDoctor.Text = "There was some error in retrieving the Doctors Information.";
-            }
-
-            else
-            {
-                TDoctor.Text = "Following are our Specialized Doctors of " + Session["deptOriginal"] + " Department:";
-                TDoctorGrid.DataSource = DT;
-                TDoctorGrid.DataBind();
-            }
-
-            return;
-        }
-
-
-        //-----------------------Add a new function here------------------//
     }
 }

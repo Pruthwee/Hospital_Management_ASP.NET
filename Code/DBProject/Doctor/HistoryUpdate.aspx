@@ -1,24 +1,23 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="HistoryUpdate.aspx.cs" Inherits="doctor.Historyupdate" %>
+@page "/Doctor/HistoryUpdate"
+@model HospitalManagement.Pages.Doctor.HistoryUpdateModel
+@{
+    ViewData["Title"] = "Update History";
+}
 
+<h2>Update Patient History</h2>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
-<title>Update History</title>
-
-</asp:Content>
-
-<asp:Content ID="Content2" ContentPlaceHolderID="Cp1" runat="server">
-
-<h1>Update history  </h1>
-
-<h4>Disease:</h4><asp:TextBox ID="Disease" runat="server"></asp:TextBox>
-   <h4>Progress:</h4> <asp:TextBox ID="progress" runat="server"></asp:TextBox>
-    <h4>Prescription</h4><asp:TextBox ID="Prescription" runat="server"></asp:TextBox>
-    <br />
-      <br />
-      <br />
-
-    <asp:Button ID="submit" runat="server" Text="Accept & Save" Onclick="saveindatabase" Font-Bold="true" />  
-    <asp:Button ID="Bill" runat="server" Text="Generate Bill" OnClick="generate_bill" Font-Bold ="true" />
-
-</asp:Content>
+<form method="post">
+    <div class="form-group">
+        <label>Patient ID:</label>
+        <input asp-for="History.PatientId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Diagnosis:</label>
+        <input asp-for="History.Diagnosis" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Treatment:</label>
+        <input asp-for="History.Treatment" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Update History</button>
+</form>

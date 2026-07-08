@@ -1,87 +1,46 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DBProject.DAL;
-using System.Data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 
-
-namespace DBProject
+namespace HospitalManagement.Pages.Patient
 {
-    public partial class AppointmentTaker : System.Web.UI.Page
+    public class AppointmentTakerModel : PageModel
     {
-        protected void Page_Load(object sender, EventArgs e)
+        private readonly HospitalManagement.Models.ApplicationDbContext _context;
+        private readonly IDistributedCache _cache;
+
+        public AppointmentTakerModel(HospitalManagement.Models.ApplicationDbContext context, IDistributedCache cache)
         {
-            Session["freeSlot"] = "";
-            freeSlots(sender, e);
+            _context = context;
+            _cache = cache;
         }
 
+        [BindProperty]
+        public AppointmentRequest Request { get; set; } = new();
 
-        //---------------Function Called whenever a Free Slot is selected from the Grid View----//
-        protected void PAppointmentGrid_RowCommand(object sender, GridViewCommandEventArgs e)
+        public void OnGet() { }
+
+        public async Task<IActionResult> OnPostAsync()
         {
-            if (e.CommandName == "Select")
-            {
-                Int16 num = Convert.ToInt16(e.CommandArgument);
+            if (!ModelState.IsValid) return Page();
 
-                string appointment = PAppointmentGrid.Rows[num].Cells[2].Text;
+            _context.AppointmentRequests.Add(Request);
+            await _context.SaveChangesAsync();
 
-                string[] tokens = appointment.Split(':');
-
-                Session["freeSlot"] = tokens[0];
-
-                Response.BufferOutput = true;
-                Response.Redirect("AppointmentRequestSent.aspx");
-
-                return;
-            }
+            return RedirectToPage("AppointmentRequestSent");
         }
+    }
 
-
-        //-----------------------Function1--------------------------//
-
-        protected void freeSlots(object sender, EventArgs e)
-        {
-            myDAL objmyDAl = new myDAL();
-
-            DataTable DT = new DataTable();
-
-
-            string dID1 = (string)Session["dID"];
-
-            int dID = Convert.ToInt32(dID1);
-
-
-            int pID = (int)Session["idoriginal"];
-
-            
-            int status = objmyDAl.getFreeSlots(dID, pID, ref DT);
-
-
-            if (status == -1)
-            {
-                PAppointment.Text = "There was some error in retrieving the Doctors's Free Slots.";
-            }
-
-            else if (status == 0)
-            {
-                PAppointment.Text = "There is currently no free slot of this doctor.";
-            }
-
-            else if (status > 0)
-            {
-                PAppointment.Text = "The following are the " + status  + " free slots of this doctor for today :";
-                PAppointmentGrid.DataSource = DT;
-                PAppointmentGrid.DataBind();
-            }
-
-            return;
-        }
-
-
-        //-----------------------Add a new function here------------------//
-
+    public class AppointmentRequest
+    {
+        public int RequestId { get; set; }
+        public int PatientId { get; set; }
+        public int DoctorId { get; set; }
+        public DateTime Date { get; set; }
     }
 }

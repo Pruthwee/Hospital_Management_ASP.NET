@@ -1,50 +1,52 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DBProject.DAL;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
-namespace DBProject
+namespace HospitalManagement.Models
 {
-	public partial class AddStaff : System.Web.UI.Page
-	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
+    public class Staff
+    {
+        public int StaffId { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+    }
 
-		}
+    public class ApplicationDbContext : DbContext
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        public DbSet<Staff> Staffs { get; set; }
+    }
+}
 
-		protected void StaffRegister(object sender, EventArgs e)
-		{
-			if (Page.IsValid)
-			{
-				myDAL objmyDAL = new myDAL();
+namespace HospitalManagement.Pages.Admin
+{
+    public class AddStaffModel : PageModel
+    {
+        private readonly HospitalManagement.Models.ApplicationDbContext _context;
 
-				int salary = Convert.ToInt32(Salary.Text);
-				string gender = Request.Form["Gender"].ToString();
+        public AddStaffModel(HospitalManagement.Models.ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
-				if (objmyDAL.AddStaff(Name.Text, BirthDate.Text, Phone.Text, gender[0], Address.Text, salary, Qual.Text, Designation.Text) == 1) ;
-				{
-					Response.BufferOutput = true;
-					Msg.Visible = true;
-					Msg.Text = Designation.Text + " Added Succesfully";
-					flushInformation();
-				}
+        [BindProperty]
+        public HospitalManagement.Models.Staff Staff { get; set; } = new();
 
-			}
-		}
-		protected void flushInformation()
-		{
-			Name.Text = "";
-			BirthDate.Text = "";
-			Phone.Text = "";
-			Address.Text = "";
-			Salary.Text = "";
-			Qual.Text = "";
-			Designation.Text = "";
-		}
+        public void OnGet() { }
 
-		
-	}
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid) return Page();
+
+            _context.Staffs.Add(Staff);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("AdminHome");
+        }
+    }
 }

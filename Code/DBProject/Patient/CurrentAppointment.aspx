@@ -1,31 +1,16 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="CurrentAppointment.aspx.cs" Inherits="DBProject.CurrentAppointment" %>
+@page "/Patient/CurrentAppointment"
+@model HospitalManagement.Pages.Patient.CurrentAppointmentModel
+@{
+    ViewData["Title"] = "Current Appointment";
+}
 
+<h2>Current Appointment</h2>
 
-
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
-    <title>Current Appointment</title>
-
-</asp:Content>
-
-
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
-
-    <h1><strong style="margin:30%">Current Appointments</strong></h1>
-    <br /><br />
-
-    <div style="margin-left: 70px">
-
-    <asp:Label ID="Appointment" runat="server"  Font-Bold="true" Font-Size="Medium"></asp:Label>
-    <br /><br />
-
-    <asp:Label ID="ADoctor" runat="server"  Font-Bold="true" Font-Size="Medium"></asp:Label>
-    <br /><br />
-
-    <asp:Label ID="ATimings" runat="server"  Font-Bold="true" Font-Size="Medium"></asp:Label>
-    <br /><br />
-
-    </div>
-
-</asp:Content>
+@if (Model.Appointment != null)
+{
+    <p>Your next appointment is on: @Model.Appointment.Date</p>
+}
+else
+{
+    <p>No approved appointment found.</p>
+}

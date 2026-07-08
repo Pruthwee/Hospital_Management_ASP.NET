@@ -1,79 +1,36 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DBProject.DAL;
-using System.Data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
-
-namespace DBProject
+namespace HospitalManagement.Pages.Patient
 {
-    public partial class CurrentAppointment : System.Web.UI.Page
+    public class CurrentAppointmentModel : PageModel
     {
-        protected void Page_Load(object sender, EventArgs e)
+        private readonly HospitalManagement.Models.ApplicationDbContext _context;
+
+        public CurrentAppointmentModel(HospitalManagement.Models.ApplicationDbContext context)
         {
-            appointmentToday(sender, e);
+            _context = context;
         }
 
+        public AppointmentRecord Appointment { get; set; }
 
-
-        //-----------------------Function1--------------------------//
-
-        protected void appointmentToday(object sender, EventArgs e)
+        public async Task OnGetAsync(int patientId)
         {
-            myDAL objmyDAl = new myDAL();
-
-            int pid = (int)Session["idoriginal"];
-
-            string dName = "";
-            string timings = "";
-
-            int status = objmyDAl.appointmentTodayDisplayer(pid, ref dName, ref timings);
-
-            if (status == -1)
-            {
-                Appointment.Text = "There was some error in retrieving the Patient's appointment.";
-            }
-
-            else if (status == 0)
-            {
-                Appointment.Text = "You have no appointment today with any doctor.";
-            }
-
-            else
-            {
-                if (status == 3)
-                {
-                    ADoctor.Text = "You had an outdated appointment with Doctor " + dName + " to which he didn't respond. So that appointment is discarded.";
-                    ATimings.Text = "The Appointment Timings were : " + timings;
-                    return;
-                }
-
-                else if (status == 2)
-                {
-                    ADoctor.Text = "You have sent an appointment request to Doctor " + dName + " which isn't approved by him yet.";
-                }
-
-                else
-                {
-                    ADoctor.Text = "Today you have an appointment with Doctor " + dName;
-                }
-
-                ATimings.Text = "The Appointment Timings are : " + timings;
-            }
-
-            return;
+            Appointment = await _context.Appointments
+                .FirstOrDefaultAsync(a => a.PatientId == patientId && a.Status == "Approved");
         }
+    }
 
-
-        //-----------------------Add a new function here------------------//
-
-
-
-
-
-
+    public class AppointmentRecord
+    {
+        public int AppointmentId { get; set; }
+        public int PatientId { get; set; }
+        public DateTime Date { get; set; }
+        public string Status { get; set; } = string.Empty;
     }
 }

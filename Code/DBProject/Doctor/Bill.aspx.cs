@@ -1,59 +1,43 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DBProject.DAL;
-using System.Data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
-namespace doctor
+namespace HospitalManagement.Pages.Doctor
 {
-    public partial class bill : System.Web.UI.Page
+    public class BillModel : PageModel
     {
-        protected void Page_Load(object sender, EventArgs e)
+        private readonly HospitalManagement.Models.ApplicationDbContext _context;
+
+        public BillModel(HospitalManagement.Models.ApplicationDbContext context)
         {
-
-            myDAL objmyDAL = new myDAL();
-            DataTable dt = new DataTable();
-            int found;
-
-            int did = (int)Session["idoriginal"];
-            
-            found = objmyDAL.generate_bill_DAL(did, ref dt);
-
-            if (found != 1)
-            { Response.Write("<script>alert('There was some error');</script>"); }
-            else
-            {
-                Label1.Text = dt.Rows[0][0].ToString();
-            }
+            _context = context;
         }
 
+        [BindProperty]
+        public Bill Bill { get; set; } = new();
 
-        public void bill_paid(object sender, EventArgs e)
+        public void OnGet() { }
+
+        public async Task<IActionResult> OnPostAsync()
         {
-            myDAL objmyDAL = new myDAL();
-            
-            int  did = (int)Session["idoriginal"];
-            int appoint = (int)Session["appointid"];
-            objmyDAL.paid_bill_DAL(did,appoint);
+            if (!ModelState.IsValid) return Page();
 
-			Response.BufferOutput = false;
-            Response.Redirect("patienthistory.aspx");
+            _context.Bills.Add(Bill);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("DoctorHome");
         }
+    }
 
-
-        public void bill_Unpaid(object sender, EventArgs e)
-        {
-            myDAL objmyDAL = new myDAL();
-
-            int did = (int)Session["idoriginal"];
-            int appoint = (int)Session["appointid"];
-            objmyDAL.Unpaid_bill_DAL(did, appoint);
-
-            Response.BufferOutput = false;
-            Response.Redirect("patienthistory.aspx");
-        }
+    public class Bill
+    {
+        public int BillId { get; set; }
+        public int PatientId { get; set; }
+        public decimal Amount { get; set; }
+        public DateTime Date { get; set; }
     }
 }

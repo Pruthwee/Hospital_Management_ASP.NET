@@ -1,88 +1,35 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DBProject.DAL;
-using System.Data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
-
-
-namespace DBProject
+namespace HospitalManagement.Pages.Patient
 {
-    public partial class DoctorProfile : System.Web.UI.Page
+    public class DoctorProfileModel : PageModel
     {
-        protected void Page_Load(object sender, EventArgs e)
+        private readonly HospitalManagement.Models.ApplicationDbContext _context;
+
+        public DoctorProfileModel(HospitalManagement.Models.ApplicationDbContext context)
         {
-            doctorInfo(sender, e);
+            _context = context;
         }
 
+        public DoctorRecord Doctor { get; set; }
 
-
-        //-----------------------Function1--------------------------//
-
-        protected void doctorInfo(object sender, EventArgs e)
+        public async Task OnGetAsync(int doctorId)
         {
-            myDAL objmyDAl = new myDAL();
-
-            string dID1 = (string) Session["dID"];
-
-            int dID = Convert.ToInt32(dID1);
-
-            string name = "";
-            string phone = "";
-            string gender = "";
-
-            float charges_Per_Visit = 0;
-            float ReputeIndex = 0;
-            int PatientsTreated = 0;
-            string qualification = "";
-            string specialization = "";
-            int workE = 0;
-            int age = 0;
-
-            string deptName = (string)Session["deptOriginal"];
-
-            int status = objmyDAl.doctorInfoDisplayer(dID, ref name, ref phone, ref gender, ref charges_Per_Visit, ref ReputeIndex, ref PatientsTreated, ref qualification, ref specialization, ref workE, ref age);
-
-            if (status == -1)
-            {
-                Response.Write("<script>alert('There was some error in retrieving the Doctor's Info.');</script>");
-            }
-
-            else if (status == 0)
-            {
-                DName.Text = name;
-                DPhone.Text = phone;
-                DQualification.Text = qualification;
-                DSpecialization.Text = specialization;
-                DWork.Text = workE.ToString();
-                DAge.Text = age.ToString();
-                DGender.Text = gender;
-                DDept.Text = deptName;
-                DCharges.Text = charges_Per_Visit.ToString();
-                DRI.Text = ReputeIndex.ToString(); 
-                DPT.Text = PatientsTreated.ToString();
-            }
-
-            return;
+            Doctor = await _context.Doctors.FindAsync(doctorId);
         }
+    }
 
-
-        //-----------------------Function2------------------//
-
-        protected void RedirectToAppointmentTaker(object sender, EventArgs e)
-        {
-            Response.BufferOutput = true;
-            Response.Redirect("AppointmentTaker.aspx");
-        }
-        
-
-
-
-        //-----------------------Add a new function here------------------//
-
-
+    public class DoctorRecord
+    {
+        public int DoctorId { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Specialization { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
     }
 }

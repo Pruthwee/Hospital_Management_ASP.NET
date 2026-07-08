@@ -1,47 +1,43 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DBProject.DAL;
-using System.Data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
-namespace doctor
+namespace HospitalManagement.Pages.Doctor
 {
-    public partial class Historyupdate : System.Web.UI.Page
+    public class HistoryUpdateModel : PageModel
     {
-        protected void Page_Load(object sender, EventArgs e)
-        {
+        private readonly HospitalManagement.Models.ApplicationDbContext _context;
 
+        public HistoryUpdateModel(HospitalManagement.Models.ApplicationDbContext context)
+        {
+            _context = context;
         }
 
-        public void saveindatabase(object sender, EventArgs e)
+        [BindProperty]
+        public PatientHistory History { get; set; } = new();
+
+        public void OnGet() { }
+
+        public async Task<IActionResult> OnPostAsync()
         {
-            myDAL objmyDAL = new myDAL();
-            int found;
-            int did = (int)Session["idoriginal"];
-            string disease= Disease.Text;
-            string progres = progress.Text;
-            string prescrip = Prescription.Text;
+            if (!ModelState.IsValid) return Page();
 
-            int appid = (int)Session["appointid"];
+            _context.PatientHistories.Update(History);
+            await _context.SaveChangesAsync();
 
-            
-            found = objmyDAL.update_prescription_DAL(did,appid,disease,progres,prescrip);
-
-            if (found != 1)
-            { Response.Write("<script>alert('There was some error');</script>"); }
-            else
-            {
-                { Response.Write("<script>alert('Information Successfully Updated');</script>"); }
-            }
+            return RedirectToPage("DoctorHome");
         }
+    }
 
-
-        public void generate_bill(object sender, EventArgs e)
-        {
-            Response.Redirect("bill.aspx");
-        }
+    public class PatientHistory
+    {
+        public int HistoryId { get; set; }
+        public int PatientId { get; set; }
+        public string Diagnosis { get; set; } = string.Empty;
+        public string Treatment { get; set; } = string.Empty;
     }
 }
