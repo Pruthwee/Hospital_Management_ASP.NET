@@ -1,11 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uXxuwX8yYuA=",
+  "dgSpecHash": "pzhFD6Yj6mg=",
   "success": true,
   "projectFilePath": "/modernize-data/studio-data/TNT1001/APP331131/transformed-code/267/studio-workspace/HM-Mupg-Comp1/src/ClinicManagement.Domain/ClinicManagement.Domain.csproj",
-  "expectedPackageFiles": [
-    "/app/.nuget/packages/microsoft.netcore.app.ref/8.0.16/microsoft.netcore.app.ref.8.0.16.nupkg.sha512",
-    "/app/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.16/microsoft.aspnetcore.app.ref.8.0.16.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }

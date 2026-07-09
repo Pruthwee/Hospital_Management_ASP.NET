@@ -1,0 +1,7 @@
+/modernize-data/studio-data/TNT1001/APP331131/transformed-code/267/studio-workspace/HM-Mupg-Comp1/src/ClinicManagement.Web/obj/Debug/net9.0/ClinicManagement.Web.csproj.AssemblyReference.cache
+/modernize-data/studio-data/TNT1001/APP331131/transformed-code/267/studio-workspace/HM-Mupg-Comp1/src/ClinicManagement.Web/obj/Debug/net9.0/ClinicManagement.Web.GeneratedMSBuildEditorConfig.editorconfig
+/modernize-data/studio-data/TNT1001/APP331131/transformed-code/267/studio-workspace/HM-Mupg-Comp1/src/ClinicManagement.Web/obj/Debug/net9.0/ClinicManagement.Web.AssemblyInfoInputs.cache
+/modernize-data/studio-data/TNT1001/APP331131/transformed-code/267/studio-workspace/HM-Mupg-Comp1/src/ClinicManagement.Web/obj/Debug/net9.0/ClinicManagement.Web.AssemblyInfo.cs
+/modernize-data/studio-data/TNT1001/APP331131/transformed-code/267/studio-workspace/HM-Mupg-Comp1/src/ClinicManagement.Web/obj/Debug/net9.0/ClinicManagement.Web.csproj.CoreCompileInputs.cache
+/modernize-data/studio-data/TNT1001/APP331131/transformed-code/267/studio-workspace/HM-Mupg-Comp1/src/ClinicManagement.Web/obj/Debug/net9.0/ClinicManagement.Web.MvcApplicationPartsAssemblyInfo.cache
+/modernize-data/studio-data/TNT1001/APP331131/transformed-code/267/studio-workspace/HM-Mupg-Comp1/src/ClinicManagement.Web/obj/Debug/net9.0/ClinicManagement.Web.sourcelink.json

@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net8.0": {
+    "net9.0": {
       "Azure.Core/1.25.0": {
         "type": "package",
         "dependencies": {
@@ -964,7 +964,7 @@
       },
       "ClinicManagement.Domain/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
+        "framework": ".NETCoreApp,Version=v9.0",
         "compile": {
           "bin/placeholder/ClinicManagement.Domain.dll": {}
         },
@@ -974,7 +974,7 @@
       },
       "ClinicManagement.Infrastructure/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
+        "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
           "ClinicManagement.Domain": "1.0.0",
           "Microsoft.EntityFrameworkCore": "8.0.0",
@@ -2690,7 +2690,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net8.0": [
+    "net9.0": [
       "ClinicManagement.Domain >= 1.0.0",
       "ClinicManagement.Infrastructure >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 8.0.0",
@@ -2713,14 +2713,14 @@
         "/app/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
-        "net8.0"
+        "net9.0"
       ],
       "sources": {
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "projectReferences": {
             "/modernize-data/studio-data/TNT1001/APP331131/transformed-code/267/studio-workspace/HM-Mupg-Comp1/src/ClinicManagement.Domain/ClinicManagement.Domain.csproj": {
               "projectPath": "/modernize-data/studio-data/TNT1001/APP331131/transformed-code/267/studio-workspace/HM-Mupg-Comp1/src/ClinicManagement.Domain/ClinicManagement.Domain.csproj"
@@ -2744,8 +2744,8 @@
       "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
-      "net8.0": {
-        "targetAlias": "net8.0",
+      "net9.0": {
+        "targetAlias": "net9.0",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
@@ -2767,16 +2767,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.16, 8.0.16]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.16, 8.0.16]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
