@@ -1,0 +1,10 @@
+@page
+@model DBProject.AppointmentNotificationSentModel
+@{
+    Layout = "~/Pages/Patient/PatientLayout.cshtml";
+    ViewData["Title"] = "";
+}
+
+<form method="post">
+    <label id="Message">@Model.MessageText</label>
+</form>

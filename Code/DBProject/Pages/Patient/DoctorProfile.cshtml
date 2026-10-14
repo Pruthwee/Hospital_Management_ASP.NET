@@ -1,0 +1,21 @@
+@page
+@model DBProject.DoctorProfileModel
+@{
+    Layout = "~/Pages/Patient/PatientLayout.cshtml";
+    ViewData["Title"] = "";
+}
+
+<form method="post">
+    <label id="DName">@Model.DName</label>
+    <label id="DPhone">@Model.DPhone</label>
+    <label id="DQualification">@Model.DQualification</label>
+    <label id="DSpecialization">@Model.DSpecialization</label>
+    <label id="DWork">@Model.DWork</label>
+    <label id="DAge">@Model.DAge</label>
+    <label id="DGender">@Model.DGender</label>
+    <label id="DDept">@Model.DDept</label>
+    <label id="DCharges">@Model.DCharges</label>
+    <label id="DRI">@Model.DRI</label>
+    <label id="DPT">@Model.DPT</label>
+    <button type="submit" name="RedirectToAppointmentTaker" value="1" class="btn btn-primary">Take Appointment</button>
+</form>

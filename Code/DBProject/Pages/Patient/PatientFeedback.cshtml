@@ -1,0 +1,24 @@
+@page
+@model DBProject.PatientFeedbackModel
+@{
+    Layout = "~/Pages/Patient/PatientLayout.cshtml";
+    ViewData["Title"] = "";
+}
+
+<form method="post">
+    <label id="Feedback">@Model.FeedbackText</label>
+    <label id="FDoctor">@Model.FDoctorText</label>
+    <label id="FTimings">@Model.FTimingsText</label>
+    <label id="Message" style="visibility:@(Model.MessageVisible ? "visible" : "hidden")">@Model.MessageText</label>
+    <label id="List" style="visibility:@(Model.ListVisible ? "visible" : "hidden")">
+        <select name="rating" id="rating">
+            <option value="1">1 - Poor</option>
+            <option value="2">2 - Fair</option>
+            <option value="3">3 - Good</option>
+            <option value="4">4 - Very Good</option>
+            <option value="5">5 - Excellent</option>
+        </select>
+    </label>
+    <button type="submit" name="giveFeedback" value="1" id="button1" style="visibility:@(Model.ButtonVisible ? "visible" : "hidden")" class="btn btn-primary">Submit Feedback</button>
+    <label id="F">@Model.FText</label>
+</form>

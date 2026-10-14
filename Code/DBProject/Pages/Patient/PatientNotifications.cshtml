@@ -1,0 +1,12 @@
+@page
+@model DBProject.PatientNotificationsModel
+@{
+    Layout = "~/Pages/Patient/PatientLayout.cshtml";
+    ViewData["Title"] = "";
+}
+
+<form method="post">
+    <label id="Notify">@Model.NotifyText</label>
+    <label id="NDoctor">@Model.NDoctorText</label>
+    <label id="NTimings">@Model.NTimingsText</label>
+</form>

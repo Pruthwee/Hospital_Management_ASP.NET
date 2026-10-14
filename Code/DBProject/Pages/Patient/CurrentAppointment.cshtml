@@ -1,0 +1,12 @@
+@page
+@model DBProject.CurrentAppointmentModel
+@{
+    Layout = "~/Pages/Patient/PatientLayout.cshtml";
+    ViewData["Title"] = "";
+}
+
+<form method="post">
+    <label id="Appointment">@Model.AppointmentText</label>
+    <label id="ADoctor">@Model.ADoctorText</label>
+    <label id="ATimings">@Model.ATimingsText</label>
+</form>

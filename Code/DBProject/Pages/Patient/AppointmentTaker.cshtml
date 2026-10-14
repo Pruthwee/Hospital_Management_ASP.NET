@@ -1,0 +1,33 @@
+@page
+@model DBProject.AppointmentTakerModel
+@{
+    Layout = "~/Pages/Patient/PatientLayout.cshtml";
+    ViewData["Title"] = "";
+}
+
+<form method="post">
+    <label id="PAppointment">@Model.PAppointmentText</label>
+    <table id="PAppointmentGrid" class="table table-bordered">
+        <thead>
+            <tr>
+                @foreach (var col in Model.PAppointmentGridColumns)
+                {
+                    <th>@col</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.PAppointmentGridRows.Count; i++)
+            {
+                var row = Model.PAppointmentGridRows[i];
+                <tr>
+                    @foreach (var cell in row)
+                    {
+                        <td>@cell</td>
+                    }
+                    <td><a href="/Patient/AppointmentTaker?selectSlot=@i" class="btn btn-default">Select</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>

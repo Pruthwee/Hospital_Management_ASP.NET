@@ -1,0 +1,67 @@
+@page
+@model DBProject.ManageClinicModel
+@{
+    Layout = "~/Pages/Admin/AdminLayout.cshtml";
+    ViewData["Title"] = "";
+}
+
+<form method="post">
+    <style type = "text/css">
+        .outer {
+           margin-left:20%;
+           display:inline-block;
+        }
+        .mydiv
+        {
+            display:inline-block;
+        }
+    </style>
+
+    <div class="outer">
+        <div>
+            <h4 style="font:bold">Select Catagory :</h4>
+            <br />
+            <input type="radio" name="Category" value="DOCTOR" @(Model.Category == "DOCTOR" ? "checked" : "") onchange="this.form.submit()" /> Doctor
+            <input type="radio" name="Category" value="PATIENT" @(Model.Category == "PATIENT" ? "checked" : "") onchange="this.form.submit()" /> Patient
+            <input type="radio" name="Category" value="OTHERSTAFF" @(Model.Category == "OTHERSTAFF" ? "checked" : "") onchange="this.form.submit()" /> Other Staff
+        </div>
+
+        <div>
+            <div>
+                <input type="text" name="txtSearch" id="txtSearch" value="@Model.SearchText" />
+                <button type="submit" name="search" value="search" class="btn btn-primary">Search</button>
+                <br />
+                <label id="Msg" style="font-weight:bold">@Model.Msg</label>
+
+                <table class="table table-bordered" style="background-color:#336666; color:white; width:380px">
+                    <thead>
+                        <tr>
+                            @foreach (var col in Model.ManageColumns)
+                            {
+                                <th>@col</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.ManageRows.Count; i++)
+                        {
+                            var row = Model.ManageRows[i];
+                            <tr>
+                                <td><a href="/Admin/ManageClinic?select=1&rowIndex=@i" class="btn btn-default">Select</a></td>
+                                @foreach (var cell in row)
+                                {
+                                    <td>@cell</td>
+                                }
+                                <td><a href="/Admin/ManageClinic?delete=1&rowIndex=@i" class="btn btn-danger">Delete</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:inline-block; float:right;margin-right:10%" id="mydiv">
+        @Html.Raw(Model.MyDivHtml)
+    </div>
+</form>

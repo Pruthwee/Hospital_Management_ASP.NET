@@ -1,0 +1,32 @@
+@page
+@model DBProject.BillsHistoryModel
+@{
+    Layout = "~/Pages/Patient/PatientLayout.cshtml";
+    ViewData["Title"] = "";
+}
+
+<form method="post">
+    <label id="BHistory">@Model.BHistoryText</label>
+    <table id="BHistoryGrid" class="table table-bordered">
+        <thead>
+            <tr>
+                @foreach (var col in Model.BHistoryGridColumns)
+                {
+                    <th>@col</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.BHistoryGridRows.Count; i++)
+            {
+                var row = Model.BHistoryGridRows[i];
+                <tr>
+                    @foreach (var cell in row)
+                    {
+                        <td>@cell</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>

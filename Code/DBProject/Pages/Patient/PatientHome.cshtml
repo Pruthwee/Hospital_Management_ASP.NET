@@ -1,0 +1,17 @@
+@page
+@model DBProject.PatientHomeModel
+@{
+    Layout = "~/Pages/Patient/PatientLayout.cshtml";
+    ViewData["Title"] = "";
+}
+
+<form method="post">
+    <div>
+        <label id="PName">@Model.PName</label>
+        <label id="PPhone">@Model.PPhone</label>
+        <label id="PBirthDate">@Model.PBirthDate</label>
+        <label id="PatientAge">@Model.PatientAge</label>
+        <label id="PGender">@Model.PGender</label>
+        <label id="PAddress">@Model.PAddress</label>
+    </div>
+</form>

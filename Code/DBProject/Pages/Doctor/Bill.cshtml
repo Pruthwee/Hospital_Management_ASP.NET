@@ -1,0 +1,12 @@
+@page
+@model doctor.billModel
+@{
+    Layout = "~/Pages/Doctor/DoctorLayout.cshtml";
+    ViewData["Title"] = "";
+}
+
+<form method="post">
+    <label id="Label1">@Model.Label1</label>
+    <button type="submit" name="bill_paid" value="1" class="btn btn-primary">Bill Paid</button>
+    <button type="submit" name="bill_Unpaid" value="1" class="btn btn-primary">Bill Unpaid</button>
+</form>

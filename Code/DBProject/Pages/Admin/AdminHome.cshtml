@@ -1,0 +1,73 @@
+@page
+@model DBProject.AdminHomeModel
+@{
+    Layout = "~/Pages/Admin/AdminLayout.cshtml";
+    ViewData["Title"] = "";
+}
+
+<form method="post">
+    <br />
+    <h1 style="font-family: 'Times New Roman', Times, serif;border-radius:5px; text-decoration: underline; background-color: #CCCCCC"><strong style="margin:37%">Clinic Stats</strong></h1>
+    <br /><br />
+
+    <div style="margin-left: 70px">
+        <h4><strong>Total Number of Regstered Doctors: </strong></h4>
+        <label id="TotalPatients">@Model.TotalPatients</label>
+        <br /><br />
+        <h4><strong>Total Registered Patients: </strong></h4>
+        <label id="Total_Doctors">@Model.Total_Doctors</label>
+        <br /><br />
+        <h4><strong>Total Income: </strong></h4>
+        <label id="TotalIncome">@Model.TotalIncome</label>
+        <br /><br />
+
+        <h3><strong style="margin:5%">Current Appointments</strong></h3>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    @foreach (var col in Model.AppointmentViewColumns)
+                    {
+                        <th>@col</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Model.AppointmentViewRows)
+                {
+                    <tr>
+                        @foreach (var cell in row)
+                        {
+                            <td>@cell</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin:20%">
+        <h2><strong style="margin:20%">Department Information</strong></h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    @foreach (var col in Model.DepartmentViewColumns)
+                    {
+                        <th>@col</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Model.DepartmentViewRows)
+                {
+                    <tr>
+                        @foreach (var cell in row)
+                        {
+                            <td>@cell</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</form>

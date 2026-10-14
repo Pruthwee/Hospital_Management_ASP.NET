@@ -1,0 +1,141 @@
+@page
+@model DBProject.AddStaffModel
+@{
+    Layout = "~/Pages/Admin/AdminLayout.cshtml";
+    ViewData["Title"] = "";
+}
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+
+<style type = "text/css">
+    html
+    {
+      background-image:url("~/assets/staff9.jpg");
+      background-size: cover;
+      background-position: 0 -90px;
+      background-attachment: fixed;
+    }
+    body {
+        background: none !important;
+    }
+    .backstretch {
+        display: none !important;
+    }
+    .grad{
+  background: linear-gradient(to right, rgba(30, 160, 100 , 0.15),rgba(150, 148, 255 , 1));
+  border-radius:8px;
+}
+  #space
+  {
+    padding-bottom:50px;
+  }
+</style>
+</head>
+<body>
+    <form id="form1" method="post">
+        <div id ="myclass">
+            <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500"/>
+            <link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.min.css"/>
+            <link rel="stylesheet" href="~/assets/font-awesome/css/font-awesome.min.css"/>
+            <link rel="stylesheet" href="~/assets/css/form-elements.css"/>
+            <link rel="stylesheet" href="~/assets/css/style.css"/>
+
+            <!-- Top content -->
+            <div class="top-content">
+                <div class="inner-bg">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-8 col-sm-offset-2 text">
+                                <h1><strong>Medix4 Health Care</strong> Staff Registration Form</h1>
+                                <div class="description">
+                                    <p>This is a <strong>"registeration form"</strong> for Medix4 Health Care. Fill out the information to register the staff member</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container myclass">
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-8">
+                            <div class="form-box" id="spaces">
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3 style="font-family:Algerian">Staff Registration Form</h3>
+                                        @if (Model.MsgVisible)
+                                        {
+                                            <label id="Msg" style="color:blue;font-weight:bold;font-size:large;">@Model.MsgText</label>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    <form role="form" method="post" class="login-form">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input type="text" name="Name" id="Name" class="form-username form-control" placeholder="Name" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Birth Date</label>
+                                            <input type="text" name="BirthDate" id="BirthDate" class="form-username form-control" placeholder="Birht Date (mm/dd/yyyy)" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Phone Number</label>
+                                            <input type="text" name="Phone" id="Phone" class="form-username form-control" placeholder="Phone Number" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Salary</label>
+                                            <input type="text" name="Salary" id="Salary" placeholder="Salary in Rupees" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Qualification</label>
+                                            <input type="text" name="Qual" id="Qual" placeholder="Qualification" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Designation</label>
+                                            <input type="text" name="Designation" id="Designation" placeholder="Designation" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <input type="text" name="Address" id="Address" class="form-username form-control" placeholder="Address" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Gender</label>
+                                            <input type="radio" name="Gender" value="M" checked="checked" /> Male
+                                            <input type="radio" name="Gender" value="F" /> Female
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Add</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <div class="footer-border"></div>
+                            <p style="color:darkslategrey">if You have Any Query Please Feel Free to Contact US. <i class="fa fa-smile-o"></i></p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <!-- Javascript -->
+            <script src="~/assets/js/jquery-1.11.1.min.js"></script>
+            <script src="~/assets/bootstrap/js/bootstrap.min.js"></script>
+            <script src="~/assets/js/jquery.backstretch.min.js"></script>
+            <script src="~/assets/js/scripts.js"></script>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,23 @@
+@page
+@model doctor.HistoryupdateModel
+@{
+    Layout = "~/Pages/Doctor/DoctorLayout.cshtml";
+    ViewData["Title"] = "";
+}
+
+<form method="post">
+    <div class="form-group">
+        <label>Disease</label>
+        <input type="text" name="Disease" id="Disease" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Progress</label>
+        <input type="text" name="progress" id="progress" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Prescription</label>
+        <input type="text" name="Prescription" id="Prescription" class="form-control" />
+    </div>
+    <button type="submit" name="Save" value="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" name="GenerateBill" value="1" class="btn btn-primary">Generate Bill</button>
+</form>
