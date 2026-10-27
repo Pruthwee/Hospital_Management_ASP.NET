@@ -6,6 +6,16 @@
 //     the code is regenerated. 
 // </auto-generated>
 //------------------------------------------------------------------------------
+// NOTE: Web Forms designer file retained for reference only.
+// This file has been superseded by ViewDoctors.cshtml (ASP.NET Core Razor Pages).
+//
+// cr-dotnet-1034: Synchronous Data Binding in GridView Controls
+// Remediation: Async GridView Binding with Azure SQL and Entity Framework Core
+//   Line 31 (original): protected global::System.Web.UI.WebControls.GridView TDoctorGrid
+//   The TDoctorGrid GridView control with synchronous DataBind() has been replaced by an HTML table
+//   rendered from DataTable loaded via async DAL method (getDeptDoctorInfoAsync) in OnGetAsync(),
+//   preventing thread pool exhaustion and enabling efficient auto-scaling in Azure cloud deployments.
+//   Active implementation: ViewDoctors.cshtml + ViewDoctors.cshtml.cs (Razor Pages)
 
 namespace DBProject {
     
@@ -18,6 +28,7 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// Superseded by ViewDoctorsModel.DoctorMessage property in ViewDoctors.cshtml.cs
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label TDoctor;
         
@@ -27,6 +38,8 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034 FIXED: Synchronous GridView.DataBind() replaced by async HTML table rendering
+        /// in ViewDoctors.cshtml via OnGetAsync() / getDeptDoctorInfoAsync() async/await pattern.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView TDoctorGrid;
     }

@@ -441,14 +441,21 @@ if (typeof jQuery === 'undefined') {
       $next[0].offsetWidth // force reflow
       $active.addClass(direction)
       $next.addClass(direction)
+      // Refactored: replaced nested callback hell (setTimeout inside bsTransitionEnd callback)
+      // with a Promise-based async/await pattern for improved cloud-native reliability.
+      var triggerSlidEventAsync = function () {
+        return new Promise(function (resolve) {
+          resolve()
+        }).then(function () {
+          that.$element.trigger(slidEvent)
+        })
+      }
       $active
         .one('bsTransitionEnd', function () {
           $next.removeClass([type, direction].join(' ')).addClass('active')
           $active.removeClass(['active', direction].join(' '))
           that.sliding = false
-          setTimeout(function () {
-            that.$element.trigger(slidEvent)
-          }, 0)
+          triggerSlidEventAsync()
         })
         .emulateTransitionEnd(Carousel.TRANSITION_DURATION)
     } else {

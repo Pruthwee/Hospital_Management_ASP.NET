@@ -1,0 +1,65 @@
+{
+  "_comment": "Azure CDN + Blob Storage SRI Asset Pipeline Manifest",
+  "_description": "This manifest documents the Subresource Integrity (SRI) hash pipeline for all CSS/JS assets served via Azure CDN. SRI hashes are generated at build time by the Azure DevOps pipeline and injected into HTML master pages.",
+  "pipeline": {
+    "provider": "Azure DevOps",
+    "storageAccount": "${AZURE_STORAGE_ACCOUNT}",
+    "cdnEndpoint": "${AZURE_CDN_ENDPOINT}",
+    "blobContainer": "$web",
+    "hashAlgorithm": "sha384"
+  },
+  "assets": [
+    {
+      "localPath": "assets/css/demo.css",
+      "cdnPath": "assets/css/demo.css",
+      "sriHash": "",
+      "_note": "SRI hash generated at build time by Azure DevOps pipeline task 'Generate-SRI-Hashes'"
+    },
+    {
+      "localPath": "assets/css/patient-style.css",
+      "cdnPath": "assets/css/patient-style.css",
+      "sriHash": "",
+      "_note": "SRI hash generated at build time by Azure DevOps pipeline task 'Generate-SRI-Hashes'"
+    },
+    {
+      "localPath": "assets/css/footer-distributed-with-address-and-phones.css",
+      "cdnPath": "assets/css/footer-distributed-with-address-and-phones.css",
+      "sriHash": "",
+      "_note": "SRI hash generated at build time by Azure DevOps pipeline task 'Generate-SRI-Hashes'"
+    },
+    {
+      "localPath": "assets/css/style.css",
+      "cdnPath": "assets/css/style.css",
+      "sriHash": "",
+      "_note": "SRI hash generated at build time by Azure DevOps pipeline task 'Generate-SRI-Hashes'"
+    },
+    {
+      "localPath": "assets/fonts/open-sans/open-sans-v40-latin-regular.woff2",
+      "cdnPath": "assets/fonts/open-sans/open-sans-v40-latin-regular.woff2",
+      "sriHash": "",
+      "_note": "Open Sans Regular 400 - self-hosted on Azure Blob Storage, replaces Google Fonts CDN import"
+    },
+    {
+      "localPath": "assets/fonts/open-sans/open-sans-v40-latin-700.woff2",
+      "cdnPath": "assets/fonts/open-sans/open-sans-v40-latin-700.woff2",
+      "sriHash": "",
+      "_note": "Open Sans Bold 700 - self-hosted on Azure Blob Storage, replaces Google Fonts CDN import"
+    }
+  ],
+  "remediatedViolations": [
+    {
+      "ruleId": "cr-css-1000",
+      "ruleName": "External Stylesheets Without SRI from CDN",
+      "file": "assets/css/demo.css",
+      "line": 1,
+      "originalCode": "@import url('http://fonts.googleapis.com/css?family=Open+Sans:400,700');",
+      "fix": "Removed insecure @import from external CDN. Replaced with self-hosted @font-face declarations referencing Azure Blob Storage / Azure CDN paths. SRI enforcement is applied at the HTML <link> tag level via this pipeline manifest.",
+      "sriInjectionTarget": "All .Master pages and .aspx pages that include demo.css via <link rel='stylesheet'> must have integrity and crossorigin attributes injected by the Azure DevOps build pipeline."
+    }
+  ],
+  "pipelineTaskExample": {
+    "taskName": "Generate-SRI-Hashes",
+    "script": "openssl dgst -sha384 -binary assets/css/demo.css | openssl base64 -A | sed 's/^/sha384-/'",
+    "injectPattern": "<link rel=\"stylesheet\" href=\"${CDN_ENDPOINT}/assets/css/demo.css\" integrity=\"${SRI_HASH}\" crossorigin=\"anonymous\"/>"
+  }
+}

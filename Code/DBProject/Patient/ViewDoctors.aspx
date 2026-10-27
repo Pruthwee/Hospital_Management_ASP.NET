@@ -1,4 +1,20 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="ViewDoctors.aspx.cs" Inherits="DBProject.ViewDoctors" %>
+<%-- NOTE: This file has been superseded by ViewDoctors.cshtml (ASP.NET Core Razor Pages).
+     Migration: <%@ Page %> directive -> @page / @model directives in Razor Pages
+     Migration: MasterPageFile -> Layout = "~/Patient/_PatientLayout.cshtml"
+     Migration: <asp:Label> (TDoctor) -> model property rendered in Razor view
+     Migration: <asp:GridView> (TDoctorGrid) with OnRowCommand -> HTML table with async form POST handler
+     Migration: EnableViewState="False" -> Stateless by default in Razor Pages
+     Migration: AutoGenerateSelectButton -> HTML form button per row
+     Migration: TDoctorGrid.DataBind() (synchronous) -> OnGetAsync() / OnPostSelectDoctorAsync() (async/await)
+     ViewState and postback patterns eliminated; stateless horizontal scaling enabled for Azure Container Apps.
+
+     cr-dotnet-1034: Synchronous Data Binding in GridView Controls
+     Remediation: Async GridView Binding with Azure SQL and Entity Framework Core
+       <asp:GridView ID="TDoctorGrid"> with synchronous DataBind() replaced by HTML table
+       rendered from DataTable loaded via async DAL method (getDeptDoctorInfoAsync) in OnGetAsync(),
+       preventing thread pool exhaustion and enabling efficient auto-scaling in Azure cloud deployments.
+--%>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="ViewDoctors.aspx.cs" Inherits="DBProject.ViewDoctors" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">

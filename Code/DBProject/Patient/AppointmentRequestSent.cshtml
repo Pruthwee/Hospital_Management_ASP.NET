@@ -1,0 +1,23 @@
+@page
+@model DBProject.Patient.AppointmentRequestSentModel
+@{
+    ViewData["Title"] = "Send Appointment Request";
+    Layout = "~/Patient/_PatientLayout.cshtml";
+}
+
+<br /><br /><br /><br />
+<h3><strong>Click on this button to send an appointment request to the Doctor</strong></h3>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <button type="submit" asp-page-handler="SendRequest" class="btn btn-primary" style="font-weight:bold;">Send Request</button>
+</form>
+
+<br /><br />
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <p>@Model.Message</p>
+}
+
+<br /><br />

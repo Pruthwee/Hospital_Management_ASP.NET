@@ -1,0 +1,82 @@
+@page
+@model DBProject.Admin.AdminHomeModel
+@{
+    ViewData["Title"] = "Admin Home";
+    Layout = "~/Admin/_AdminLayout.cshtml";
+}
+
+<br />
+<h1 style="font-family: 'Times New Roman', Times, serif; border-radius:5px; text-decoration: underline; background-color: #CCCCCC">
+    <strong style="margin:37%">Clinic Stats</strong>
+</h1>
+<br /><br />
+
+<div style="margin-left: 70px">
+    <h4><strong>Total Number of Registered Doctors: </strong></h4>
+    <strong>@Model.TotalDoctors</strong>
+    <br /><br />
+
+    <h4><strong>Total Registered Patients: </strong></h4>
+    <strong>@Model.TotalPatients</strong>
+    <br /><br />
+
+    <h4><strong>Total Income: </strong></h4>
+    <strong>@Model.TotalIncome</strong>
+    <br /><br />
+
+    <h3><strong style="margin:5%">Current Appointments</strong></h3>
+
+    @if (Model.Appointments != null && Model.Appointments.Rows.Count > 0)
+    {
+        <table class="table table-bordered" style="background-color:white; border-color:#DEDFDE;">
+            <thead style="background-color:#6B696B; color:white; font-weight:bold;">
+                <tr>
+                    @foreach (System.Data.DataColumn col in Model.Appointments.Columns)
+                    {
+                        <th>@col.ColumnName</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (System.Data.DataRow row in Model.Appointments.Rows)
+                {
+                    <tr style="background-color:#F7F7DE;">
+                        @foreach (var item in row.ItemArray)
+                        {
+                            <td>@item</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<div style="margin:20%">
+    <h2><strong style="margin:20%">Department Information</strong></h2>
+
+    @if (Model.Departments != null && Model.Departments.Rows.Count > 0)
+    {
+        <table class="table table-bordered" style="background-color:white; border-color:#DEDFDE; height:50px;">
+            <thead style="background-color:#6B696B; color:white; font-weight:bold;">
+                <tr>
+                    @foreach (System.Data.DataColumn col in Model.Departments.Columns)
+                    {
+                        <th>@col.ColumnName</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (System.Data.DataRow row in Model.Departments.Rows)
+                {
+                    <tr style="background-color:#F7F7DE;">
+                        @foreach (var item in row.ItemArray)
+                        {
+                            <td>@item</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

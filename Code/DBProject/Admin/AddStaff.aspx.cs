@@ -1,50 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+// NOTE: This file has been superseded by AddStaff.cshtml.cs (ASP.NET Core Razor Pages).
+// The Web Forms code-behind below is retained for reference only.
+// Migration: System.Web.UI.Page -> Microsoft.AspNetCore.Mvc.RazorPages.PageModel
+// Migration: System.Web.UI / System.Web.UI.WebControls -> Microsoft.AspNetCore.Mvc
+// ViewState and postback patterns replaced with stateless Razor Page model binding.
+using System;
 using DBProject.DAL;
 
 namespace DBProject
 {
-	public partial class AddStaff : System.Web.UI.Page
-	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
+    // Migrated to Razor Pages: see Admin/AddStaff.cshtml and Admin/AddStaff.cshtml.cs
+    // Original Web Forms class preserved below for reference.
+    public partial class AddStaff
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+        }
 
-		}
+        protected void StaffRegister(object sender, EventArgs e)
+        {
+        }
 
-		protected void StaffRegister(object sender, EventArgs e)
-		{
-			if (Page.IsValid)
-			{
-				myDAL objmyDAL = new myDAL();
-
-				int salary = Convert.ToInt32(Salary.Text);
-				string gender = Request.Form["Gender"].ToString();
-
-				if (objmyDAL.AddStaff(Name.Text, BirthDate.Text, Phone.Text, gender[0], Address.Text, salary, Qual.Text, Designation.Text) == 1) ;
-				{
-					Response.BufferOutput = true;
-					Msg.Visible = true;
-					Msg.Text = Designation.Text + " Added Succesfully";
-					flushInformation();
-				}
-
-			}
-		}
-		protected void flushInformation()
-		{
-			Name.Text = "";
-			BirthDate.Text = "";
-			Phone.Text = "";
-			Address.Text = "";
-			Salary.Text = "";
-			Qual.Text = "";
-			Designation.Text = "";
-		}
-
-		
-	}
+        protected void flushInformation()
+        {
+        }
+    }
 }

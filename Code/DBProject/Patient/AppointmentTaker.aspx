@@ -1,4 +1,22 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="AppointmentTaker.aspx.cs" Inherits="DBProject.AppointmentTaker" %>
+<%-- NOTE: This file has been superseded by AppointmentTaker.cshtml (ASP.NET Core Razor Pages).
+     Migration: <%@ Page %> directive -> @page / @model directives in Razor Pages
+     Migration: MasterPageFile -> Layout = "~/Patient/_PatientLayout.cshtml"
+     Migration: <asp:GridView> with AutoGenerateSelectButton / OnRowCommand -> HTML table with named POST handler
+     Migration: <asp:Label> (PAppointment) for status text -> @Model.StatusMessage in Razor view
+     Migration: EnableViewState="False" -> Stateless by default in Razor Pages
+     ViewState and postback patterns eliminated; stateless horizontal scaling enabled for Azure Container Apps.
+     
+     cr-dotnet-1034: Synchronous Data Binding in GridView Controls
+     Remediation: Async GridView Binding with Azure SQL and Entity Framework Core
+       Line 27: <asp:GridView ID="PAppointmentGrid" ... AutoGenerateSelectButton="true" OnRowCommand="PAppointmentGrid_RowCommand">
+         -> Replaced by DataTable? FreeSlots property in AppointmentTakerModel, bound via async OnGetAsync()
+            using getFreeSlotsAsync() async DAL method.
+       Line 55: PAppointmentGrid.DataSource = dt; PAppointmentGrid.DataBind() (synchronous) ->
+         -> await getFreeSlotsAsync() in AppointmentTakerModel.OnGetAsync() (async/await)
+       GridView server control replaced with HTML table in AppointmentTaker.cshtml.
+       Async data access prevents thread pool exhaustion and enables efficient auto-scaling in Azure.
+--%>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="AppointmentTaker.aspx.cs" Inherits="DBProject.AppointmentTaker" %>
 
 
 

@@ -1,4 +1,13 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PatientMaster.master.cs" Inherits="DBProject.PatientMaster" %>
+<%-- NOTE: This file has been superseded by _PatientLayout.cshtml (ASP.NET Core Razor Pages Layout).
+     Migration: <%@ Master %> directive -> Razor Layout file (_PatientLayout.cshtml)
+     Migration: <asp:ContentPlaceHolder ID="head"> -> @RenderSection("Head", required: false)
+     Migration: <asp:ContentPlaceHolder ID="ContentPlaceHolder1"> -> @RenderBody()
+     Migration: <form id="form1" runat="server"> -> Standard HTML (no server-side form needed in Razor Pages)
+     Migration: Navigation links (.aspx) -> Razor Pages routes (/Patient/PageName)
+     Migration: Server affinity from MasterPage -> Stateless Razor Layout for Azure Container Apps
+     ViewState and postback patterns eliminated; stateless horizontal scaling enabled for Azure Container Apps.
+--%>
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PatientMaster.master.cs" Inherits="DBProject.PatientMaster" %>
 
 <!DOCTYPE html>
 
@@ -96,9 +105,6 @@
             <!--Navigation Bar ends here -->
 
 
-
-
-
            
          <!-- Body Content Place Holder -->
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
@@ -106,10 +112,6 @@
         </asp:ContentPlaceHolder>
 
         </div>
-
-
-
-
 
 
         <!--- Footer starts here -->

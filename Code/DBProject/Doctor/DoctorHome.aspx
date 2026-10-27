@@ -1,4 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="DoctorHome.aspx.cs" Inherits="doctor.doctorhome" %>
+<%-- NOTE: This file has been superseded by DoctorHome.cshtml (ASP.NET Core Razor Pages).
+     Migration: <%@ Page %> directive -> @page / @model directives in Razor Pages
+     Migration: MasterPageFile -> Layout = "~/Doctor/_DoctorLayout.cshtml"
+     Migration: <asp:Content> -> @RenderBody() / @RenderSection() in Razor layout
+     Migration: <asp:label> server controls -> Razor model property bindings (@Model.PropertyName)
+     ViewState and postback patterns eliminated; stateless horizontal scaling enabled for Azure Container Apps.
+--%>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="DoctorHome.aspx.cs" Inherits="doctor.doctorhome" %>
 
 
 

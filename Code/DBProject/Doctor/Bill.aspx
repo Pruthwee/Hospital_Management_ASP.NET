@@ -1,43 +1,12 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="Bill.aspx.cs" Inherits="doctor.bill" %>
-
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
-<title>Generate Bill</title>
-
-</asp:Content>
-
-
-
-<asp:Content ID="Content4" ContentPlaceHolderID="Cp3" runat="server">
-
-
-
-    <h1>Your Bill For this Appointment is :      <asp:Label ID="Label1" runat="server" Text="Label" Font-Bold="true" Font-Size="Medium" ></asp:Label> </h1>
-   
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-     <br />
-
-
-    &nbsp&nbsp&nbsp&nbsp<asp:Button ID="Bill" runat="server" Text="Bill Paid" OnClick="bill_paid" Font-Bold ="true" />
-   
-
-     &nbsp&nbsp&nbsp&nbsp<asp:Button ID="Button1" runat="server" Text="Bill Unpaid" OnClick="bill_Unpaid" Font-Bold ="true" />
-   
-
-
-
-
-</asp:Content>
+<%--
+    NOTE: This Web Forms page has been superseded by Doctor/Bill.cshtml (ASP.NET Core Razor Pages).
+    Migration: <%@ Page MasterPageFile="..." %> -> @page + Layout = "~/Doctor/_DoctorLayout.cshtml"
+    Migration: System.Web.UI.Page -> Microsoft.AspNetCore.Mvc.RazorPages.PageModel
+    Migration: <asp:Label> -> @Model.BillAmount Razor expression
+    Migration: <asp:Button OnClick="..."> -> <button type="submit" asp-page-handler="...">
+    Migration: Session["key"] (System.Web) -> HttpContext.Session.GetInt32("key") (ASP.NET Core)
+    Migration: Response.Redirect() -> RedirectToPage() in PageModel
+    Migration: ViewState eliminated — stateless Razor Page model binding used instead
+    This file is retained for reference only.
+--%>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="Bill.aspx.cs" Inherits="doctor.bill" %>

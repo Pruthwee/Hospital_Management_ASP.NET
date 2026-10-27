@@ -1,0 +1,85 @@
+@page
+@model DBProject.Admin.ManageClinicModel
+@{
+    ViewData["Title"] = "Manage Clinic";
+    Layout = "~/Admin/_AdminLayout.cshtml";
+}
+
+@section Head {
+    <style type="text/css">
+        .outer {
+            margin-left: 20%;
+            display: inline-block;
+        }
+        .mydiv {
+            display: inline-block;
+        }
+    </style>
+}
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <div class="outer">
+        <div>
+            <h4 style="font:bold">Select Category:</h4>
+            <br />
+            <input type="radio" name="Category" value="DOCTOR" @(Model.SelectedCategory == "DOCTOR" ? "checked" : "") /> Doctor
+            <input type="radio" name="Category" value="PATIENT" @(Model.SelectedCategory == "PATIENT" ? "checked" : "") /> Patient
+            <input type="radio" name="Category" value="OTHERSTAFF" @(Model.SelectedCategory == "OTHERSTAFF" ? "checked" : "") /> Other Staff
+        </div>
+
+        <div>
+            <input asp-for="SearchQuery" type="text" />
+            <button type="submit" asp-page-handler="Search" class="btn btn-primary">Search</button>
+            <br />
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <strong>@Model.Message</strong>
+            }
+
+            @if (Model.ManageTable != null && Model.ManageTable.Rows.Count > 0)
+            {
+                <table class="table table-bordered" style="background-color:white; border-color:#336666; width:380px; text-align:center;">
+                    <caption style="caption-side:top; font-weight:bold;">@Model.TableCaption</caption>
+                    <thead style="background-color:#336666; color:white; font-weight:bold;">
+                        <tr>
+                            @foreach (System.Data.DataColumn col in Model.ManageTable.Columns)
+                            {
+                                <th>@col.ColumnName</th>
+                            }
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (System.Data.DataRow row in Model.ManageTable.Rows)
+                        {
+                            <tr>
+                                @foreach (var item in row.ItemArray)
+                                {
+                                    <td>@item</td>
+                                }
+                                <td>
+                                    <button type="submit" asp-page-handler="Delete"
+                                            asp-route-id="@row[0]"
+                                            asp-route-category="@Model.SelectedCategory"
+                                            class="btn btn-danger btn-sm">Delete</button>
+                                    <button type="submit" asp-page-handler="Select"
+                                            asp-route-id="@row[0]"
+                                            asp-route-category="@Model.SelectedCategory"
+                                            class="btn btn-info btn-sm">View</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ProfileHtml))
+    {
+        <div style="display:inline-block; float:right; margin-right:10%">
+            @Html.Raw(Model.ProfileHtml)
+        </div>
+    }
+</form>

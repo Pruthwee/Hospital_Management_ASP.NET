@@ -1,0 +1,276 @@
+@page
+@model DBProject.SignUpModel
+@{
+    ViewData["Title"] = "MedicX 4 Health Care Login & Register";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>MedicX 4 Health Care Login &amp; Register</title>
+
+    <script type="text/javascript">
+
+        //----------------------Function1-----------------------------//
+        function validateEmail(Email) {
+            if (Email == "") {
+                alert("Email missing. Enter Email.");
+                return false;
+            }
+            else if (Email.indexOf("@") == -1 || Email.indexOf(".com") == -1) {
+                alert("Your email address seems incorrect. Please enter a new one.");
+                return false;
+            }
+            else {
+                var location = Email.indexOf("@");
+                if (Email[0] == '@' || Email[location + 1] == '.') {
+                    alert("Your email address seems incorrect. Please enter a new one.");
+                    return false;
+                }
+                var emailPat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                var EmailmatchArray = Email.match(emailPat);
+                if (EmailmatchArray == null) {
+                    alert("Your email address seems incorrect. Please enter a new one.");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        //----------------------Function2-----------------------------//
+        function validateS() {
+            var Name      = document.getElementById('SName').value;
+            var Bdate     = document.getElementById('SBirthDate').value;
+            var Email     = document.getElementById('SEmail').value;
+            var phone     = document.getElementById('Phone').value;
+            var pass      = document.getElementById('SPassword').value;
+            var cpass     = document.getElementById('ScPassword').value;
+
+            if (Name == "") {
+                alert("Name missing. Enter Name.");
+                return false;
+            }
+
+            var arrDbirth = Bdate.split("-");
+            if (Bdate == "") {
+                alert("Birth Date missing. Enter Birth Date.");
+                return false;
+            }
+            else if ((Bdate == arrDbirth[0]) || (arrDbirth[0].length != 2) || arrDbirth[1].length != 2 || arrDbirth[2].length != 4 ||
+                     !arrDbirth[0].match(/^[0-9]*$/) || !arrDbirth[1].match(/^[0-9]*$/) || !arrDbirth[2].match(/^[0-9]*$/) ||
+                     Number(arrDbirth[0]) > 31 || Number(arrDbirth[1]) > 12) {
+                alert("Birth Date Format Incorrect or out of Range.");
+                return false;
+            }
+
+            if (!validateEmail(Email))
+                return false;
+
+            if (pass == "" || cpass == "") {
+                alert("Password field is empty.");
+                return false;
+            }
+            else if (pass != cpass) {
+                alert("Passwords do not match.");
+                return false;
+            }
+
+            if (phone.length != 11) {
+                alert("Phone number should be of 11 digits.");
+                return false;
+            }
+
+            var genderSelected = document.querySelector('input[name="Gender"]:checked');
+            if (!genderSelected) {
+                alert("Gender not selected.");
+                return false;
+            }
+
+            return true;
+        }
+
+        //----------------------Function3-----------------------------//
+        function validateL() {
+            var Email    = document.getElementById('LoginEmail').value;
+            var Password = document.getElementById('LoginPassword').value;
+
+            if (!validateEmail(Email))
+                return false;
+
+            if (Password == "") {
+                alert("Password missing. Enter Password.");
+                return false;
+            }
+
+            return true;
+        }
+
+    </script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500" />
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/css/form-elements.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <!-- Favicon and touch icons -->
+    <link rel="shortcut icon" href="assets/ico/favicon.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png" />
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Javascript -->
+    <script src="assets/js/jquery-1.11.1.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.backstretch.min.js"></script>
+    <script src="assets/js/scripts.js"></script>
+</head>
+
+<body>
+    <div>
+        <!-- Top content -->
+        <div class="top-content">
+            <div class="inner-bg">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h1><strong>MedicX 4 Health Care</strong> Login &amp; Registration Form</h1>
+                            <div class="description">
+                                <p>
+                                    This is a free <strong>"Login and Registration form"</strong> for Health Care Clinic.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <div class="row">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <div class="alert alert-danger">@Model.ErrorMessage</div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="row">
+                        <!-- LOGIN FORM -->
+                        <div class="col-sm-5">
+                            <div class="form-box">
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Login to our Website</h3>
+                                        <p>Enter Email and Password to log in:</p>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-key"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-bottom">
+                                    <form method="post" asp-page-handler="Login" onsubmit="return validateL();">
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+                                            <input id="LoginEmail" asp-for="LoginEmail" type="text" class="form-username form-control" placeholder="Email" />
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="LoginPassword" asp-for="LoginPassword" type="password" class="form-username form-control" placeholder="Password" />
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Login</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="social-login">
+                                <h3>...or login with:</h3>
+                                <div class="social-login-buttons">
+                                    <a class="btn btn-link-1 btn-link-1-facebook" href="#">
+                                        <i class="fa fa-facebook"></i> Facebook
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-1 middle-border"></div>
+                        <div class="col-sm-1"></div>
+
+                        <!-- SIGN UP FORM -->
+                        <div class="col-sm-5">
+                            <div class="form-box">
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Sign up now</h3>
+                                        <p>Fill in the form below to get instant access:</p>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-pencil"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-bottom">
+                                    <form method="post" asp-page-handler="Signup" onsubmit="return validateS();">
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-group">
+                                            <input id="SName" asp-for="SName" type="text" class="form-username form-control" placeholder="Name" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input id="SBirthDate" asp-for="SBirthDate" type="text" class="form-username form-control" placeholder="Birth Date (dd-mm-yyyy)" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input id="SEmail" asp-for="SEmail" type="text" class="form-username form-control" placeholder="Email : person@example.com" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input id="SPassword" asp-for="SPassword" type="password" class="form-username form-control" placeholder="Enter New Password" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input id="ScPassword" asp-for="ScPassword" type="password" class="form-username form-control" placeholder="Confirm Password" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input id="Phone" asp-for="Phone" type="text" class="form-username form-control" placeholder="Phone Number (11 Digits)" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="radio" name="Gender" value="M" checked="checked" /> Male
+                                            <input type="radio" name="Gender" value="F" /> Female
+                                        </div>
+
+                                        <div class="form-group">
+                                            <textarea id="Address" asp-for="Address" class="form-username form-control" placeholder="Address" rows="4" style="height:75px; width:410px;"></textarea>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">SignUp</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <div class="footer-border"></div>
+                        <p>If you have any query, please feel free to contact us. <i class="fa fa-smile-o"></i></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

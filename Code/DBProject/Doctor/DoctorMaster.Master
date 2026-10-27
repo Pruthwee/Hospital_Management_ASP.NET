@@ -1,4 +1,10 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="DoctorMaster.Master.cs" Inherits="doctor.doctormaster" %>
+<%-- NOTE: This file has been superseded by _DoctorLayout.cshtml (ASP.NET Core Razor Pages Layout).
+     Migration: <%@ Master %> directive -> Razor layout page (_DoctorLayout.cshtml)
+     Migration: <asp:ContentPlaceHolder> -> @RenderBody() / @RenderSection() in Razor layout
+     Migration: <form runat="server"> -> Standard HTML forms with AntiForgeryToken in Razor Pages
+     ViewState and server-side form lifecycle eliminated; stateless horizontal scaling enabled for Azure Container Apps.
+--%>
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="DoctorMaster.Master.cs" Inherits="doctor.doctormaster" %>
 
 <!DOCTYPE html>
 
@@ -36,20 +42,11 @@
 	<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css"/>
 
 
-
-
-
-
-
-
     <!-- Head Content Place Holder -->
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 
 </head>
-
-
-
 
 
 <body>
@@ -86,10 +83,6 @@
             <!--Navigation Bar ends here -->
 
 
-
-
-
-           
          <!-- Body Content Place Holder -->
         <asp:ContentPlaceHolder ID="Cp1" runat="server">
         
@@ -102,10 +95,6 @@
         </asp:ContentPlaceHolder>
 
         </div>
-
-
-
-
 
 
         <!--- Footer starts here -->

@@ -1,4 +1,12 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="HistoryUpdate.aspx.cs" Inherits="doctor.Historyupdate" %>
+<%-- NOTE: This file has been superseded by HistoryUpdate.cshtml (ASP.NET Core Razor Pages).
+     Migration: <%@ Page %> directive -> @page / @model directives in Razor Pages
+     Migration: MasterPageFile -> Layout = "~/Doctor/_DoctorLayout.cshtml"
+     Migration: <asp:Content> -> @RenderBody() / @RenderSection() in Razor layout
+     Migration: <asp:TextBox> server controls -> HTML <input> elements with model binding
+     Migration: <asp:Button OnClick="..."> -> <button asp-page-handler="..."> Tag Helpers
+     ViewState and postback patterns eliminated; stateless horizontal scaling enabled for Azure Container Apps.
+--%>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="HistoryUpdate.aspx.cs" Inherits="doctor.Historyupdate" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">

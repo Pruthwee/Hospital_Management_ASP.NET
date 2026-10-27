@@ -1,7 +1,14 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="PatientFeedback.aspx.cs" Inherits="DBProject.PatientFeedback" %>
-
-
-
+<%-- NOTE: This file has been superseded by PatientFeedback.cshtml (ASP.NET Core Razor Pages).
+     Migration: <%@ Page %> directive -> @page / @model directives in Razor Pages
+     Migration: MasterPageFile -> Layout = "~/Patient/_PatientLayout.cshtml"
+     Migration: <asp:Label> (Feedback, FDoctor, FTimings, Message, F) -> model properties rendered in Razor view
+     Migration: <asp:DropDownList> (List) -> HTML select element with [BindProperty] Rating
+     Migration: <asp:Button> OnClick="giveFeedback" -> form POST handler OnPostGiveFeedback()
+     Migration: IsPostBack check -> OnGet() / OnPost() separation in Razor Pages
+     Migration: EnableViewState="False" -> Stateless by default in Razor Pages
+     ViewState and postback patterns eliminated; stateless horizontal scaling enabled for Azure Container Apps.
+--%>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="PatientFeedback.aspx.cs" Inherits="DBProject.PatientFeedback" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -9,9 +16,6 @@
     <title>Feedback</title>
 
 </asp:Content>
-
-
-
 
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">

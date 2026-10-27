@@ -1,4 +1,13 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="DoctorProfile.aspx.cs" Inherits="DBProject.DoctorProfile" %>
+<%-- NOTE: This file has been superseded by DoctorProfile.cshtml (ASP.NET Core Razor Pages).
+     Migration: <%@ Page %> directive -> @page / @model directives in Razor Pages
+     Migration: MasterPageFile -> Layout = "~/Patient/_PatientLayout.cshtml"
+     Migration: <asp:Label> (DName, DPhone, etc.) -> model properties rendered in Razor view
+     Migration: <asp:Button> OnClick="RedirectToAppointmentTaker" -> anchor link to /Patient/AppointmentTaker
+     Migration: Response.Write("<script>alert(...)") -> ErrorMessage model property
+     Migration: EnableViewState="False" -> Stateless by default in Razor Pages
+     ViewState and postback patterns eliminated; stateless horizontal scaling enabled for Azure Container Apps.
+--%>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="DoctorProfile.aspx.cs" Inherits="DBProject.DoctorProfile" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 

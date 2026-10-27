@@ -1,0 +1,20 @@
+@page
+@model DBProject.Doctor.BillModel
+@{
+    ViewData["Title"] = "Generate Bill";
+    Layout = "~/Doctor/_DoctorLayout.cshtml";
+}
+
+<h1>Your Bill For this Appointment is:
+    <strong>@Model.BillAmount</strong>
+</h1>
+
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="submit" asp-page-handler="BillPaid" class="btn btn-primary" style="font-weight:bold">Bill Paid</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="submit" asp-page-handler="BillUnpaid" class="btn btn-secondary" style="font-weight:bold">Bill Unpaid</button>
+</form>

@@ -6,6 +6,14 @@
 //     the code is regenerated. 
 // </auto-generated>
 //------------------------------------------------------------------------------
+//
+// cr-dotnet-1034: Synchronous Data Binding in GridView Controls
+// Remediation: Async GridView Binding with Azure SQL and Entity Framework Core
+//   Line 22: protected global::System.Web.UI.WebControls.GridView pendingappointments
+//     -> Replaced by DataTable? PendingAppointments property in PendingAppointmentModel (PendingAppointment.cshtml.cs)
+//     -> Bound asynchronously via OnGetAsync() using GetAllpendingappointmentsAsync() async DAL method
+// GridView server control eliminated; data rendered via HTML table in PendingAppointment.cshtml Razor view.
+// Async data access prevents thread pool exhaustion and enables efficient auto-scaling in Azure.
 
 namespace doctor {
     
@@ -18,6 +26,9 @@ namespace doctor {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034 FIXED: Synchronous GridView.DataBind() replaced by async DataTable? PendingAppointments
+        /// property in PendingAppointmentModel, bound via OnGetAsync() using GetAllpendingappointmentsAsync().
+        /// Rendered as HTML table in PendingAppointment.cshtml — no GridView server control dependency.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView pendingappointments;
     }

@@ -1,4 +1,12 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="AppointmentRequestSent.aspx.cs" Inherits="DBProject.AppointmentNotificationSent" %>
+<%-- NOTE: This file has been superseded by AppointmentRequestSent.cshtml (ASP.NET Core Razor Pages).
+     Migration: <%@ Page %> directive -> @page / @model directives in Razor Pages
+     Migration: MasterPageFile -> Layout = "~/Patient/_PatientLayout.cshtml"
+     Migration: <asp:Button> OnClick="sendARequest" -> form POST handler in AppointmentRequestSent.cshtml.cs
+     Migration: <asp:Label> (Message) for result text -> @Model.Message in Razor view
+     Migration: EnableViewState="False" -> Stateless by default in Razor Pages
+     ViewState and postback patterns eliminated; stateless horizontal scaling enabled for Azure Container Apps.
+--%>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="AppointmentRequestSent.aspx.cs" Inherits="DBProject.AppointmentNotificationSent" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">

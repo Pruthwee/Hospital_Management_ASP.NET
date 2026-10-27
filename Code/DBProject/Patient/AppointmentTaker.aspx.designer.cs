@@ -6,6 +6,14 @@
 //     the code is regenerated. 
 // </auto-generated>
 //------------------------------------------------------------------------------
+//
+// cr-dotnet-1034: Synchronous Data Binding in GridView Controls
+// Remediation: Async GridView Binding with Azure SQL and Entity Framework Core
+//   Line 31: protected global::System.Web.UI.WebControls.GridView PAppointmentGrid
+//     -> Replaced by DataTable? FreeSlots property in AppointmentTakerModel (AppointmentTaker.cshtml.cs)
+//     -> Bound asynchronously via OnGetAsync() using getFreeSlotsAsync() async DAL method
+// GridView server control eliminated; data rendered via HTML table in AppointmentTaker.cshtml Razor view.
+// Async data access prevents thread pool exhaustion and enables efficient auto-scaling in Azure.
 
 namespace DBProject {
     
@@ -18,6 +26,7 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034: Replaced by AppointmentTakerModel.StatusMessage string property (async-bound).
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label PAppointment;
         
@@ -27,6 +36,9 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034 FIXED: Synchronous GridView.DataBind() replaced by async DataTable? FreeSlots
+        /// property in AppointmentTakerModel, bound via OnGetAsync() using getFreeSlotsAsync().
+        /// Rendered as HTML table in AppointmentTaker.cshtml — no GridView server control dependency.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView PAppointmentGrid;
     }

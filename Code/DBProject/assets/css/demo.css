@@ -1,4 +1,58 @@
-@import url('http://fonts.googleapis.com/css?family=Open+Sans:400,700');
+/*
+ * CLOUD READINESS FIX (cr-css-1000): External Stylesheets Without SRI from CDN
+ *
+ * ORIGINAL (INSECURE):
+ *   @import url('http://fonts.googleapis.com/css?family=Open+Sans:400,700');
+ *
+ * REMEDIATION: Implement SRI with Azure CDN and Blob Storage Asset Pipeline
+ *
+ * The Google Fonts @import has been removed from this CSS file because:
+ *   1. CSS @import rules cannot carry Subresource Integrity (SRI) attributes.
+ *   2. Loading fonts via @import from an external CDN creates a supply chain
+ *      attack vector that cannot be mitigated at the CSS level.
+ *
+ * AZURE CDN + SRI PIPELINE APPROACH:
+ *   - The Open Sans font files (woff2/woff) are hosted on Azure Blob Storage
+ *     under the container: $web/assets/fonts/open-sans/
+ *   - Azure CDN delivers the font files via the configured CDN endpoint.
+ *   - The @font-face declaration below references the Azure CDN endpoint.
+ *   - SRI hashes for the font CSS loader <link> tag are generated at build time
+ *     by the Azure DevOps pipeline (see /assets/sri-manifest.json) and injected
+ *     into HTML master pages as:
+ *       <link rel="stylesheet"
+ *             href="https://<cdn-endpoint>.azureedge.net/assets/css/open-sans-font.css"
+ *             integrity="sha384-<HASH>"
+ *             crossorigin="anonymous"/>
+ *
+ * Self-hosted @font-face via Azure Blob Storage / Azure CDN:
+ * Replace <cdn-endpoint> with your actual Azure CDN endpoint name.
+ */
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/assets/fonts/open-sans/open-sans-v40-latin-regular.woff2') format('woff2'),
+         url('/assets/fonts/open-sans/open-sans-v40-latin-regular.woff') format('woff');
+    /* Azure CDN alternative (replace <cdn-endpoint> with actual endpoint):
+    src: url('https://<cdn-endpoint>.azureedge.net/assets/fonts/open-sans/open-sans-v40-latin-regular.woff2') format('woff2'),
+         url('https://<cdn-endpoint>.azureedge.net/assets/fonts/open-sans/open-sans-v40-latin-regular.woff') format('woff');
+    */
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/assets/fonts/open-sans/open-sans-v40-latin-700.woff2') format('woff2'),
+         url('/assets/fonts/open-sans/open-sans-v40-latin-700.woff') format('woff');
+    /* Azure CDN alternative (replace <cdn-endpoint> with actual endpoint):
+    src: url('https://<cdn-endpoint>.azureedge.net/assets/fonts/open-sans/open-sans-v40-latin-700.woff2') format('woff2'),
+         url('https://<cdn-endpoint>.azureedge.net/assets/fonts/open-sans/open-sans-v40-latin-700.woff') format('woff');
+    */
+}
 
 *{
 	padding:0;

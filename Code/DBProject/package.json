@@ -1,0 +1,22 @@
+{
+  "name": "clinic-management-system",
+  "version": "1.0.0",
+  "description": "Clinic Management System - Azure Static Web Apps CSS bundling for cloud CDN delivery",
+  "private": true,
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "build:dev": "webpack --config webpack.config.js --mode development",
+    "watch": "webpack --config webpack.config.js --watch --mode development"
+  },
+  "devDependencies": {
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "css-loader": "^6.11.0",
+    "sass-loader": "^14.2.1",
+    "sass": "^1.77.4",
+    "less": "^4.2.0",
+    "less-loader": "^12.2.0",
+    "mini-css-extract-plugin": "^2.9.0",
+    "css-minimizer-webpack-plugin": "^6.0.0"
+  }
+}

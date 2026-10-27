@@ -1,0 +1,47 @@
+@page
+@model DBProject.Patient.PatientHomeModel
+@{
+    ViewData["Title"] = "Patient Home";
+    Layout = "~/Patient/_PatientLayout.cshtml";
+}
+
+<div style="background-image:url(/assets/img/backgrounds/PatientHome.jpg); background-position:center; background-size:20px">
+
+    <br />
+    <h1><strong style="margin:37%">Your Information</strong></h1>
+    <br /><br />
+
+    <div style="margin-left: 70px">
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger" role="alert">@Model.ErrorMessage</div>
+        }
+
+        <h4><strong>Name: </strong></h4>
+        <p style="font-weight:bold; font-size:medium;">@Model.Name</p>
+        <br /><br />
+
+        <h4><strong>Phone: </strong></h4>
+        <p style="font-weight:bold; font-size:medium;">@Model.Phone</p>
+        <br /><br />
+
+        <h4><strong>Birth Date: </strong></h4>
+        <p style="font-weight:bold; font-size:medium;">@Model.BirthDate</p>
+        <br /><br />
+
+        <h4><strong>Age: </strong></h4>
+        <p style="font-weight:bold; font-size:medium;">@Model.Age</p>
+        <br /><br />
+
+        <h4><strong>Gender:</strong></h4>
+        <p style="font-weight:bold; font-size:medium;">@Model.Gender</p>
+        <br /><br />
+
+        <h4><strong>Address: </strong></h4>
+        <p style="font-weight:bold; font-size:medium;">@Model.Address</p>
+        <br /><br />
+
+    </div>
+
+</div>

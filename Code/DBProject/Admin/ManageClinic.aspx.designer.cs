@@ -6,6 +6,15 @@
 //     the code is regenerated. 
 // </auto-generated>
 //------------------------------------------------------------------------------
+//
+// cr-dotnet-1034: Synchronous Data Binding in GridView Controls
+// Remediation: Async GridView Binding with Azure SQL and Entity Framework Core
+//   Line 67: protected global::System.Web.UI.WebControls.GridView Manage
+//     -> Replaced by DataTable? ManageTable property in ManageClinicModel (ManageClinic.cshtml.cs)
+//     -> Bound asynchronously via OnGetAsync() / LoadGridAsync() using async DAL methods
+//        (LoadDoctorAsync, LoadPatientAsync, LoadOtherStaffAsync)
+// GridView server control eliminated; data rendered via HTML table in ManageClinic.cshtml Razor view.
+// Async data access prevents thread pool exhaustion and enables efficient auto-scaling in Azure.
 
 namespace DBProject {
     
@@ -18,6 +27,7 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034: Replaced by ManageClinicModel.SelectedCategory string property (async-bound).
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton Doctor;
         
@@ -27,6 +37,7 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034: Replaced by ManageClinicModel.SelectedCategory string property (async-bound).
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton Patient;
         
@@ -36,6 +47,7 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034: Replaced by ManageClinicModel.SelectedCategory string property (async-bound).
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton OtherStaff;
         
@@ -45,6 +57,7 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034: Replaced by ManageClinicModel.SearchQuery [BindProperty] (async-bound).
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtSearch;
         
@@ -54,6 +67,7 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034: Replaced by ManageClinicModel.Message string property (async-bound).
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Msg;
         
@@ -63,6 +77,10 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034 FIXED: Synchronous GridView.DataBind() replaced by async DataTable? ManageTable
+        /// property in ManageClinicModel, bound via OnGetAsync() / LoadGridAsync() using
+        /// LoadDoctorAsync/LoadPatientAsync/LoadOtherStaffAsync async DAL methods.
+        /// Rendered as HTML table in ManageClinic.cshtml — no GridView server control dependency.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView Manage;
         

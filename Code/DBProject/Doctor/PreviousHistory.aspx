@@ -1,4 +1,22 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/DoctorMaster.Master" AutoEventWireup="true" CodeBehind="PreviousHistory.aspx.cs" Inherits="DBProject.Doctor.PreviousHistory" %>
+<%-- NOTE: This file has been superseded by PreviousHistory.cshtml (ASP.NET Core Razor Pages).
+     Migration: <%@ Page %> directive -> @page / @model directives in Razor Pages
+     Migration: MasterPageFile -> Layout = "~/Doctor/_DoctorLayout.cshtml"
+     Migration: <asp:GridView> with DataSource/DataBind -> HTML table bound to DataTable model property
+     Migration: <asp:Label> for error text -> @Model.ErrorMessage in Razor view
+     Migration: EnableViewState="False" -> Stateless by default in Razor Pages
+     ViewState and postback patterns eliminated; stateless horizontal scaling enabled for Azure Container Apps.
+     
+     cr-dotnet-1034: Synchronous Data Binding in GridView Controls
+     Remediation: Async GridView Binding with Azure SQL and Entity Framework Core
+       Line 24: <asp:GridView ID="PHistoryGrid" ... EnableViewState="False">
+         -> Replaced by DataTable? PatientHistory property in PreviousHistoryModel, bound via async OnGetAsync()
+            using getPHistoryAsync() async DAL method.
+       Line 50: PHistoryGrid.DataSource = dt; PHistoryGrid.DataBind() (synchronous) ->
+         -> await getPHistoryAsync() in PreviousHistoryModel.OnGetAsync() (async/await)
+       GridView server control replaced with HTML table in PreviousHistory.cshtml.
+       Async data access prevents thread pool exhaustion and enables efficient auto-scaling in Azure.
+--%>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/DoctorMaster.Master" AutoEventWireup="true" CodeBehind="PreviousHistory.aspx.cs" Inherits="DBProject.Doctor.PreviousHistory" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">

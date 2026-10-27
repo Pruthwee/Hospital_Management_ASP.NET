@@ -1,0 +1,59 @@
+@page
+@model DBProject.Doctor.PatientHistoryModel
+@{
+    ViewData["Title"] = "Patient History";
+    Layout = "~/Doctor/_DoctorLayout.cshtml";
+}
+
+@section Head {
+    <link rel="stylesheet" href="/assets/css/grid-view.css" />
+}
+
+@if (TempData["Error"] != null)
+{
+    <script>alert('@TempData["Error"]');</script>
+}
+
+<h1><strong style="margin:25%">Today's Appointments</strong></h1>
+<br /><br />
+
+<div style="margin-left:150px">
+    @if (Model.Patients != null && Model.Patients.Rows.Count > 0)
+    {
+        <table class="GridView-d table" cellpadding="4" style="width:1000px; color:black; border:1px solid #DEDFDE;">
+            <thead style="background-color:#6B696B; color:white; font-weight:bold;">
+                <tr>
+                    @foreach (System.Data.DataColumn col in Model.Patients.Columns)
+                    {
+                        <th>@col.ColumnName</th>
+                    }
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Patients.Rows.Count; i++)
+                {
+                    <tr style="background-color:#F7F7DE;">
+                        @foreach (var item in Model.Patients.Rows[i].ItemArray)
+                        {
+                            <td>@item</td>
+                        }
+                        <td>
+                            <form method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="AppointmentId" value="@Model.Patients.Rows[i][1]" />
+                                <button type="submit" asp-page-handler="SelectPatient" class="btn btn-sm btn-primary">Select</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No appointments found for today.</p>
+    }
+</div>
+
+<br /><br /><br /><br /><br />

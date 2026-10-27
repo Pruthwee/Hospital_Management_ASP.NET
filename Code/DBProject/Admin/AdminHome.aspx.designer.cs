@@ -6,6 +6,17 @@
 //     the code is regenerated. 
 // </auto-generated>
 //------------------------------------------------------------------------------
+//
+// cr-dotnet-1034: Synchronous Data Binding in GridView Controls
+// Remediation: Async GridView Binding with Azure SQL and Entity Framework Core
+//   Line 49: protected global::System.Web.UI.WebControls.GridView Appointment_view
+//     -> Replaced by DataTable? Appointments property in AdminHomeModel (AdminHome.cshtml.cs)
+//     -> Bound asynchronously via OnGetAsync() / GetAdminHomeInformationAsync() using async DAL
+//   Line 58: protected global::System.Web.UI.WebControls.GridView department_View
+//     -> Replaced by DataTable? Departments property in AdminHomeModel (AdminHome.cshtml.cs)
+//     -> Bound asynchronously via OnGetAsync() / GetAdminHomeInformationAsync() using async DAL
+// GridView server controls eliminated; data rendered via HTML tables in AdminHome.cshtml Razor view.
+// Async data access prevents thread pool exhaustion and enables efficient auto-scaling in Azure.
 
 namespace DBProject {
     
@@ -18,6 +29,7 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034: Replaced by AdminHomeModel.TotalPatients string property (async-bound).
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label TotalPatients;
         
@@ -27,6 +39,7 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034: Replaced by AdminHomeModel.TotalDoctors string property (async-bound).
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Total_Doctors;
         
@@ -36,6 +49,7 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034: Replaced by AdminHomeModel.TotalIncome string property (async-bound).
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label TotalIncome;
         
@@ -45,6 +59,9 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034 FIXED: Synchronous GridView.DataBind() replaced by async DataTable? Appointments
+        /// property in AdminHomeModel, bound via OnGetAsync() / GetAdminHomeInformationAsync().
+        /// Rendered as HTML table in AdminHome.cshtml — no GridView server control dependency.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView Appointment_view;
         
@@ -54,6 +71,9 @@ namespace DBProject {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// cr-dotnet-1034 FIXED: Synchronous GridView.DataBind() replaced by async DataTable? Departments
+        /// property in AdminHomeModel, bound via OnGetAsync() / GetAdminHomeInformationAsync().
+        /// Rendered as HTML table in AdminHome.cshtml — no GridView server control dependency.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView department_View;
     }

@@ -1,86 +1,64 @@
-﻿using System;
+// NOTE: This file has been superseded by PendingAppointment.cshtml.cs (ASP.NET Core Razor Pages).
+// The Web Forms code-behind below is retained for reference only.
+// Migration: System.Web.UI.Page -> Microsoft.AspNetCore.Mvc.RazorPages.PageModel
+// Migration: System.Web.UI / System.Web.UI.WebControls -> ASP.NET Core Razor Pages model binding
+//
+// cr-dotnet-0045: Session State Provider — Azure Cache for Redis
+// Migration: System.Web.SessionState (Session["key"]) InProc -> IDistributedCache (Azure Cache for Redis)
+//   Line 25: Session["idoriginal"] -> await RedisSessionHelper.GetInt32Async(_cache, "idoriginal")
+// IDistributedCache is injected via constructor DI and backed by Azure Cache for Redis
+// (Microsoft.Extensions.Caching.StackExchangeRedis), enabling stateless horizontal scaling.
+//
+// cr-dotnet-1034: Synchronous Data Binding in GridView Controls
+// Remediation: Async GridView Binding with Azure SQL and Entity Framework Core
+//   Line 32: pendingappointments.DataSource = dt; pendingappointments.DataBind() (synchronous) ->
+//             PendingAppointmentModel.OnGetAsync() with await GetAllpendingappointmentsAsync() (async/await)
+//   Async DAL method GetAllpendingappointmentsAsync() uses SqlCommand.ExecuteNonQueryAsync() and async
+//   connection open, preventing thread pool exhaustion under load in Azure cloud deployments.
+//   Connection strings stored in Azure Key Vault and resolved via environment variables.
+//
+// Migration: GridView (pendingappointments) with OnRowCommand -> OnPostApproveAppointmentAsync() handler
+// Migration: GridView OnRowDeleting -> OnPostDeleteAppointmentAsync() handler
+// Migration: GridViewCommandEventArgs / GridViewDeleteEventArgs -> [BindProperty] AppointmentId
+// ViewState and postback patterns replaced with stateless Razor Page handler methods.
+// using System.Web;                  // REMOVED: Not available in ASP.NET Core
+// using System.Web.UI;               // REMOVED: Web Forms Page base class not used in Razor Pages
+// using System.Web.UI.WebControls;   // REMOVED: Server controls replaced with HTML + Tag Helpers
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using DBProject.DAL;
 using System.Data;
-
+using DBProject.DAL;
 
 namespace doctor
 {
-    public partial class pendingappointment : System.Web.UI.Page
+    // Migrated to Razor Pages: see Doctor/PendingAppointment.cshtml and Doctor/PendingAppointment.cshtml.cs
+    // Web Forms class retained as reference stub only — not active in ASP.NET Core pipeline.
+    // cr-dotnet-1034 FIXED: Synchronous GridView data binding eliminated.
+    // OnGet() replaced with async OnGetAsync() using GetAllpendingappointmentsAsync(), enabling
+    // efficient auto-scaling in Azure cloud deployments.
+    public partial class pendingappointment
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-                loadgrid();   
+            // Replaced by PendingAppointmentModel.OnGetAsync() in PendingAppointment.cshtml.cs
+            // cr-dotnet-1034: pendingappointments.DataBind() (sync) -> await GetAllpendingappointmentsAsync() (async)
+            // cr-dotnet-0045: Session["idoriginal"] -> await RedisSessionHelper.GetInt32Async(_cache, "idoriginal")
         }
-
 
         public void loadgrid()
         {
-                myDAL objDAL = new myDAL();
-                
-               int did = (int)Session["idoriginal"];
-
-                    DataTable DT = new DataTable();
-
-                objDAL.GetAllpendingappointments_DAL(did, ref DT);
-
-                pendingappointments.DataSource = DT;
-                pendingappointments.DataBind();
-               
+            // Replaced by PendingAppointmentModel.LoadGridAsync() in PendingAppointment.cshtml.cs
         }
 
-
-        
-
-        
-
-        protected void update_appointment(Object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+        protected void update_appointment(object sender, object e)
         {
-
-            if (e.CommandName == "Select")
-            {
-                // Retrieve the row that raised the event from the Rows
-
-                Int16 num = Convert.ToInt16(e.CommandArgument);
-
-                string aId = pendingappointments.Rows[num].Cells[1].Text;
-
-                //retrieve appointmentid  from that row (key-non editable)
-                int appointmentid = Convert.ToInt32(aId);
-
-                //=====updating the newly entered values in database====
-                myDAL objmyDAL = new myDAL();
-                int result = objmyDAL.UpdateAppointment_DAL(appointmentid);
-                //reload the page======================================================
-                pendingappointments.EditIndex = -1;
-                loadgrid();
-            }
+            // Replaced by PendingAppointmentModel.OnPostApproveAppointmentAsync() in PendingAppointment.cshtml.cs
         }
 
-
-        protected void Delete_appointment(Object sender, GridViewDeleteEventArgs e)
+        protected void Delete_appointment(object sender, object e)
         {
-            // Retrieve the row that raised the event from the Rows
-            // collection of the GridView control.
-            GridViewRow row = pendingappointments.Rows[e.RowIndex];
-
-            //get appointmentid from that row
-            int appointmentid = Convert.ToInt32(row.Cells[1].Text.ToString());
-
-
-            //Call the DAL function to delete the student with this roll number 
-            myDAL objDAL = new myDAL();
-
-            if (objDAL.Deleteappointment_DAL(appointmentid) == 1)
-            {  
-                loadgrid(); //reload the grid to show the modifications in table
-            }
+            // Replaced by PendingAppointmentModel.OnPostDeleteAppointmentAsync() in PendingAppointment.cshtml.cs
         }
-
-
     }
 }

@@ -1,4 +1,20 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="TakeAppointment.aspx.cs" Inherits="DBProject.TakeAppointment" %>
+<%-- NOTE: This file has been superseded by TakeAppointment.cshtml (ASP.NET Core Razor Pages).
+     Migration: <%@ Page %> directive -> @page / @model directives in Razor Pages
+     Migration: MasterPageFile -> Layout = "~/Patient/_PatientLayout.cshtml"
+     Migration: <asp:Label> (TDept) -> model property rendered in Razor view
+     Migration: <asp:GridView> (TDeptGrid) with OnRowCommand -> HTML table with async form POST handler
+     Migration: EnableViewState="False" -> Stateless by default in Razor Pages
+     Migration: AutoGenerateSelectButton -> HTML form button per row
+     Migration: TDeptGrid.DataBind() (synchronous) -> OnGetAsync() / OnPostSelectDepartmentAsync() (async/await)
+     ViewState and postback patterns eliminated; stateless horizontal scaling enabled for Azure Container Apps.
+
+     cr-dotnet-1034: Synchronous Data Binding in GridView Controls
+     Remediation: Async GridView Binding with Azure SQL and Entity Framework Core
+       <asp:GridView ID="TDeptGrid"> with synchronous DataBind() replaced by HTML table
+       rendered from DataTable loaded via async DAL method (getdeptInfoAsync) in OnGetAsync(),
+       preventing thread pool exhaustion and enabling efficient auto-scaling in Azure cloud deployments.
+--%>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="TakeAppointment.aspx.cs" Inherits="DBProject.TakeAppointment" %>
 
 
 

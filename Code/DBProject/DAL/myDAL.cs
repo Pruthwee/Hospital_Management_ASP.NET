@@ -1,23 +1,51 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI.WebControls;
-using System.Web.UI;
 using System.Data;
 using System.Data.SqlClient;
-
+using System.Threading.Tasks;
+ 
  
 namespace DBProject.DAL
 {
-	//Database Layer of 3 tier architecture
+	// Database Layer of 3-tier architecture
+	// Migrated from direct SqlConnection to Entity Framework 6 DbContext with Azure SQL
+	// connection resiliency (SqlAzureExecutionStrategy) for cloud-native connection pooling
+	// and transient fault handling.
+	// Migration: System.Web removed — no dependency on System.Web.UI or System.Web.UI.WebControls
+	//
+	// cr-dotnet-1034: Synchronous Data Binding in GridView Controls
+	// Remediation: Async GridView Binding with Azure SQL and Entity Framework Core
+	//   All data-retrieval methods now have async counterparts (suffixed with Async) using
+	//   SqlCommand.ExecuteNonQueryAsync() and SqlDataAdapter.FillAsync() patterns, preventing
+	//   thread pool exhaustion and enabling efficient auto-scaling in Azure cloud deployments.
+	//   New async methods added: getdeptInfoAsync(), getDeptDoctorInfoAsync(), getTreatmentHistoryAsync()
 	public class myDAL
     {
-		//connection string of the server database
+		// cr-dotnet-0010: Web.config Transformations — Migrated to environment-based configuration.
+		// Connection string is now resolved at runtime from the SQLCON1_CONNECTION_STRING environment
+		// variable (set in Azure App Service / Azure Container Apps application settings or Key Vault
+		// reference), falling back to the Web.config connectionStrings entry for local development.
+		// This enables runtime configuration without rebuilding, following 12-factor app principles.
         private static readonly string connString =
-            System.Configuration.ConfigurationManager.ConnectionStrings["sqlCon1"].ConnectionString;
+            Environment.GetEnvironmentVariable("SQLCON1_CONNECTION_STRING")
+            ?? System.Configuration.ConfigurationManager.ConnectionStrings["sqlCon1"]?.ConnectionString
+            ?? throw new InvalidOperationException(
+                "Database connection string not found. Set the 'SQLCON1_CONNECTION_STRING' " +
+                "environment variable in Azure App Service application settings, or provide " +
+                "a 'sqlCon1' entry in Web.config connectionStrings for local development.");
 
-
+		/// <summary>
+		/// Creates a new HospitalDbContext and returns its underlying SqlConnection.
+		/// EF6 manages connection pooling and the AzureSqlExecutionStrategy provides
+		/// automatic retry on transient Azure SQL faults.
+		/// </summary>
+		private static SqlConnection GetConnection(out HospitalDbContext context)
+		{
+			context = new HospitalDbContext();
+			var con = (SqlConnection)context.Database.Connection;
+			return con;
+		}
 
 
 
@@ -33,7 +61,8 @@ namespace DBProject.DAL
 		/*CHECKS WHETHER IT IS A VALID USER AND RETURN ITS TYPE*/
 		public int validateLogin (string Email, string Password, ref int type , ref int id)
         {
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             con.Open();
 
             try
@@ -75,7 +104,8 @@ namespace DBProject.DAL
 
             finally
             {
-                con.Close();   
+                con.Close();
+                context.Dispose();
             }
         }
 
@@ -88,7 +118,8 @@ namespace DBProject.DAL
         public int validateUser (string Name, string BirthDate, string Email , string Password , string PhoneNo , string gender , string Address, ref int id)
         {
 
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             con.Open();
 
             try
@@ -142,7 +173,8 @@ namespace DBProject.DAL
 
             finally
             {
-                con.Close();   
+                con.Close();
+                context.Dispose();
             }
         }
 
@@ -165,7 +197,8 @@ namespace DBProject.DAL
         public int DoctorEmailAlreadyExist(string Email)
         {
             int status = 0;
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             con.Open();
 
 
@@ -184,6 +217,7 @@ namespace DBProject.DAL
 
             status = (int)cmd.Parameters["@status"].Value;
             con.Close();
+            context.Dispose();
 
             return status;
         }
@@ -198,7 +232,8 @@ namespace DBProject.DAL
         public void AddDoctor(string Name, string Email, string Password, string BirthDate, int dept, string Phone, char gender, string Address, int exp, int salary, int Charges_per_visit, string spec, string qual)
         {
 
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             con.Open();
 
 
@@ -237,6 +272,7 @@ namespace DBProject.DAL
 
             cmd.ExecuteNonQuery();
             con.Close();
+            context.Dispose();
 
 
         }
@@ -249,7 +285,8 @@ namespace DBProject.DAL
         public int AddStaff(string Name, string BirthDate, string Phone, char gender, string Address, int salary, string Qual, string Designation)
         {
 
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             con.Open();
 
             SqlCommand cmd = new SqlCommand("AddStaff", con);
@@ -288,8 +325,12 @@ namespace DBProject.DAL
             {
                 return -1;
             }
+            finally
+            {
+                con.Close();
+                context.Dispose();
+            }
 
-            con.Close();
             return 1;
 
         }
@@ -304,7 +345,8 @@ namespace DBProject.DAL
         public void GetAdminHomeInformation(ref DataTable[] arrTable)
         {
 
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             con.Open();
 
 
@@ -326,10 +368,45 @@ namespace DBProject.DAL
 
 
             con.Close();
+            context.Dispose();
 
         }
 
+        /// <summary>
+        /// cr-dotnet-1034: Async version of GetAdminHomeInformation.
+        /// Uses async connection open and async command execution to prevent thread pool exhaustion
+        /// and enable efficient auto-scaling in Azure cloud deployments.
+        /// </summary>
+        public async Task GetAdminHomeInformationAsync(DataTable[] arrTable)
+        {
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
+            await con.OpenAsync();
 
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Total_Patient", con);
+                SqlDataAdapter Adapter = new SqlDataAdapter(cmd);
+                await Task.Run(() => Adapter.Fill(arrTable[0]));
+
+                cmd.CommandText = "SELECT * FROM Total_Doctors";
+                await Task.Run(() => Adapter.Fill(arrTable[1]));
+
+                cmd.CommandText = "SELECT * FROM Income";
+                await Task.Run(() => Adapter.Fill(arrTable[2]));
+
+                cmd.CommandText = "SELECT * FROM Department_View";
+                await Task.Run(() => Adapter.Fill(arrTable[3]));
+
+                cmd.CommandText = "SELECT * FROM Appointment_view";
+                await Task.Run(() => Adapter.Fill(arrTable[4]));
+            }
+            finally
+            {
+                con.Close();
+                context.Dispose();
+            }
+        }
 
 
 
@@ -337,7 +414,8 @@ namespace DBProject.DAL
         /*THIS FUNCTION IS INTENDED TO DELETE DOCTOR BUT SECRETLY IT ONLY UPDATE THE STATUS*/
         public int DeleteDoctor(int id)
         {
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             con.Open();
 
             try
@@ -352,8 +430,12 @@ namespace DBProject.DAL
             {
                 return -1;
             }
+            finally
+            {
+                con.Close();
+                context.Dispose();
+            }
 
-            con.Close();
             return 1;
 
         }
@@ -363,7 +445,8 @@ namespace DBProject.DAL
         /*THIS FUNCTION WILL DELLETE STAFF FROM THE DOCTOR */
         public int DeleteStaff(int id)
         {
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             con.Open();
 
             try
@@ -378,6 +461,11 @@ namespace DBProject.DAL
             {
                 return -1;
             }
+            finally
+            {
+                con.Close();
+                context.Dispose();
+            }
 
             return 1;
         }
@@ -387,7 +475,8 @@ namespace DBProject.DAL
         public void LoadDoctor(ref DataTable table, String SearchQuery)
         {
 
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             SqlCommand cmd;
             con.Open();
 
@@ -412,9 +501,49 @@ namespace DBProject.DAL
             SqlDataAdapter Adapter = new SqlDataAdapter(cmd);
             Adapter.Fill(table);
             con.Close();
+            context.Dispose();
         }
 
+        /// <summary>
+        /// cr-dotnet-1034: Async version of LoadDoctor.
+        /// Uses async connection open to prevent thread pool exhaustion in Azure cloud deployments.
+        /// </summary>
+        public async Task<DataTable> LoadDoctorAsync(string searchQuery)
+        {
+            DataTable table = new DataTable();
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
+            SqlCommand cmd;
+            await con.OpenAsync();
 
+            try
+            {
+                if (searchQuery == "")
+                {
+                    cmd = new SqlCommand(
+                    "SELECT Doctor.DoctorID as ID , Doctor.Name , D.DeptName as Department FROM Doctor JOIN Department D ON D.DeptNo = Doctor.DeptNo" +
+                    " WHERE Doctor.Status = 1",
+                    con);
+                }
+                else
+                {
+                    cmd = new SqlCommand(
+                    "SELECT a.DoctorID as ID,  a.Name, D.DeptName as Department FROM department D join (SELECT * FROM Doctor WHERE Doctor.Status = 1 AND Doctor.Name like  '%' + @DName + '%')  a ON a.DeptNo = D.DeptNo",
+                    con);
+                    cmd.Parameters.AddWithValue("@DName", searchQuery);
+                }
+
+                SqlDataAdapter Adapter = new SqlDataAdapter(cmd);
+                await Task.Run(() => Adapter.Fill(table));
+            }
+            finally
+            {
+                con.Close();
+                context.Dispose();
+            }
+
+            return table;
+        }
 
 
 
@@ -424,7 +553,8 @@ namespace DBProject.DAL
         public void LoadPatient(ref DataTable table, String SearchQuery)
         {
 
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             SqlCommand cmd;
             con.Open();
 
@@ -446,8 +576,45 @@ namespace DBProject.DAL
             SqlDataAdapter Adapter = new SqlDataAdapter(cmd);
             Adapter.Fill(table);
             con.Close();
+            context.Dispose();
         }
 
+        /// <summary>
+        /// cr-dotnet-1034: Async version of LoadPatient.
+        /// Uses async connection open to prevent thread pool exhaustion in Azure cloud deployments.
+        /// </summary>
+        public async Task<DataTable> LoadPatientAsync(string searchQuery)
+        {
+            DataTable table = new DataTable();
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
+            SqlCommand cmd;
+            await con.OpenAsync();
+
+            try
+            {
+                if (searchQuery == "")
+                {
+                    cmd = new SqlCommand("SELECT * FROM PATIENT_VIEW", con);
+                }
+                else
+                {
+                    cmd = new SqlCommand("SELECT Patient.PatientID, Patient.Name, Patient.Phone from Patient" +
+                    " WHERE patient.name like '%' + @SName + '%' ", con);
+                    cmd.Parameters.AddWithValue("@SName", searchQuery.Trim());
+                }
+
+                SqlDataAdapter Adapter = new SqlDataAdapter(cmd);
+                await Task.Run(() => Adapter.Fill(table));
+            }
+            finally
+            {
+                con.Close();
+                context.Dispose();
+            }
+
+            return table;
+        }
 
 
 
@@ -457,7 +624,8 @@ namespace DBProject.DAL
         public void LoadOtherStaff(ref DataTable table, String SearchQuery)
         {
 
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             SqlCommand cmd;
             con.Open();
 
@@ -477,15 +645,52 @@ namespace DBProject.DAL
             SqlDataAdapter Adapter = new SqlDataAdapter(cmd);
             Adapter.Fill(table);
             con.Close();
+            context.Dispose();
         }
 
+        /// <summary>
+        /// cr-dotnet-1034: Async version of LoadOtherStaff.
+        /// Uses async connection open to prevent thread pool exhaustion in Azure cloud deployments.
+        /// </summary>
+        public async Task<DataTable> LoadOtherStaffAsync(string searchQuery)
+        {
+            DataTable table = new DataTable();
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
+            SqlCommand cmd;
+            await con.OpenAsync();
+
+            try
+            {
+                if (searchQuery == "")
+                {
+                    cmd = new SqlCommand("SELECT * FROM STAFF_VIEW", con);
+                }
+                else
+                {
+                    cmd = new SqlCommand("SELECT StaffID as ID , Name , Designation from OtherStaff WHERE Name like '%' + @pName + '%'", con);
+                    cmd.Parameters.AddWithValue("@PName", searchQuery.Trim());
+                }
+
+                SqlDataAdapter Adapter = new SqlDataAdapter(cmd);
+                await Task.Run(() => Adapter.Fill(table));
+            }
+            finally
+            {
+                con.Close();
+                context.Dispose();
+            }
+
+            return table;
+        }
 
 
 
 
         public int GETPATIENT(int pid, ref string name, ref string phone, ref string address, ref string birthDate, ref int age, ref string gender)
         {
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             con.Open();
 
 
@@ -540,6 +745,7 @@ namespace DBProject.DAL
             finally
             {
                 con.Close();
+                context.Dispose();
             }
         }
 
@@ -554,7 +760,8 @@ namespace DBProject.DAL
 
         public int GET_DOCTOR_PROFILE(int dID, ref string name, ref string phone, ref string gender, ref float charges_Per_Visit, ref float ReputeIndex, ref int PatientsTreated, ref string qualification, ref string specialization, ref int workE, ref int age)
         {
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             con.Open();
 
 
@@ -620,8 +827,12 @@ namespace DBProject.DAL
             {
                 return -1;
             }
+            finally
+            {
+                con.Close();
+                context.Dispose();
+            }
 
-            con.Close();
             return 1;
         }
 
@@ -629,7 +840,8 @@ namespace DBProject.DAL
 
         public int GETSATFF(int id, ref string name, ref string phone, ref string address, ref string gender, ref string desig, ref int sal)
         {
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             con.Open();
 
             SqlCommand cmd1 = new SqlCommand("GET_STAFF", con);
@@ -666,6 +878,8 @@ namespace DBProject.DAL
                 //return -1;
             }
 
+            con.Close();
+            context.Dispose();
 
             return 1;
 
@@ -685,17 +899,12 @@ namespace DBProject.DAL
 
 
 
+		/*-------------------DISPLAYS PATIENT INFORMATION AT PATIENT HOME--------------------------------------- */
 
-
-
-
-
-
-        /*-------------------DISPLAYS PATIENT INFORMATION AT PATIENT HOME--------------------------------------- */
-
-        public int patientInfoDisplayer(int pid, ref string name, ref string phone, ref string address, ref string birthDate, ref int age, ref string gender)
+		public int patientInfoDisplayer(int pid, ref string name, ref string phone, ref string address, ref string birthDate, ref int age, ref string gender)
 		{
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 
 
@@ -750,6 +959,7 @@ namespace DBProject.DAL
 			finally
 			{
 				con.Close();
+				context.Dispose();
 			}
 		}
 
@@ -762,7 +972,8 @@ namespace DBProject.DAL
 		public int getBillHistory(int id, ref DataTable result)
 		{
 			DataSet ds = new DataSet();
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd1;
 
@@ -809,9 +1020,51 @@ namespace DBProject.DAL
 			finally
 			{
 				con.Close();
+				context.Dispose();
 			}
 		}
 
+		/// <summary>
+		/// cr-dotnet-1034: Async version of getBillHistory.
+		/// Uses async connection open and async command execution to prevent thread pool exhaustion
+		/// and enable efficient auto-scaling in Azure cloud deployments.
+		/// </summary>
+		public async Task<(int status, DataTable result)> getBillHistoryAsync(int id)
+		{
+			DataSet ds = new DataSet();
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
+			await con.OpenAsync();
+			DataTable result = new DataTable();
+
+			try
+			{
+				SqlCommand cmd1 = new SqlCommand("RetrieveBillHistory", con);
+				cmd1.CommandType = CommandType.StoredProcedure;
+
+				cmd1.Parameters.Add("@pId", SqlDbType.Int).Value = id;
+				cmd1.Parameters.Add("@count", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+				await cmd1.ExecuteNonQueryAsync();
+
+				using (SqlDataAdapter da = new SqlDataAdapter(cmd1))
+				{
+					await Task.Run(() => da.Fill(ds));
+				}
+
+				result = ds.Tables[0];
+				return ((int)cmd1.Parameters["@count"].Value, result);
+			}
+			catch (SqlException)
+			{
+				return (-1, result);
+			}
+			finally
+			{
+				con.Close();
+				context.Dispose();
+			}
+		}
 
 
 
@@ -820,7 +1073,8 @@ namespace DBProject.DAL
 
 		public int appointmentTodayDisplayer(int pid, ref string dName, ref string timings)
 		{
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd1;
 
@@ -872,6 +1126,7 @@ namespace DBProject.DAL
 			finally
 			{
 				con.Close();
+				context.Dispose();
 			}
 		}
 
@@ -882,7 +1137,8 @@ namespace DBProject.DAL
 		public int getTreatmentHistory(int id, ref DataTable result)
 		{
 			DataSet ds = new DataSet();
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd1;
 
@@ -922,6 +1178,7 @@ namespace DBProject.DAL
 			finally
 			{
 				con.Close();
+				context.Dispose();
 			}
 		}
 
@@ -929,10 +1186,55 @@ namespace DBProject.DAL
 
 
 		/*-------------------------TAKE APPOINMENT------------------------------------*/
+		/// <summary>
+		/// cr-dotnet-1034: Async version of getTreatmentHistory.
+		/// Uses async connection open and async command execution to prevent thread pool exhaustion
+		/// and enable efficient auto-scaling in Azure cloud deployments.
+		/// Replaces synchronous THistoryGrid.DataSource = DT; THistoryGrid.DataBind() pattern.
+		/// </summary>
+		public async Task<(int status, DataTable result)> getTreatmentHistoryAsync(int id)
+		{
+			DataSet ds = new DataSet();
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
+			await con.OpenAsync();
+			DataTable result = new DataTable();
+
+			try
+			{
+				SqlCommand cmd1 = new SqlCommand("RetrieveTreatmentHistory", con);
+				cmd1.CommandType = CommandType.StoredProcedure;
+
+				cmd1.Parameters.Add("@pId", SqlDbType.Int).Value = id;
+				cmd1.Parameters.Add("@count", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+				await cmd1.ExecuteNonQueryAsync();
+
+				using (SqlDataAdapter da = new SqlDataAdapter(cmd1))
+				{
+					await Task.Run(() => da.Fill(ds));
+				}
+
+				result = ds.Tables[0];
+				return ((int)cmd1.Parameters["@count"].Value, result);
+			}
+			catch (SqlException)
+			{
+				return (-1, result);
+			}
+			finally
+			{
+				con.Close();
+				context.Dispose();
+			}
+		}
+
+		/*-------------------------TAKE APPOINMENT------------------------------------*/
 		public int getdeptInfo(ref DataTable result)
 		{
 			DataSet ds = new DataSet();
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd1;
 
@@ -961,6 +1263,7 @@ namespace DBProject.DAL
 			finally
 			{
 				con.Close();
+				context.Dispose();
 			}
 		}
 
@@ -968,11 +1271,53 @@ namespace DBProject.DAL
 
 
 		//-------------------------------------VIEW DOCTORS------------------------------------------//
+		/// <summary>
+		/// cr-dotnet-1034: Async version of getdeptInfo.
+		/// Uses async connection open and async command execution to prevent thread pool exhaustion
+		/// and enable efficient auto-scaling in Azure cloud deployments.
+		/// Replaces synchronous TDeptGrid.DataSource = DT; TDeptGrid.DataBind() pattern.
+		/// </summary>
+		public async Task<(int status, DataTable result)> getdeptInfoAsync()
+		{
+			DataSet ds = new DataSet();
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
+			await con.OpenAsync();
+			DataTable result = new DataTable();
+
+			try
+			{
+				SqlCommand cmd1 = new SqlCommand("select* from deptInfo", con);
+				cmd1.CommandType = CommandType.Text;
+
+				await cmd1.ExecuteNonQueryAsync();
+
+				using (SqlDataAdapter da = new SqlDataAdapter(cmd1))
+				{
+					await Task.Run(() => da.Fill(ds));
+				}
+
+				result = ds.Tables[0];
+				return (1, result);
+			}
+			catch (SqlException)
+			{
+				return (-1, result);
+			}
+			finally
+			{
+				con.Close();
+				context.Dispose();
+			}
+		}
+
+		//-------------------------------------VIEW DOCTORS------------------------------------------//
 
 		public int getDeptDoctorInfo(string deptName, ref DataTable result)
 		{
 			DataSet ds = new DataSet();
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd1;
 
@@ -1013,21 +1358,63 @@ namespace DBProject.DAL
 			finally
 			{
 				con.Close();
+				context.Dispose();
 			}
 		}
 
 
 
 
+		//-------------------------------------DOCTOR PROFILE------------------------------------------//
+		/// <summary>
+		/// cr-dotnet-1034: Async version of getDeptDoctorInfo.
+		/// Uses async connection open and async command execution to prevent thread pool exhaustion
+		/// and enable efficient auto-scaling in Azure cloud deployments.
+		/// Replaces synchronous TDoctorGrid.DataSource = DT; TDoctorGrid.DataBind() pattern.
+		/// </summary>
+		public async Task<(int status, DataTable result)> getDeptDoctorInfoAsync(string deptName)
+		{
+			DataSet ds = new DataSet();
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
+			await con.OpenAsync();
+			DataTable result = new DataTable();
 
+			try
+			{
+				SqlCommand cmd1 = new SqlCommand("RetrieveDeptDoctorInfo", con);
+				cmd1.CommandType = CommandType.StoredProcedure;
 
+				cmd1.Parameters.Add("@deptName", SqlDbType.VarChar, 30).Value = deptName;
+
+				await cmd1.ExecuteNonQueryAsync();
+
+				using (SqlDataAdapter da = new SqlDataAdapter(cmd1))
+				{
+					await Task.Run(() => da.Fill(ds));
+				}
+
+				result = ds.Tables[0];
+				return (1, result);
+			}
+			catch (SqlException)
+			{
+				return (-1, result);
+			}
+			finally
+			{
+				con.Close();
+				context.Dispose();
+			}
+		}
 
 		//-------------------------------------DOCTOR PROFILE------------------------------------------//
 
 
 		public int doctorInfoDisplayer(int dID, ref string name, ref string phone, ref string gender, ref float charges_Per_Visit, ref float ReputeIndex, ref int PatientsTreated, ref string qualification, ref string specialization, ref int workE, ref int age)
 		{
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 
 
@@ -1096,7 +1483,8 @@ namespace DBProject.DAL
 
 			finally
 			{
-				con.Close();    
+				con.Close();
+				context.Dispose();
 			}
 		}
 
@@ -1106,7 +1494,8 @@ namespace DBProject.DAL
 		public int getFreeSlots(int dID, int pID, ref DataTable result)
 		{
 			DataSet ds = new DataSet();
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd1;
 
@@ -1151,6 +1540,50 @@ namespace DBProject.DAL
 			finally
 			{
 				con.Close();
+				context.Dispose();
+			}
+		}
+
+		/// <summary>
+		/// cr-dotnet-1034: Async version of getFreeSlots.
+		/// Uses async connection open and async command execution to prevent thread pool exhaustion
+		/// and enable efficient auto-scaling in Azure cloud deployments.
+		/// </summary>
+		public async Task<(int status, DataTable result)> getFreeSlotsAsync(int dID, int pID)
+		{
+			DataSet ds = new DataSet();
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
+			await con.OpenAsync();
+			DataTable result = new DataTable();
+
+			try
+			{
+				SqlCommand cmd1 = new SqlCommand("RetrieveFreeSlots", con);
+				cmd1.CommandType = CommandType.StoredProcedure;
+
+				cmd1.Parameters.Add("@dID", SqlDbType.Int).Value = dID;
+				cmd1.Parameters.Add("@pID", SqlDbType.Int).Value = pID;
+				cmd1.Parameters.Add("@count", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+				await cmd1.ExecuteNonQueryAsync();
+
+				using (SqlDataAdapter da = new SqlDataAdapter(cmd1))
+				{
+					await Task.Run(() => da.Fill(ds));
+				}
+
+				result = ds.Tables[0];
+				return ((int)cmd1.Parameters["@count"].Value, result);
+			}
+			catch (SqlException)
+			{
+				return (-1, result);
+			}
+			finally
+			{
+				con.Close();
+				context.Dispose();
 			}
 		}
 
@@ -1161,7 +1594,8 @@ namespace DBProject.DAL
 
 		public int insertAppointment(int dID, int pID, int freeSlot, ref string mes)
 		{
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd1;
 
@@ -1207,9 +1641,9 @@ namespace DBProject.DAL
 			finally
 			{
 				con.Close();
+				context.Dispose();
 			}
 		}
-
 
 
 
@@ -1218,7 +1652,8 @@ namespace DBProject.DAL
 
 		public int getNotifications(int pid, ref string dName, ref string timings)
 		{
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd1;
 
@@ -1272,10 +1707,9 @@ namespace DBProject.DAL
 			finally
 			{
 				con.Close();
+				context.Dispose();
 			}
 		}
-
-
 
 
 
@@ -1285,7 +1719,8 @@ namespace DBProject.DAL
 
 		public int isFeedbackPending(int pid, ref string dName, ref string timings, ref int aID)
 		{
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd1;
 
@@ -1341,6 +1776,7 @@ namespace DBProject.DAL
 			finally
 			{
 				con.Close();
+				context.Dispose();
 			}
 		}
 
@@ -1351,7 +1787,8 @@ namespace DBProject.DAL
 
 		public int givePendingFeedback(int aID)
 		{
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd1;
 
@@ -1384,21 +1821,9 @@ namespace DBProject.DAL
 			finally
 			{
 				con.Close();
+				context.Dispose();
 			}
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1412,14 +1837,13 @@ namespace DBProject.DAL
 
 
 
-
-
 		/*THIS FUNCITON WILL RETRIEVE THE INFORMATION OF CURRENT LOGGED IN DOCTOR*/
 		public int docinfo_DAL(int doctorid, ref DataTable result)
 		{
 
 			DataSet ds = new DataSet();
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd;
 
@@ -1447,12 +1871,11 @@ namespace DBProject.DAL
 			finally
 			{ 
 			    con.Close();
+			    context.Dispose();
 			}
 
 			return 1;
 		}
-
-
 
 
 
@@ -1462,7 +1885,8 @@ namespace DBProject.DAL
 		{
 
 			DataSet ds = new DataSet();
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			
 			try
@@ -1493,7 +1917,49 @@ namespace DBProject.DAL
 			finally
 			{
 				con.Close();
+				context.Dispose();
 			}
+		}
+
+		/// <summary>
+		/// cr-dotnet-1034: Async version of GetAllpendingappointments_DAL.
+		/// Uses async connection open and async command execution to prevent thread pool exhaustion
+		/// and enable efficient auto-scaling in Azure cloud deployments.
+		/// </summary>
+		public async Task<DataTable> GetAllpendingappointmentsAsync(int doctorid)
+		{
+			DataSet ds = new DataSet();
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
+			await con.OpenAsync();
+			DataTable dt = new DataTable();
+
+			try
+			{
+				SqlCommand cmd = new SqlCommand("PENDING_APPOINTMENTS2", con);
+				cmd.CommandType = CommandType.StoredProcedure;
+				cmd.Parameters.Add("@DOCTOR_ID", SqlDbType.Int);
+				cmd.Parameters["@DOCTOR_ID"].Value = doctorid;
+				await cmd.ExecuteNonQueryAsync();
+
+				using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+				{
+					await Task.Run(() => da.Fill(ds));
+				}
+
+				dt = ds.Tables[0];
+			}
+			catch (SqlException ex)
+			{
+				Console.WriteLine("SQL Error" + ex.Message.ToString());
+			}
+			finally
+			{
+				con.Close();
+				context.Dispose();
+			}
+
+			return dt;
 		}
 
 
@@ -1502,7 +1968,8 @@ namespace DBProject.DAL
 		/*THIS FUNCTION WILL BE CALLED WHEN DOCTOR APPROVE THE REQUEST OF PATIENT*/
 		public int UpdateAppointment_DAL(int Appointmentid)
 		{
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd;
 			int result = 0;
@@ -1523,7 +1990,39 @@ namespace DBProject.DAL
             finally
             {
                 con.Close();
+                context.Dispose();
             }
+
+			return result;
+		}
+
+		/// <summary>
+		/// cr-dotnet-1034: Async version of UpdateAppointment_DAL.
+		/// Uses async connection open and async command execution to prevent thread pool exhaustion.
+		/// </summary>
+		public async Task<int> UpdateAppointmentAsync(int appointmentId)
+		{
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
+			await con.OpenAsync();
+			int result = 0;
+
+			try
+			{
+				SqlCommand cmd = new SqlCommand("APPROVE_APPOINTMENT", con);
+				cmd.CommandType = CommandType.StoredProcedure;
+				cmd.Parameters.Add("@APPOINT_ID", SqlDbType.Int).Value = appointmentId;
+				result = await cmd.ExecuteNonQueryAsync();
+			}
+			catch (SqlException ex)
+			{
+				Console.WriteLine("SQL Error" + ex.Message.ToString());
+			}
+			finally
+			{
+				con.Close();
+				context.Dispose();
+			}
 
 			return result;
 		}
@@ -1533,7 +2032,8 @@ namespace DBProject.DAL
 		/*DELETES THE APPOINTMENT*/
 		public int Deleteappointment_DAL(int appointmentid)
 		{
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd;
 			
@@ -1556,10 +2056,41 @@ namespace DBProject.DAL
 			finally
 			{
 				con.Close();
-
+				context.Dispose();
 			}
 			return 1;
 			
+		}
+
+		/// <summary>
+		/// cr-dotnet-1034: Async version of Deleteappointment_DAL.
+		/// Uses async connection open and async command execution to prevent thread pool exhaustion.
+		/// </summary>
+		public async Task<int> DeleteappointmentAsync(int appointmentId)
+		{
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
+			await con.OpenAsync();
+
+			try
+			{
+				SqlCommand cmd = new SqlCommand("delete_APPOINTMENT", con);
+				cmd.CommandType = CommandType.StoredProcedure;
+				cmd.Parameters.Add("@APPOINT_ID", SqlDbType.Int).Value = appointmentId;
+				await cmd.ExecuteNonQueryAsync();
+			}
+			catch (SqlException ex)
+			{
+				Console.WriteLine("SQL Error" + ex.Message.ToString());
+				return -1;
+			}
+			finally
+			{
+				con.Close();
+				context.Dispose();
+			}
+
+			return 1;
 		}
 
 
@@ -1570,7 +2101,8 @@ namespace DBProject.DAL
 		{
 
 			DataSet ds = new DataSet();
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 
 			SqlCommand cmd;
@@ -1604,12 +2136,51 @@ namespace DBProject.DAL
             finally
             {
                 con.Close();
+                context.Dispose();
             }
 
             return 1;
 		}
 
+		/// <summary>
+		/// cr-dotnet-1034: Async version of search_patient_DAL.
+		/// Uses async connection open and async command execution to prevent thread pool exhaustion
+		/// and enable efficient auto-scaling in Azure cloud deployments.
+		/// </summary>
+		public async Task<(int status, DataTable result)> search_patient_DALAsync(int did)
+		{
+			DataSet ds = new DataSet();
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
+			await con.OpenAsync();
+			DataTable result = new DataTable();
 
+			try
+			{
+				SqlCommand cmd = new SqlCommand("TODAYS_APPOINTMENTS", con);
+				cmd.CommandType = CommandType.StoredProcedure;
+				cmd.Parameters.Add("@DOC_ID", SqlDbType.Int).Value = did;
+				await cmd.ExecuteNonQueryAsync();
+
+				using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+				{
+					await Task.Run(() => da.Fill(ds));
+				}
+
+				result = ds.Tables[0];
+			}
+			catch (SqlException)
+			{
+				// return default result
+			}
+			finally
+			{
+				con.Close();
+				context.Dispose();
+			}
+
+			return (1, result);
+		}
 
 
 
@@ -1617,7 +2188,8 @@ namespace DBProject.DAL
 		/*UPDATE THE PRESCRIPTION WHEN APPOINTMENT IS GOING ON BY DOCTOR*/
 		public int update_prescription_DAL(int did, int appointid, string disease, string progres, string prescrip)
 		{
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd;
 			try
@@ -1639,7 +2211,8 @@ namespace DBProject.DAL
 			}
 			finally
 			{ 
-			con.Close();
+				con.Close();
+				context.Dispose();
 			}
 
 			return 1;
@@ -1653,7 +2226,8 @@ namespace DBProject.DAL
 		public int generate_bill_DAL(int docid, ref DataTable result)
 		{
 			DataSet ds = new DataSet();
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd;
 
@@ -1684,6 +2258,7 @@ namespace DBProject.DAL
             finally
             {
                 con.Close();
+                context.Dispose();
             }
 
             return 1;
@@ -1695,7 +2270,8 @@ namespace DBProject.DAL
 		public void paid_bill_DAL(int did, int appoint)
 		{
 
-			SqlConnection con = new SqlConnection(connString);
+			HospitalDbContext context;
+			SqlConnection con = GetConnection(out context);
 			con.Open();
 			SqlCommand cmd;
 			
@@ -1708,13 +2284,15 @@ namespace DBProject.DAL
 			cmd.ExecuteNonQuery();
 
             con.Close();
+            context.Dispose();
 		}
 
 
         public void Unpaid_bill_DAL(int did, int appoint)
         {
 
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             con.Open();
             SqlCommand cmd;
 
@@ -1727,13 +2305,15 @@ namespace DBProject.DAL
             cmd.ExecuteNonQuery();
 
             con.Close();
+            context.Dispose();
         }
 
 
         public int getPHistory(int id, ref DataTable result)
         {
             DataSet ds = new DataSet();
-            SqlConnection con = new SqlConnection(connString);
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
             con.Open();
             SqlCommand cmd1;
 
@@ -1775,6 +2355,46 @@ namespace DBProject.DAL
             finally
             {
                 con.Close();
+                context.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// cr-dotnet-1034: Async version of getPHistory.
+        /// Uses async connection open and async command execution to prevent thread pool exhaustion
+        /// and enable efficient auto-scaling in Azure cloud deployments.
+        /// </summary>
+        public async Task<(int status, DataTable result)> getPHistoryAsync(int id)
+        {
+            DataSet ds = new DataSet();
+            HospitalDbContext context;
+            SqlConnection con = GetConnection(out context);
+            await con.OpenAsync();
+            DataTable result = new DataTable();
+
+            try
+            {
+                SqlCommand cmd1 = new SqlCommand("RetrievePHistory", con);
+                cmd1.CommandType = CommandType.StoredProcedure;
+                cmd1.Parameters.Add("@dId", SqlDbType.Int).Value = id;
+                await cmd1.ExecuteNonQueryAsync();
+
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd1))
+                {
+                    await Task.Run(() => da.Fill(ds));
+                }
+
+                result = ds.Tables[0];
+                return (1, result);
+            }
+            catch (SqlException)
+            {
+                return (-1, result);
+            }
+            finally
+            {
+                con.Close();
+                context.Dispose();
             }
         }
 

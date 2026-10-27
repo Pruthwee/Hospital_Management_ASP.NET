@@ -1,0 +1,60 @@
+@page
+@model DBProject.Doctor.PendingAppointmentModel
+@{
+    ViewData["Title"] = "Pending Appointments";
+    Layout = "~/Doctor/_DoctorLayout.cshtml";
+}
+
+@section Head {
+    <link rel="stylesheet" href="/assets/css/grid-view.css" />
+}
+
+<h1><strong style="margin:25%">Pending Appointments</strong></h1>
+<br /><br />
+
+<div style="margin-left:300px">
+    @if (Model.PendingAppointments != null && Model.PendingAppointments.Rows.Count > 0)
+    {
+        <table class="GridView-d table" style="color:black; border:1px solid #DEDFDE;">
+            <thead style="background-color:#6B696B; color:white; font-weight:bold;">
+                <tr>
+                    @foreach (System.Data.DataColumn col in Model.PendingAppointments.Columns)
+                    {
+                        <th>@col.ColumnName</th>
+                    }
+                    <th>Approve</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.PendingAppointments.Rows.Count; i++)
+                {
+                    <tr style="background-color:#F7F7DE;">
+                        @foreach (var item in Model.PendingAppointments.Rows[i].ItemArray)
+                        {
+                            <td>@item</td>
+                        }
+                        <td>
+                            <form method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="AppointmentId" value="@Model.PendingAppointments.Rows[i][1]" />
+                                <button type="submit" asp-page-handler="ApproveAppointment" class="btn btn-sm btn-success">Approve</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="AppointmentId" value="@Model.PendingAppointments.Rows[i][1]" />
+                                <button type="submit" asp-page-handler="DeleteAppointment" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No pending appointments found.</p>
+    }
+</div>

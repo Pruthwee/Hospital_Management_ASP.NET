@@ -3,6 +3,12 @@
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */
 
+// Azure Static Web Apps / Webpack CSS Bundling Entry Point
+// This file is the webpack entry point for CSS bundling via Azure Static Web Apps CI/CD pipeline.
+// All @import partials below are concatenated by webpack (css-loader + less-loader) into a single
+// output bundle (font-awesome.bundle.css) served through Azure CDN with HTTP/2 enabled.
+// Do NOT load individual partial files directly in HTML — reference only the bundled output.
+// webpack.config.js entry: { 'font-awesome': './assets/font-awesome/less/font-awesome.less' }
 @import "variables.less";
 @import "mixins.less";
 @import "path.less";

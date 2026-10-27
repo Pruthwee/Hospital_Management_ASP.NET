@@ -1,0 +1,35 @@
+@page
+@model DBProject.Doctor.HistoryUpdateModel
+@{
+    ViewData["Title"] = "Update History";
+    Layout = "~/Doctor/_DoctorLayout.cshtml";
+}
+
+@if (TempData["Error"] != null)
+{
+    <script>alert('@TempData["Error"]');</script>
+}
+@if (TempData["Success"] != null)
+{
+    <script>alert('@TempData["Success"]');</script>
+}
+
+<h1>Update history</h1>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <h4>Disease:</h4>
+    <input type="text" name="Disease" value="@Model.Disease" class="form-control" style="width:300px" />
+
+    <h4>Progress:</h4>
+    <input type="text" name="Progress" value="@Model.Progress" class="form-control" style="width:300px" />
+
+    <h4>Prescription</h4>
+    <input type="text" name="Prescription" value="@Model.Prescription" class="form-control" style="width:300px" />
+
+    <br /><br /><br />
+
+    <button type="submit" asp-page-handler="SaveInDatabase" class="btn btn-primary" style="font-weight:bold">Accept &amp; Save</button>
+    &nbsp;&nbsp;
+    <button type="submit" asp-page-handler="GenerateBill" class="btn btn-secondary" style="font-weight:bold">Generate Bill</button>
+</form>

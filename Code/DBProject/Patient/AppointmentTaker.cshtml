@@ -1,0 +1,57 @@
+@page
+@model DBProject.Patient.AppointmentTakerModel
+@{
+    ViewData["Title"] = "Appointment Taker";
+    Layout = "~/Patient/_PatientLayout.cshtml";
+}
+
+@section Head {
+    <link rel="stylesheet" href="/assets/css/grid-view.css" />
+}
+
+<h1><strong style="margin:37%">Free Time Slots</strong></h1>
+<br /><br />
+
+@if (!string.IsNullOrEmpty(Model.StatusMessage))
+{
+    <p>@Model.StatusMessage</p>
+}
+
+<br /><br />
+
+@if (Model.FreeSlots != null && Model.FreeSlots.Rows.Count > 0)
+{
+    <table class="GridView-d table" cellpadding="4" style="width:800px; color:black; border:1px solid #DEDFDE;">
+        <thead style="background-color:#6B696B; color:white; font-weight:bold;">
+            <tr>
+                <th>No.</th>
+                @foreach (System.Data.DataColumn col in Model.FreeSlots.Columns)
+                {
+                    <th>@col.ColumnName</th>
+                }
+                <th>Select</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.FreeSlots.Rows.Count; i++)
+            {
+                <tr style="background-color:#F7F7DE;">
+                    <td>@(i + 1)</td>
+                    @foreach (var item in Model.FreeSlots.Rows[i].ItemArray)
+                    {
+                        <td>@item</td>
+                    }
+                    <td>
+                        <form method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="SlotValue" value="@Model.FreeSlots.Rows[i][0]" />
+                            <button type="submit" asp-page-handler="SelectSlot" class="btn btn-sm btn-primary">Select</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<br /><br />

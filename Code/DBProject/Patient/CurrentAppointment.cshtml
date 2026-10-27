@@ -1,0 +1,31 @@
+@page
+@model DBProject.Patient.CurrentAppointmentModel
+@{
+    ViewData["Title"] = "Current Appointment";
+    Layout = "~/Patient/_PatientLayout.cshtml";
+}
+
+<h1><strong style="margin:30%">Current Appointments</strong></h1>
+<br /><br />
+
+<div style="margin-left: 70px">
+
+    @if (!string.IsNullOrEmpty(Model.AppointmentStatus))
+    {
+        <p style="font-weight:bold; font-size:medium;">@Model.AppointmentStatus</p>
+    }
+    <br /><br />
+
+    @if (!string.IsNullOrEmpty(Model.DoctorInfo))
+    {
+        <p style="font-weight:bold; font-size:medium;">@Model.DoctorInfo</p>
+    }
+    <br /><br />
+
+    @if (!string.IsNullOrEmpty(Model.TimingInfo))
+    {
+        <p style="font-weight:bold; font-size:medium;">@Model.TimingInfo</p>
+    }
+    <br /><br />
+
+</div>

@@ -1,0 +1,49 @@
+@page
+@model DBProject.Patient.BillsHistoryModel
+@{
+    ViewData["Title"] = "Bills History";
+    Layout = "~/Patient/_PatientLayout.cshtml";
+}
+
+@section Head {
+    <link rel="stylesheet" href="/assets/css/grid-view.css" />
+}
+
+<h1><strong style="margin:37%">Your Bill(s) History</strong></h1>
+<br /><br />
+
+@if (!string.IsNullOrEmpty(Model.StatusMessage))
+{
+    <p>@Model.StatusMessage</p>
+}
+
+<br /><br />
+
+@if (Model.BillHistory != null && Model.BillHistory.Rows.Count > 0)
+{
+    <table class="GridView-d table" cellpadding="4" style="width:800px; color:black; border:1px solid #DEDFDE;">
+        <thead style="background-color:#6B696B; color:white; font-weight:bold;">
+            <tr>
+                <th>No.</th>
+                @foreach (System.Data.DataColumn col in Model.BillHistory.Columns)
+                {
+                    <th>@col.ColumnName</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.BillHistory.Rows.Count; i++)
+            {
+                <tr style="background-color:#F7F7DE;">
+                    <td>@(i + 1)</td>
+                    @foreach (var item in Model.BillHistory.Rows[i].ItemArray)
+                    {
+                        <td>@item</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<br /><br />

@@ -1,0 +1,49 @@
+@page
+@model DBProject.Doctor.PreviousHistoryModel
+@{
+    ViewData["Title"] = "Previous History";
+    Layout = "~/Doctor/_DoctorLayout.cshtml";
+}
+
+@section Head {
+    <link rel="stylesheet" href="/assets/css/grid-view.css" />
+}
+
+<h1><strong style="margin:25%">History of Treated Patients</strong></h1>
+<br /><br />
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p>@Model.ErrorMessage</p>
+}
+
+<br /><br />
+
+@if (Model.PatientHistory != null && Model.PatientHistory.Rows.Count > 0)
+{
+    <table class="GridView-d table" cellpadding="4" style="width:800px; color:black; border:1px solid #DEDFDE;">
+        <thead style="background-color:#6B696B; color:white; font-weight:bold;">
+            <tr>
+                <th>No.</th>
+                @foreach (System.Data.DataColumn col in Model.PatientHistory.Columns)
+                {
+                    <th>@col.ColumnName</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.PatientHistory.Rows.Count; i++)
+            {
+                <tr style="background-color:#F7F7DE;">
+                    <td>@(i + 1)</td>
+                    @foreach (var item in Model.PatientHistory.Rows[i].ItemArray)
+                    {
+                        <td>@item</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<br /><br />
