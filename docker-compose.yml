@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  hospitalm-mono:
+    image: hospitalm-mono:latest
+    ports:
+      - "80"
+    environment:
+      - ASPNET_ENVIRONMENT=Production
+      - DB_CONNECTION_STRING=${DB_CONNECTION_STRING:?set DB_CONNECTION_STRING}
+      - REDIS_HOST=${REDIS_HOST:?set REDIS_HOST}
+      - REDIS_ACCESS_KEY=${REDIS_ACCESS_KEY:?set REDIS_ACCESS_KEY}
+    volumes:
+      - ./logs:C:\inetpub\wwwroot\App_Data\logs
+      - ./config:C:\app\config

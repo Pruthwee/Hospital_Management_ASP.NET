@@ -15,6 +15,7 @@ namespace DBProject.DAL
     {
 		//connection string of the server database
         private static readonly string connString =
+            Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
             System.Configuration.ConfigurationManager.ConnectionStrings["sqlCon1"].ConnectionString;
 
 

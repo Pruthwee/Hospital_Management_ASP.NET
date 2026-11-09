@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hospitalm-mono
+  namespace: hospitalm-mono
+  labels:
+    app: hospitalm-mono
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hospitalm-mono
+  template:
+    metadata:
+      labels:
+        app: hospitalm-mono
+    spec:
+      nodeSelector:
+        kubernetes.io/os: windows
+      containers:
+        - name: hospitalm-mono
+          image: "{{IMAGE_URI}}"
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNET_ENVIRONMENT
+              value: "Production"
+            - name: DB_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: hospitalm-mono-secrets
+                  key: DB_CONNECTION_STRING
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: hospitalm-mono-secrets
+                  key: REDIS_HOST
+            - name: REDIS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hospitalm-mono-secrets
+                  key: REDIS_ACCESS_KEY
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
