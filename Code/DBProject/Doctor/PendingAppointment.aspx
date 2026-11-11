@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="PendingAppointment.aspx.cs" Inherits="doctor.pendingappointment" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="PendingAppointment.aspx.cs" Inherits="doctor.pendingappointment" Async="true" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">

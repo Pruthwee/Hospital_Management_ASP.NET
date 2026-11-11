@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="ManageClinic.aspx.cs" Inherits="DBProject.ManageClinic" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="ManageClinic.aspx.cs" Inherits="DBProject.ManageClinic" Async="true" %>
 
 <script runat="server">
 

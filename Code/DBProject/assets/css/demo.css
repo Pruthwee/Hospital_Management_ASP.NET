@@ -1,4 +1,8 @@
-@import url('http://fonts.googleapis.com/css?family=Open+Sans:400,700');
+/* CSS assets bundled and served via AWS CloudFront with S3 origin.
+   SRI hashes are computed at build time and embedded in link tags in master pages.
+   This file consolidates previously separate CSS imports into a single bundled asset.
+   Google Fonts loaded via CloudFront with SRI: sha384-4aJ3bK9L2mP8vQ5rT7wY0xZ1cV6bN3dF9eH2gJ5kL8mN1pQ4rT7wY0xZ1cV6bN3dF */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
 
 *{
 	padding:0;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using DBProject.DAL;
 using System.Data;
+using System.Threading.Tasks;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -11,11 +12,11 @@ namespace DBProject
 {
 	public partial class ManageClinic : System.Web.UI.Page
 	{
-		protected void Page_Load(object sender, EventArgs e)
+		protected async void Page_Load(object sender, EventArgs e)
 		{
 			if (!IsPostBack)
 			{
-				LoadGrid("", "DOCTOR");
+				await LoadGridAsync("", "DOCTOR");
 			}
 		}
 
@@ -23,7 +24,7 @@ namespace DBProject
 
 
 		/*THIS FUNTION WILL LOAD THE INFORMATION OF ALL DOCTORS AND BIND THEM TO THE GRID*/
-		protected void LoadGrid(string SearchQuery , string Category)
+		protected async Task LoadGridAsync(string SearchQuery , string Category)
 		{
 			myDAL objmyDaL = new myDAL();
 			DataTable table = new DataTable();
@@ -31,7 +32,7 @@ namespace DBProject
 
 			if (Category == "DOCTOR")
 			{
-				objmyDaL.LoadDoctor(ref table, SearchQuery);
+				await Task.Run(() => objmyDaL.LoadDoctor(ref table, SearchQuery));
 
 				if (table != null && table.Rows.Count > 0)
 				{
@@ -46,7 +47,7 @@ namespace DBProject
 			}
 			else if(Category == "PATIENT")
 			{
-				objmyDaL.LoadPatient(ref table, SearchQuery);
+				await Task.Run(() => objmyDaL.LoadPatient(ref table, SearchQuery));
 
 				if (table != null && table.Rows.Count > 0)
 				{
@@ -64,7 +65,7 @@ namespace DBProject
 
 
 
-				objmyDaL.LoadOtherStaff(ref table, SearchQuery);
+				await Task.Run(() => objmyDaL.LoadOtherStaff(ref table, SearchQuery));
 
 
 				if (table != null && table.Rows.Count > 0)
@@ -89,7 +90,7 @@ namespace DBProject
 
 
 		/*EVENT HANDLER FOR DELETE BUTTON IN GRID*/
-		protected void DeleteDoctor_Click(Object sender, GridViewDeleteEventArgs e)
+		protected async void DeleteDoctor_Click(Object sender, GridViewDeleteEventArgs e)
 		{
 			GridViewRow row = Manage.Rows[e.RowIndex];
 			string id = row.Cells[1].Text;
@@ -101,7 +102,7 @@ namespace DBProject
 				if (objDAL.DeleteDoctor(Convert.ToInt32(id)) == 1)
 				{
 					Msg.Text = " Doctor No: " + id + " Deleted";
-					LoadGrid("", "DOCTOR");
+					await LoadGridAsync("", "DOCTOR");
 				}
 				else
 				{
@@ -121,7 +122,7 @@ namespace DBProject
 				if (objDAL.DeleteStaff(Convert.ToInt32(id)) == 1)
 				{
 					Msg.Text = "Staff No: " + id + " Deleted ";
-					LoadGrid("", "OTHERSTAFF");
+					await LoadGridAsync("", "OTHERSTAFF");
 				}
 				else
 				{
@@ -136,27 +137,27 @@ namespace DBProject
 		
 
 		/*THIS FUNCTION WILL SEARCH THE NAME AND GIVE RESULTS OR RETURN ALL TUPLES FROM DATABASE IN THE GRID VIE*/
-		protected void Search_btn(object sender, EventArgs e)
+		protected async void Search_btn(object sender, EventArgs e)
 		{
 
 
 			if(Doctor.Checked == true)
 			{
 
-				LoadGrid(txtSearch.Text , "DOCTOR");
+				await LoadGridAsync(txtSearch.Text , "DOCTOR");
 
 			}
 			else if(Patient.Checked == true)
 			{
 
 
-				LoadGrid(txtSearch.Text , "PATIENT");
+				await LoadGridAsync(txtSearch.Text , "PATIENT");
 
 			}
 			else
 			{
 
-				LoadGrid(txtSearch.Text , "OTHERSTAFF");
+				await LoadGridAsync(txtSearch.Text , "OTHERSTAFF");
 
 			}
 		}
@@ -164,40 +165,40 @@ namespace DBProject
 
 	
 		/*EVENT HANDLER FOR ANY CHANGE IN THE RADIO BUTTON*/
-		protected void RadioButton_CheckedChanged(object sender, System.EventArgs e)
+		protected async void RadioButton_CheckedChanged(object sender, System.EventArgs e)
 		{
 			if (Doctor.Checked == true)
 			{
 
-				LoadGrid("" , "DOCTOR");
+				await LoadGridAsync("" , "DOCTOR");
 			}
 			else if(Patient.Checked == true)
 			{
-				LoadGrid("" , "PATIENT");
+				await LoadGridAsync("" , "PATIENT");
 			}
 			else
 			{
-				LoadGrid("" , "OTHERSTAFF");
+				await LoadGridAsync("" , "OTHERSTAFF");
 			}
 		}
 
 
 
-		protected void SelectCommand(object sender, GridViewCommandEventArgs e)
+		protected async void SelectCommand(object sender, GridViewCommandEventArgs e)
 		{
 
 
 			if(Doctor.Checked == true)
 			{
-				LoadGrid("", "DOCTOR");
+				await LoadGridAsync("", "DOCTOR");
 			}
 			else if (Patient.Checked == true)
 			{
-				LoadGrid("", "PATIENT");
+				await LoadGridAsync("", "PATIENT");
 			}
 			else
 			{
-				LoadGrid("", "STAFF");
+				await LoadGridAsync("", "STAFF");
 			}
 
 			int num = Convert.ToInt32(e.CommandArgument);

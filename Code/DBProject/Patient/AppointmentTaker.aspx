@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="AppointmentTaker.aspx.cs" Inherits="DBProject.AppointmentTaker" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Patient/PatientMaster.Master" AutoEventWireup="true" CodeBehind="AppointmentTaker.aspx.cs" Inherits="DBProject.AppointmentTaker" Async="true" %>
 
 
 

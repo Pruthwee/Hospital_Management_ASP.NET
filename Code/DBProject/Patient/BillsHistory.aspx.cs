@@ -6,21 +6,22 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
 using System.Data;
+using System.Threading.Tasks;
 
 
 namespace DBProject
 {
     public partial class BillsHistory : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
-            billHistory(sender, e);
+            await billHistoryAsync(sender, e);
         }
 
 
         //-----------------------Function1--------------------------//
 
-        protected void billHistory(object sender, EventArgs e)
+        protected async Task billHistoryAsync(object sender, EventArgs e)
         {
             myDAL objmyDAl = new myDAL();
 
@@ -30,7 +31,7 @@ namespace DBProject
             int id = (int)Session["idoriginal"];
 
 
-            int status = objmyDAl.getBillHistory(id, ref DT);
+            int status = await Task.Run(() => objmyDAl.getBillHistory(id, ref DT));
 
 
             if (status == -1)

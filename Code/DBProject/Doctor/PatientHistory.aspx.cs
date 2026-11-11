@@ -6,13 +6,14 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
 using System.Data;
+using System.Threading.Tasks;
 
 
 namespace doctor
 {
     public partial class patienthistory : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
                 myDAL objmydal = new myDAL();
                 DataTable dt = new DataTable();
@@ -20,7 +21,7 @@ namespace doctor
 
                 int did = (int)Session["idoriginal"];
 
-                found = objmydal.search_patient_DAL(did, ref dt);
+                found = await Task.Run(() => objmydal.search_patient_DAL(did, ref dt));
                 if (found != 1)
                 { Response.Write("<script>alert('There was some error');</script>"); }
                 else

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Threading.Tasks;
 using DBProject.DAL;
 
 namespace DBProject
@@ -12,14 +13,14 @@ namespace DBProject
 	public partial class AdminHome : System.Web.UI.Page
 	{
 
-		protected void Page_Load(object sender, EventArgs e)
+		protected async void Page_Load(object sender, EventArgs e)
 		{
-			GetAdminHomeInformation();
+			await GetAdminHomeInformationAsync();
 		}
 
 
 
-		public void GetAdminHomeInformation()
+		public async Task GetAdminHomeInformationAsync()
 		{
 			myDAL objmyDAL = new myDAL();
 
@@ -30,7 +31,7 @@ namespace DBProject
 			}
 
 
-			objmyDAL.GetAdminHomeInformation(ref arrTable);
+			await Task.Run(() => objmyDAL.GetAdminHomeInformation(ref arrTable));
 
 			Total_Doctors.Visible = TotalIncome.Visible = TotalPatients.Visible = true;
 
@@ -46,14 +47,6 @@ namespace DBProject
 
 			Appointment_view.DataSource = arrTable[4];
 			Appointment_view.DataBind();
-			
-
-
-
-
-
-
-
 		}
 
 	}

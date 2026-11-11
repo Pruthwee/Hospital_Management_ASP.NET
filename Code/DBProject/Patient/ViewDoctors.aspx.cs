@@ -6,16 +6,17 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
 using System.Data;
+using System.Threading.Tasks;
 
 
 namespace DBProject
 {
     public partial class ViewDoctors : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             Session["dID"] = "";
-            deptDoctorInfo(sender, e);
+            await deptDoctorInfoAsync(sender, e);
         }
 
         //---------------Function Called whenever a Doctor is selected from the Grid View----//
@@ -40,7 +41,7 @@ namespace DBProject
 
         //-----------------------Function1--------------------------//
 
-        protected void deptDoctorInfo(object sender, EventArgs e)
+        protected async Task deptDoctorInfoAsync(object sender, EventArgs e)
         {
             myDAL objmyDAl = new myDAL();
 
@@ -48,7 +49,7 @@ namespace DBProject
 
             string deptName = (string) Session["deptOriginal"];
 
-            int status = objmyDAl.getDeptDoctorInfo(deptName, ref DT);
+            int status = await Task.Run(() => objmyDAl.getDeptDoctorInfo(deptName, ref DT));
 
 
             if (status == -1)

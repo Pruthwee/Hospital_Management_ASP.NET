@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
 using System.Data;
+using System.Threading.Tasks;
 
 
 
@@ -13,15 +14,15 @@ namespace DBProject.Doctor
 {
     public partial class PreviousHistory : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
-            PatHistory(sender, e);
+            await PatHistoryAsync(sender, e);
         }
 
 
         //-----------------------Function1--------------------------//
 
-        protected void PatHistory(object sender, EventArgs e)
+        protected async Task PatHistoryAsync(object sender, EventArgs e)
         {
             myDAL objmyDAl = new myDAL();
 
@@ -31,7 +32,7 @@ namespace DBProject.Doctor
             int id = (int)Session["idoriginal"];
 
 
-            int status = objmyDAl.getPHistory(id, ref DT);
+            int status = await Task.Run(() => objmyDAl.getPHistory(id, ref DT));
 
 
             if (status == -1)

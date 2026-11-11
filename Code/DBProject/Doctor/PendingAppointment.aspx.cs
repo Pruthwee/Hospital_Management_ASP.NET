@@ -6,19 +6,20 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
 using System.Data;
+using System.Threading.Tasks;
 
 
 namespace doctor
 {
     public partial class pendingappointment : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
-                loadgrid();   
+                await loadgridAsync();   
         }
 
 
-        public void loadgrid()
+        public async Task loadgridAsync()
         {
                 myDAL objDAL = new myDAL();
                 
@@ -26,7 +27,7 @@ namespace doctor
 
                     DataTable DT = new DataTable();
 
-                objDAL.GetAllpendingappointments_DAL(did, ref DT);
+                await Task.Run(() => objDAL.GetAllpendingappointments_DAL(did, ref DT));
 
                 pendingappointments.DataSource = DT;
                 pendingappointments.DataBind();
@@ -38,7 +39,7 @@ namespace doctor
 
         
 
-        protected void update_appointment(Object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+        protected async void update_appointment(Object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
         {
 
             if (e.CommandName == "Select")
@@ -57,12 +58,12 @@ namespace doctor
                 int result = objmyDAL.UpdateAppointment_DAL(appointmentid);
                 //reload the page======================================================
                 pendingappointments.EditIndex = -1;
-                loadgrid();
+                await loadgridAsync();
             }
         }
 
 
-        protected void Delete_appointment(Object sender, GridViewDeleteEventArgs e)
+        protected async void Delete_appointment(Object sender, GridViewDeleteEventArgs e)
         {
             // Retrieve the row that raised the event from the Rows
             // collection of the GridView control.
@@ -77,7 +78,7 @@ namespace doctor
 
             if (objDAL.Deleteappointment_DAL(appointmentid) == 1)
             {  
-                loadgrid(); //reload the grid to show the modifications in table
+                await loadgridAsync(); //reload the grid to show the modifications in table
             }
         }
 

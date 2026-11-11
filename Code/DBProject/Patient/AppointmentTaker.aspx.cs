@@ -6,16 +6,17 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
 using System.Data;
+using System.Threading.Tasks;
 
 
 namespace DBProject
 {
     public partial class AppointmentTaker : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             Session["freeSlot"] = "";
-            freeSlots(sender, e);
+            await freeSlotsAsync(sender, e);
         }
 
 
@@ -42,7 +43,7 @@ namespace DBProject
 
         //-----------------------Function1--------------------------//
 
-        protected void freeSlots(object sender, EventArgs e)
+        protected async Task freeSlotsAsync(object sender, EventArgs e)
         {
             myDAL objmyDAl = new myDAL();
 
@@ -57,7 +58,7 @@ namespace DBProject
             int pID = (int)Session["idoriginal"];
 
             
-            int status = objmyDAl.getFreeSlots(dID, pID, ref DT);
+            int status = await Task.Run(() => objmyDAl.getFreeSlots(dID, pID, ref DT));
 
 
             if (status == -1)

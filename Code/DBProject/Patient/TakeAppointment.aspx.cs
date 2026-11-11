@@ -6,16 +6,17 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;
 using System.Data;
+using System.Threading.Tasks;
 
 
 namespace DBProject
 {
     public partial class TakeAppointment : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             Session["deptOriginal"] = "";
-            deptInfo(sender, e);
+            await deptInfoAsync(sender, e);
 
         }
 
@@ -41,14 +42,14 @@ namespace DBProject
 
         //-----------------------Function1--------------------------//
 
-        protected void deptInfo(object sender, EventArgs e)
+        protected async Task deptInfoAsync(object sender, EventArgs e)
         {
             myDAL objmyDAl = new myDAL();
 
             DataTable DT = new DataTable();
 
 
-            int status = objmyDAl.getdeptInfo(ref DT);
+            int status = await Task.Run(() => objmyDAl.getdeptInfo(ref DT));
 
 
             if (status == -1)
