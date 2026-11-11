@@ -1,6 +1,8 @@
 ﻿using System;
+// Cloud Readiness: Migrate to ASP.NET Core Razor Pages (cr-dotnet-0026)
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -15,7 +17,10 @@ namespace DBProject
         protected void Page_Load(object sender, EventArgs e)
         {
             Session["freeSlot"] = "";
-            freeSlots(sender, e);
+            if (!IsPostBack)
+            {
+                RegisterAsyncTask(new PageAsyncTask(freeSlotsAsync));
+            }
         }
 
 
@@ -42,42 +47,50 @@ namespace DBProject
 
         //-----------------------Function1--------------------------//
 
-        protected void freeSlots(object sender, EventArgs e)
+        protected async Task freeSlotsAsync()
         {
-            myDAL objmyDAl = new myDAL();
-
-            DataTable DT = new DataTable();
-
-
-            string dID1 = (string)Session["dID"];
-
-            int dID = Convert.ToInt32(dID1);
-
-
-            int pID = (int)Session["idoriginal"];
-
-            
-            int status = objmyDAl.getFreeSlots(dID, pID, ref DT);
-
-
-            if (status == -1)
+            await Task.Run(() =>
             {
-                PAppointment.Text = "There was some error in retrieving the Doctors's Free Slots.";
-            }
+                myDAL objmyDAl = new myDAL();
 
-            else if (status == 0)
-            {
-                PAppointment.Text = "There is currently no free slot of this doctor.";
-            }
+                DataTable DT = new DataTable();
 
-            else if (status > 0)
-            {
-                PAppointment.Text = "The following are the " + status  + " free slots of this doctor for today :";
-                PAppointmentGrid.DataSource = DT;
-                PAppointmentGrid.DataBind();
-            }
+
+                string dID1 = (string)Session["dID"];
+
+                int dID = Convert.ToInt32(dID1);
+
+
+                int pID = (int)Session["idoriginal"];
+
+                
+                int status = objmyDAl.getFreeSlots(dID, pID, ref DT);
+
+
+                if (status == -1)
+                {
+                    PAppointment.Text = "There was some error in retrieving the Doctors's Free Slots.";
+                }
+
+                else if (status == 0)
+                {
+                    PAppointment.Text = "There is currently no free slot of this doctor.";
+                }
+
+                else if (status > 0)
+                {
+                    PAppointment.Text = "The following are the " + status  + " free slots of this doctor for today :";
+                    PAppointmentGrid.DataSource = DT;
+                    PAppointmentGrid.DataBind();
+                }
+            });
 
             return;
+        }
+
+        protected void freeSlots(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(freeSlotsAsync));
         }
 
 

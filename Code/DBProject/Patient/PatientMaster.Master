@@ -1,4 +1,5 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PatientMaster.master.cs" Inherits="DBProject.PatientMaster" %>
+﻿<!-- Cloud Readiness: Migrate to ASP.NET Core Razor Pages (cr-dotnet-0026) -->
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PatientMaster.master.cs" Inherits="DBProject.PatientMaster" %>
 
 <!DOCTYPE html>
 
@@ -9,7 +10,8 @@
     <!--------------------------------- Styling -------------------------------->
 
     <!-- Google Fonts -->
-	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900' rel='stylesheet' type='text/css'/>
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900' rel='stylesheet' type='text/css' integrity='sha384-NUJ4AFfn8SS1u9XIk4LVz0pTutwMH8PRdZkn0+WmrsAIYk9vdvmZgogV6CbobsNK' crossorigin='anonymous'/>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css' integrity='sha384-ozba1OB7KpqCixXvh9RkkUe4c1XRxxGUdiDkYtwgOAs9ILpKQ7ss1o7dDnxWvCzG' crossorigin='anonymous'/>
 	
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
@@ -18,7 +20,7 @@
     <!-- Patient Style -->
     <link rel="stylesheet" href="/assets/css/patient-style.css"/>
    
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" integrity="sha384-8gBf6Y4YYq7Jx97PIqmTwLPin4hxIzQw5aDmUg/DDhul9fFpbbLcLh3nTIIDJKhx" crossorigin="anonymous"></script>
 
 
     <!------------------------------------Styling for Footer-------------------------------------->
@@ -30,9 +32,9 @@
 	<link rel="stylesheet" href="/assets/css/demo.css"/>
 	<link rel="stylesheet" href="/assets/css/footer-distributed-with-address-and-phones.css"/>
 	
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" integrity="sha384-CmLV3WR+cw/TcN50vJSYAs2EAzhDD77tQvGcmoZ1KEzxtpl2K5xkrpFz9N2H9ClN" crossorigin="anonymous"/>
 
-	<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css"/>
+	<link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css" integrity="sha384-mZV933OilHT/J1KAREiK5LRQWw3jnx6X91I+BT/k9J0pw/UxlcHTdbNBE4dziI28" crossorigin="anonymous"/>
 
 
 

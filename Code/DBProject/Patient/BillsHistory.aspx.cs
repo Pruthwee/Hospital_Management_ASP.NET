@@ -1,6 +1,8 @@
 ﻿using System;
+// Cloud Readiness: Migrate to ASP.NET Core Razor Pages (cr-dotnet-0026)
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -14,43 +16,54 @@ namespace DBProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            billHistory(sender, e);
+            if (!IsPostBack)
+            {
+                RegisterAsyncTask(new PageAsyncTask(billHistoryAsync));
+            }
         }
 
 
         //-----------------------Function1--------------------------//
 
-        protected void billHistory(object sender, EventArgs e)
+        protected async Task billHistoryAsync()
         {
-            myDAL objmyDAl = new myDAL();
-
-            DataTable DT = new DataTable();
-
-
-            int id = (int)Session["idoriginal"];
-
-
-            int status = objmyDAl.getBillHistory(id, ref DT);
-
-
-            if (status == -1)
+            await Task.Run(() =>
             {
-                BHistory.Text = "There was some error in retrieving the Patient's Bill History.";
-            }
+                myDAL objmyDAl = new myDAL();
 
-            else if (status == 0)
-            {
-                BHistory.Text = "There is currently no bill history of yours.";
-            }
+                DataTable DT = new DataTable();
 
-            else
-            {
-                BHistory.Text = status + " Bill(s) are found: ";
-                BHistoryGrid.DataSource = DT;
-                BHistoryGrid.DataBind();
-            }
+
+                int id = (int)Session["idoriginal"];
+
+
+                int status = objmyDAl.getBillHistory(id, ref DT);
+
+
+                if (status == -1)
+                {
+                    BHistory.Text = "There was some error in retrieving the Patient's Bill History.";
+                }
+
+                else if (status == 0)
+                {
+                    BHistory.Text = "There is currently no bill history of yours.";
+                }
+
+                else
+                {
+                    BHistory.Text = status + " Bill(s) are found: ";
+                    BHistoryGrid.DataSource = DT;
+                    BHistoryGrid.DataBind();
+                }
+            });
 
             return;
+        }
+
+        protected void billHistory(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(billHistoryAsync));
         }
 
 

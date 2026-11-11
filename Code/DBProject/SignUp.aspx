@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SignUp.aspx.cs" Inherits="DBProject.SignUp" %>
+﻿<!-- Cloud Readiness: Migrate to ASP.NET Core Razor Pages (cr-dotnet-0026) -->
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SignUp.aspx.cs" Inherits="DBProject.SignUp" %>
 
 <!DOCTYPE html>
 
@@ -149,7 +150,7 @@
 
 
     <!-- CSS -->
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500" integrity="sha384-EZQT7DEdjkHK91vHxkgTp7K/4Md2ku8b9CI4xsxbfGyw84/2uykBeVj6W82IADr2" crossorigin="anonymous"/>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="assets/css/form-elements.css"/>

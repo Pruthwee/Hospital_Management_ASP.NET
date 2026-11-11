@@ -1,6 +1,8 @@
 ﻿using System;
+// Cloud Readiness: Migrate to ASP.NET Core Razor Pages (cr-dotnet-0026)
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using DBProject.DAL;
 using System.Data;
@@ -15,7 +17,7 @@ namespace DBProject
 		{
 			if (!IsPostBack)
 			{
-				LoadGrid("", "DOCTOR");
+				RegisterAsyncTask(new PageAsyncTask(() => LoadGridAsync("", "DOCTOR")));
 			}
 		}
 
@@ -23,66 +25,75 @@ namespace DBProject
 
 
 		/*THIS FUNTION WILL LOAD THE INFORMATION OF ALL DOCTORS AND BIND THEM TO THE GRID*/
-		protected void LoadGrid(string SearchQuery , string Category)
+		protected async Task LoadGridAsync(string SearchQuery , string Category)
 		{
-			myDAL objmyDaL = new myDAL();
-			DataTable table = new DataTable();
+			await Task.Run(() =>
+			{
+				myDAL objmyDaL = new myDAL();
+				DataTable table = new DataTable();
 		
 
-			if (Category == "DOCTOR")
-			{
-				objmyDaL.LoadDoctor(ref table, SearchQuery);
-
-				if (table != null && table.Rows.Count > 0)
+				if (Category == "DOCTOR")
 				{
+					objmyDaL.LoadDoctor(ref table, SearchQuery);
+
+					if (table != null && table.Rows.Count > 0)
+					{
 					
-					Manage.DataSource = table;
-					Manage.DataBind();
+						Manage.DataSource = table;
+						Manage.DataBind();
+					}
+					else
+					{
+						Msg.Text = "No Doctors to show";
+					}
 				}
-				else
+				else if(Category == "PATIENT")
 				{
-					Msg.Text = "No Doctors to show";
-				}
-			}
-			else if(Category == "PATIENT")
-			{
-				objmyDaL.LoadPatient(ref table, SearchQuery);
+					objmyDaL.LoadPatient(ref table, SearchQuery);
 
-				if (table != null && table.Rows.Count > 0)
-				{
+					if (table != null && table.Rows.Count > 0)
+					{
 					
-					Manage.DataSource = table;
-					Manage.DataBind();
+						Manage.DataSource = table;
+						Manage.DataBind();
+					}
+					else
+					{
+						Msg.Text = "No Pateints to show";
+					}
 				}
 				else
 				{
-					Msg.Text = "No Pateints to show";
+
+
+
+					objmyDaL.LoadOtherStaff(ref table, SearchQuery);
+
+
+					if (table != null && table.Rows.Count > 0)
+					{
+
+						Manage.DataSource = table;
+						Manage.Caption = "Other Staff Table:";
+						Manage.DataBind();
+					}
+					else
+					{
+						Msg.Text = "No Staff Member to show";
+					}
 				}
-			}
-			else
-			{
-
-
-
-				objmyDaL.LoadOtherStaff(ref table, SearchQuery);
-
-
-				if (table != null && table.Rows.Count > 0)
-				{
-
-					Manage.DataSource = table;
-					Manage.Caption = "Other Staff Table:";
-					Manage.DataBind();
-				}
-				else
-				{
-					Msg.Text = "No Staff Member to show";
-				}
-			}
+			});
 
 
 
 
+		}
+
+		/*EVENT HANDLER FOR DELETE BUTTON IN GRID*/
+		protected void LoadGrid(string SearchQuery, string Category)
+		{
+			RegisterAsyncTask(new PageAsyncTask(() => LoadGridAsync(SearchQuery, Category)));
 		}
 
 

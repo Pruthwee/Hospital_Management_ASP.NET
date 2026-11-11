@@ -1,6 +1,8 @@
 ﻿using System;
+// Cloud Readiness: Migrate to ASP.NET Core Razor Pages (cr-dotnet-0026)
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -14,46 +16,44 @@ namespace DBProject
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			GetAdminHomeInformation();
+			if (!IsPostBack)
+			{
+				RegisterAsyncTask(new PageAsyncTask(GetAdminHomeInformationAsync));
+			}
 		}
 
 
 
-		public void GetAdminHomeInformation()
+		public async Task GetAdminHomeInformationAsync()
 		{
-			myDAL objmyDAL = new myDAL();
-
-			DataTable[] arrTable = new DataTable[5];
-			for (int i = 0; i < 5; i++)
+			await Task.Run(() =>
 			{
-				arrTable[i] = new DataTable();
-			}
+				myDAL objmyDAL = new myDAL();
+
+				DataTable[] arrTable = new DataTable[5];
+				for (int i = 0; i < 5; i++)
+				{
+					arrTable[i] = new DataTable();
+				}
 
 
-			objmyDAL.GetAdminHomeInformation(ref arrTable);
+				objmyDAL.GetAdminHomeInformation(ref arrTable);
 
-			Total_Doctors.Visible = TotalIncome.Visible = TotalPatients.Visible = true;
+				Total_Doctors.Visible = TotalIncome.Visible = TotalPatients.Visible = true;
 
-			Total_Doctors.Text = arrTable[0].Rows[0][0].ToString();
-			TotalPatients.Text = arrTable[1].Rows[0][0].ToString();
-			TotalIncome.Text = arrTable[2].Rows[0][0].ToString();
-
-
-
-			department_View.DataSource = arrTable[3];
-			department_View.DataBind();
-
-
-			Appointment_view.DataSource = arrTable[4];
-			Appointment_view.DataBind();
-			
+				Total_Doctors.Text = arrTable[0].Rows[0][0].ToString();
+				TotalPatients.Text = arrTable[1].Rows[0][0].ToString();
+				TotalIncome.Text = arrTable[2].Rows[0][0].ToString();
 
 
 
+				department_View.DataSource = arrTable[3];
+				department_View.DataBind();
 
 
-
-
+				Appointment_view.DataSource = arrTable[4];
+				Appointment_view.DataBind();
+			});
 		}
 
 	}

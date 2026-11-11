@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DBProject</RootNamespace>
     <AssemblyName>DBProject</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -93,6 +93,18 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.Core" Version="4.0.103" />
+    <PackageReference Include="AWSSDK.S3" Version="4.0.104.12" />
+    <PackageReference Include="AWSSDK.SecretsManager" Version="4.0.100.26" />
+    <PackageReference Include="AWSSDK.SimpleSystemsManagement" Version="4.0.105.1" />
+    <PackageReference Include="AWSSDK.RDS" Version="4.0.108.3" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="4.0.102.11" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.Web.RedisSessionStateProvider" Version="5.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.15" />
+    <PackageReference Include="StackExchange.Redis" Version="3.4.31" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\AddStaff.aspx" />
@@ -283,6 +295,7 @@
     <Compile Include="Patient\PatientNotifications.aspx.designer.cs">
       <DependentUpon>PatientNotifications.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CspHttpModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignUp.aspx.cs">
       <DependentUpon>SignUp.aspx</DependentUpon>

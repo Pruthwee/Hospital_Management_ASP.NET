@@ -1,4 +1,5 @@
-﻿ <%@ Page Language="C#" AutoEventWireup="true" UnobtrusiveValidationMode="None"  CodeBehind ="DoctorRegistrationForm.aspx.cs" Inherits="DB_Project.DoctorRegistrationForm" %>
+﻿ <!-- Cloud Readiness: Migrate to ASP.NET Core Razor Pages (cr-dotnet-0026) -->
+<%@ Page Language="C#" AutoEventWireup="true" UnobtrusiveValidationMode="None"  CodeBehind ="DoctorRegistrationForm.aspx.cs" Inherits="DB_Project.DoctorRegistrationForm" %>
 
 <!DOCTYPE html>
 
@@ -49,7 +50,7 @@
         
         
         
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500" integrity="sha384-9TlBLawQU7Qj0ffe1t+A7FcQovm5c9qy8tHGUjjRQtkCt+m63uxE1Hb96GSTOkYh" crossorigin="anonymous"/>
         <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="/assets/css/form-elements.css"/>

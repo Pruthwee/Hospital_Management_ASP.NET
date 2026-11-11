@@ -1,4 +1,5 @@
 ﻿using System;
+// Cloud Readiness: Migrate to ASP.NET Core Razor Pages (cr-dotnet-0026)
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DBProject.DAL;

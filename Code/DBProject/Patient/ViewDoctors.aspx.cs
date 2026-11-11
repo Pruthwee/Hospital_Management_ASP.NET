@@ -1,6 +1,8 @@
 ﻿using System;
+// Cloud Readiness: Migrate to ASP.NET Core Razor Pages (cr-dotnet-0026)
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -15,7 +17,10 @@ namespace DBProject
         protected void Page_Load(object sender, EventArgs e)
         {
             Session["dID"] = "";
-            deptDoctorInfo(sender, e);
+            if (!IsPostBack)
+            {
+                RegisterAsyncTask(new PageAsyncTask(deptDoctorInfoAsync));
+            }
         }
 
         //---------------Function Called whenever a Doctor is selected from the Grid View----//
@@ -40,30 +45,38 @@ namespace DBProject
 
         //-----------------------Function1--------------------------//
 
-        protected void deptDoctorInfo(object sender, EventArgs e)
+        protected async Task deptDoctorInfoAsync()
         {
-            myDAL objmyDAl = new myDAL();
-
-            DataTable DT = new DataTable();
-
-            string deptName = (string) Session["deptOriginal"];
-
-            int status = objmyDAl.getDeptDoctorInfo(deptName, ref DT);
-
-
-            if (status == -1)
+            await Task.Run(() =>
             {
-                TDoctor.Text = "There was some error in retrieving the Doctors Information.";
-            }
+                myDAL objmyDAl = new myDAL();
 
-            else
-            {
-                TDoctor.Text = "Following are our Specialized Doctors of " + Session["deptOriginal"] + " Department:";
-                TDoctorGrid.DataSource = DT;
-                TDoctorGrid.DataBind();
-            }
+                DataTable DT = new DataTable();
+
+                string deptName = (string) Session["deptOriginal"];
+
+                int status = objmyDAl.getDeptDoctorInfo(deptName, ref DT);
+
+
+                if (status == -1)
+                {
+                    TDoctor.Text = "There was some error in retrieving the Doctors Information.";
+                }
+
+                else
+                {
+                    TDoctor.Text = "Following are our Specialized Doctors of " + Session["deptOriginal"] + " Department:";
+                    TDoctorGrid.DataSource = DT;
+                    TDoctorGrid.DataBind();
+                }
+            });
 
             return;
+        }
+
+        protected void deptDoctorInfo(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(deptDoctorInfoAsync));
         }
 
 

@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="Bill.aspx.cs" Inherits="doctor.bill" %>
+﻿<!-- Cloud Readiness: Migrate to ASP.NET Core Razor Pages (cr-dotnet-0026) -->
+<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="Bill.aspx.cs" Inherits="doctor.bill" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 

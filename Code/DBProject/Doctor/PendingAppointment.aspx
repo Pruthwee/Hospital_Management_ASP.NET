@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="PendingAppointment.aspx.cs" Inherits="doctor.pendingappointment" %>
+﻿<!-- Cloud Readiness: Migrate to ASP.NET Core Razor Pages (cr-dotnet-0026) -->
+<%@ Page Async="true"  Title="" Language="C#" MasterPageFile="~/Doctor/doctormaster.Master" AutoEventWireup="true" CodeBehind="PendingAppointment.aspx.cs" Inherits="doctor.pendingappointment" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">

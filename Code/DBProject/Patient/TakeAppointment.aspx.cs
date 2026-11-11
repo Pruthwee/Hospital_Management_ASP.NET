@@ -1,6 +1,8 @@
 ﻿using System;
+// Cloud Readiness: Migrate to ASP.NET Core Razor Pages (cr-dotnet-0026)
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -15,8 +17,10 @@ namespace DBProject
         protected void Page_Load(object sender, EventArgs e)
         {
             Session["deptOriginal"] = "";
-            deptInfo(sender, e);
-
+            if (!IsPostBack)
+            {
+                RegisterAsyncTask(new PageAsyncTask(deptInfoAsync));
+            }
         }
 
         //---------------Function Called whenever a Department is selected from the Grid View----//
@@ -41,29 +45,37 @@ namespace DBProject
 
         //-----------------------Function1--------------------------//
 
-        protected void deptInfo(object sender, EventArgs e)
+        protected async Task deptInfoAsync()
         {
-            myDAL objmyDAl = new myDAL();
-
-            DataTable DT = new DataTable();
-
-
-            int status = objmyDAl.getdeptInfo(ref DT);
-
-
-            if (status == -1)
+            await Task.Run(() =>
             {
-                TDept.Text = "There was some error in retrieving the Departments Information.";
-            }
+                myDAL objmyDAl = new myDAL();
 
-            else
-            {
-                TDept.Text = "Following are the departments available at our Clinic : ";
-                TDeptGrid.DataSource = DT;
-                TDeptGrid.DataBind();
-            }
+                DataTable DT = new DataTable();
+
+
+                int status = objmyDAl.getdeptInfo(ref DT);
+
+
+                if (status == -1)
+                {
+                    TDept.Text = "There was some error in retrieving the Departments Information.";
+                }
+
+                else
+                {
+                    TDept.Text = "Following are the departments available at our Clinic : ";
+                    TDeptGrid.DataSource = DT;
+                    TDeptGrid.DataBind();
+                }
+            });
 
             return;
+        }
+
+        protected void deptInfo(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(deptInfoAsync));
         }
 
 

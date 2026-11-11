@@ -1,6 +1,8 @@
 ﻿using System;
+// Cloud Readiness: Migrate to ASP.NET Core Razor Pages (cr-dotnet-0026)
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -14,23 +16,33 @@ namespace doctor
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-                loadgrid();   
+                if (!IsPostBack)
+                {
+                        RegisterAsyncTask(new PageAsyncTask(loadgridAsync));
+                }
         }
 
 
+        public async Task loadgridAsync()
+        {
+                await Task.Run(() =>
+                {
+                        myDAL objDAL = new myDAL();
+                
+                        int did = (int)Session["idoriginal"];
+
+                        DataTable DT = new DataTable();
+
+                        objDAL.GetAllpendingappointments_DAL(did, ref DT);
+
+                        pendingappointments.DataSource = DT;
+                        pendingappointments.DataBind();
+                });
+        }
+
         public void loadgrid()
         {
-                myDAL objDAL = new myDAL();
-                
-               int did = (int)Session["idoriginal"];
-
-                    DataTable DT = new DataTable();
-
-                objDAL.GetAllpendingappointments_DAL(did, ref DT);
-
-                pendingappointments.DataSource = DT;
-                pendingappointments.DataBind();
-               
+                RegisterAsyncTask(new PageAsyncTask(loadgridAsync));
         }
 
 
