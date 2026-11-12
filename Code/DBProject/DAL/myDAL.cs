@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 
  
 namespace DBProject.DAL
+using System.Data.Entity;
 {
 	//Database Layer of 3 tier architecture
 	public class myDAL

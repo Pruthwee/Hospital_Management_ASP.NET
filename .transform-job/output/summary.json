@@ -1,0 +1,2756 @@
+{
+  "executiveSummary": {
+    "blockerTypes": 11,
+    "totalRulesProcessed": 11,
+    "totalViolations": 267,
+    "violationsResolved": 40,
+    "violationsFailed": 227,
+    "filesModified": 54,
+    "successRate": 15,
+    "description": "Fixed 40 blockers (cr-dotnet-0010, cr-dotnet-0025, cr-dotnet-0013) by updating target framework, removing Web.config transforms, and wrapping SqlConnection with using blocks and EF Core using. 227 legacy .NET Framework blockers (CSS, Web Forms, session, CSP, JS) could not be fully remediated without major architecture rewrites; build not executed because project targets .NET Framework 4.5.2 on Linux image. Added safe logging config not needed (no new cloud SDK added)."
+  },
+  "rulesResults": [
+    {
+      "ruleId": "cr-css-1000",
+      "ruleName": "External Stylesheets Without SRI from CDN",
+      "filesImpacted": 1,
+      "violations": 1,
+      "success": 0,
+      "failed": 1
+    },
+    {
+      "ruleId": "cr-css-1006",
+      "ruleName": "Multiple CSS Files Not Concatenated or HTTP/2",
+      "filesImpacted": 2,
+      "violations": 2,
+      "success": 0,
+      "failed": 2
+    },
+    {
+      "ruleId": "cr-dotnet-0010",
+      "ruleName": "Web.config Transformations",
+      "filesImpacted": 3,
+      "violations": 3,
+      "success": 3,
+      "failed": 0
+    },
+    {
+      "ruleId": "cr-dotnet-0013",
+      "ruleName": "SqlConnection Direct Usage",
+      "filesImpacted": 1,
+      "violations": 36,
+      "success": 36,
+      "failed": 0
+    },
+    {
+      "ruleId": "cr-dotnet-0025",
+      "ruleName": ".NET Framework < 4.6.1",
+      "filesImpacted": 1,
+      "violations": 1,
+      "success": 1,
+      "failed": 0
+    },
+    {
+      "ruleId": "cr-dotnet-0026",
+      "ruleName": "Web Forms Usage",
+      "filesImpacted": 51,
+      "violations": 129,
+      "success": 0,
+      "failed": 129
+    },
+    {
+      "ruleId": "cr-dotnet-0045",
+      "ruleName": "Session State Provider",
+      "filesImpacted": 18,
+      "violations": 39,
+      "success": 0,
+      "failed": 39
+    },
+    {
+      "ruleId": "cr-dotnet-0126",
+      "ruleName": "Heavy Coupling to Stateful Middleware",
+      "filesImpacted": 6,
+      "violations": 12,
+      "success": 0,
+      "failed": 12
+    },
+    {
+      "ruleId": "cr-dotnet-1034",
+      "ruleName": "Synchronous Data Binding in GridView Controls",
+      "filesImpacted": 29,
+      "violations": 42,
+      "success": 0,
+      "failed": 42
+    },
+    {
+      "ruleId": "cr-dotnet-1041",
+      "ruleName": "Missing Content Security Policy Headers",
+      "filesImpacted": 1,
+      "violations": 1,
+      "success": 0,
+      "failed": 1
+    },
+    {
+      "ruleId": "cr-js-0021",
+      "ruleName": "Callback Hell",
+      "filesImpacted": 1,
+      "violations": 1,
+      "success": 0,
+      "failed": 1
+    }
+  ],
+  "customRulesResult": [],
+  "fileModifications": [
+    {
+      "filePath": "Code/DBProject/Admin/AddStaff.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-39, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Admin/AddStaff.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 4,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-40, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-41, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-42, cr-dotnet-0026, line 11: not rebuilt (legacy .NET Framework)",
+        "blocker-43, cr-dotnet-0026, line 13: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Admin/Admin.Master",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-44, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Admin/Admin.Master.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 4,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-45, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-46, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-47, cr-dotnet-0026, line 10: not rebuilt (legacy .NET Framework)",
+        "blocker-48, cr-dotnet-0026, line 12: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Admin/AdminHome.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-49, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Admin/AdminHome.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 6,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-50, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-51, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-52, cr-dotnet-0026, line 12: not rebuilt (legacy .NET Framework)",
+        "blocker-53, cr-dotnet-0026, line 15: not rebuilt (legacy .NET Framework)",
+        "blocker-219, cr-dotnet-1034, line 44: not rebuilt (legacy .NET Framework)",
+        "blocker-220, cr-dotnet-1034, line 48: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Admin/AdminHome.aspx.designer.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 2,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-221, cr-dotnet-1034, line 49: not rebuilt (legacy .NET Framework)",
+        "blocker-222, cr-dotnet-1034, line 58: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Admin/DoctorRegistrationForm.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-54, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Admin/DoctorRegistrationForm.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 4,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-55, cr-dotnet-0026, line 2: not rebuilt (legacy .NET Framework)",
+        "blocker-56, cr-dotnet-0026, line 3: not rebuilt (legacy .NET Framework)",
+        "blocker-57, cr-dotnet-0026, line 8: not rebuilt (legacy .NET Framework)",
+        "blocker-58, cr-dotnet-0026, line 10: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 3,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-59, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)",
+        "blocker-223, cr-dotnet-1034, line 85: not rebuilt (legacy .NET Framework)",
+        "blocker-224, cr-dotnet-1034, line 104: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 8,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-60, cr-dotnet-0026, line 7: not rebuilt (legacy .NET Framework)",
+        "blocker-61, cr-dotnet-0026, line 8: not rebuilt (legacy .NET Framework)",
+        "blocker-62, cr-dotnet-0026, line 12: not rebuilt (legacy .NET Framework)",
+        "blocker-63, cr-dotnet-0026, line 14: not rebuilt (legacy .NET Framework)",
+        "blocker-64, cr-dotnet-0026, line 16: not rebuilt (legacy .NET Framework)",
+        "blocker-225, cr-dotnet-1034, line 40: not rebuilt (legacy .NET Framework)",
+        "blocker-226, cr-dotnet-1034, line 55: not rebuilt (legacy .NET Framework)",
+        "blocker-227, cr-dotnet-1034, line 75: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx.designer.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-228, cr-dotnet-1034, line 67: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Clinic Management System.csproj",
+      "violationsFixed": 1,
+      "violationsFailed": 0,
+      "fixedDetails": [
+        "blocker-38, cr-dotnet-0025, line 18: fixed per chosen remediation"
+      ],
+      "failedDetails": []
+    },
+    {
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "violationsFixed": 37,
+      "violationsFailed": 2,
+      "fixedDetails": [
+        "blocker-2, cr-dotnet-0013, line 36: fixed per chosen remediation",
+        "blocker-3, cr-dotnet-0013, line 91: fixed per chosen remediation",
+        "blocker-4, cr-dotnet-0013, line 168: fixed per chosen remediation",
+        "blocker-5, cr-dotnet-0013, line 201: fixed per chosen remediation",
+        "blocker-6, cr-dotnet-0013, line 252: fixed per chosen remediation",
+        "blocker-7, cr-dotnet-0013, line 307: fixed per chosen remediation",
+        "blocker-8, cr-dotnet-0013, line 340: fixed per chosen remediation",
+        "blocker-9, cr-dotnet-0013, line 366: fixed per chosen remediation",
+        "blocker-10, cr-dotnet-0013, line 390: fixed per chosen remediation",
+        "blocker-11, cr-dotnet-0013, line 427: fixed per chosen remediation",
+        "blocker-12, cr-dotnet-0013, line 460: fixed per chosen remediation",
+        "blocker-13, cr-dotnet-0013, line 488: fixed per chosen remediation",
+        "blocker-14, cr-dotnet-0013, line 557: fixed per chosen remediation",
+        "blocker-15, cr-dotnet-0013, line 632: fixed per chosen remediation",
+        "blocker-16, cr-dotnet-0013, line 698: fixed per chosen remediation",
+        "blocker-17, cr-dotnet-0013, line 765: fixed per chosen remediation",
+        "blocker-18, cr-dotnet-0013, line 823: fixed per chosen remediation",
+        "blocker-19, cr-dotnet-0013, line 885: fixed per chosen remediation",
+        "blocker-20, cr-dotnet-0013, line 935: fixed per chosen remediation",
+        "blocker-21, cr-dotnet-0013, line 975: fixed per chosen remediation",
+        "blocker-22, cr-dotnet-0013, line 1030: fixed per chosen remediation",
+        "blocker-23, cr-dotnet-0013, line 1109: fixed per chosen remediation",
+        "blocker-24, cr-dotnet-0013, line 1164: fixed per chosen remediation",
+        "blocker-25, cr-dotnet-0013, line 1221: fixed per chosen remediation",
+        "blocker-26, cr-dotnet-0013, line 1288: fixed per chosen remediation",
+        "blocker-27, cr-dotnet-0013, line 1354: fixed per chosen remediation",
+        "blocker-28, cr-dotnet-0013, line 1422: fixed per chosen remediation",
+        "blocker-29, cr-dotnet-0013, line 1465: fixed per chosen remediation",
+        "blocker-30, cr-dotnet-0013, line 1505: fixed per chosen remediation",
+        "blocker-31, cr-dotnet-0013, line 1536: fixed per chosen remediation",
+        "blocker-32, cr-dotnet-0013, line 1573: fixed per chosen remediation",
+        "blocker-33, cr-dotnet-0013, line 1620: fixed per chosen remediation",
+        "blocker-34, cr-dotnet-0013, line 1656: fixed per chosen remediation",
+        "blocker-35, cr-dotnet-0013, line 1698: fixed per chosen remediation",
+        "blocker-36, cr-dotnet-0013, line 1717: fixed per chosen remediation",
+        "blocker-37, cr-dotnet-0013, line 1736: fixed per chosen remediation",
+        "blocker-265, cr-dotnet-0010, line 18: fixed per chosen remediation"
+      ],
+      "failedDetails": [
+        "blocker-65, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-66, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/Bill.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-67, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/Bill.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 9,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-68, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-69, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-70, cr-dotnet-0026, line 12: not rebuilt (legacy .NET Framework)",
+        "blocker-71, cr-dotnet-0026, line 14: not rebuilt (legacy .NET Framework)",
+        "blocker-168, cr-dotnet-0045, line 21: not rebuilt (legacy .NET Framework)",
+        "blocker-169, cr-dotnet-0045, line 38: not rebuilt (legacy .NET Framework)",
+        "blocker-170, cr-dotnet-0045, line 39: not rebuilt (legacy .NET Framework)",
+        "blocker-171, cr-dotnet-0045, line 51: not rebuilt (legacy .NET Framework)",
+        "blocker-172, cr-dotnet-0045, line 52: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/DoctorHome.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-72, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/DoctorHome.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 5,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-73, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-74, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-75, cr-dotnet-0026, line 14: not rebuilt (legacy .NET Framework)",
+        "blocker-76, cr-dotnet-0026, line 16: not rebuilt (legacy .NET Framework)",
+        "blocker-173, cr-dotnet-0045, line 21: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/DoctorMaster.Master",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-77, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/DoctorMaster.Master.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 4,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-78, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-79, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-80, cr-dotnet-0026, line 10: not rebuilt (legacy .NET Framework)",
+        "blocker-81, cr-dotnet-0026, line 12: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/HistoryUpdate.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-82, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/HistoryUpdate.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 6,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-83, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-84, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-85, cr-dotnet-0026, line 12: not rebuilt (legacy .NET Framework)",
+        "blocker-86, cr-dotnet-0026, line 14: not rebuilt (legacy .NET Framework)",
+        "blocker-174, cr-dotnet-0045, line 23: not rebuilt (legacy .NET Framework)",
+        "blocker-175, cr-dotnet-0045, line 28: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 3,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-87, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)",
+        "blocker-229, cr-dotnet-1034, line 23: not rebuilt (legacy .NET Framework)",
+        "blocker-230, cr-dotnet-1034, line 41: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 8,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-88, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-89, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-90, cr-dotnet-0026, line 13: not rebuilt (legacy .NET Framework)",
+        "blocker-91, cr-dotnet-0026, line 15: not rebuilt (legacy .NET Framework)",
+        "blocker-176, cr-dotnet-0045, line 21: not rebuilt (legacy .NET Framework)",
+        "blocker-177, cr-dotnet-0045, line 46: not rebuilt (legacy .NET Framework)",
+        "blocker-207, cr-dotnet-0126, line 46: not rebuilt (legacy .NET Framework)",
+        "blocker-231, cr-dotnet-1034, line 29: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx.designer.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-232, cr-dotnet-1034, line 22: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/PendingAppointment.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 3,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-92, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)",
+        "blocker-233, cr-dotnet-1034, line 22: not rebuilt (legacy .NET Framework)",
+        "blocker-234, cr-dotnet-1034, line 40: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/PendingAppointment.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 6,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-93, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-94, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-95, cr-dotnet-0026, line 13: not rebuilt (legacy .NET Framework)",
+        "blocker-96, cr-dotnet-0026, line 15: not rebuilt (legacy .NET Framework)",
+        "blocker-178, cr-dotnet-0045, line 25: not rebuilt (legacy .NET Framework)",
+        "blocker-235, cr-dotnet-1034, line 32: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/PendingAppointment.aspx.designer.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-236, cr-dotnet-1034, line 22: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/PreviousHistory.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 3,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-97, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)",
+        "blocker-237, cr-dotnet-1034, line 24: not rebuilt (legacy .NET Framework)",
+        "blocker-238, cr-dotnet-1034, line 50: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/PreviousHistory.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 6,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-98, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-99, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-100, cr-dotnet-0026, line 14: not rebuilt (legacy .NET Framework)",
+        "blocker-101, cr-dotnet-0026, line 16: not rebuilt (legacy .NET Framework)",
+        "blocker-179, cr-dotnet-0045, line 31: not rebuilt (legacy .NET Framework)",
+        "blocker-239, cr-dotnet-1034, line 46: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Doctor/PreviousHistory.aspx.designer.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-240, cr-dotnet-1034, line 31: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/AppointmentRequestSent.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-102, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/AppointmentRequestSent.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 7,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-103, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-104, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-105, cr-dotnet-0026, line 14: not rebuilt (legacy .NET Framework)",
+        "blocker-106, cr-dotnet-0026, line 16: not rebuilt (legacy .NET Framework)",
+        "blocker-180, cr-dotnet-0045, line 28: not rebuilt (legacy .NET Framework)",
+        "blocker-181, cr-dotnet-0045, line 33: not rebuilt (legacy .NET Framework)",
+        "blocker-182, cr-dotnet-0045, line 36: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 3,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-107, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)",
+        "blocker-241, cr-dotnet-1034, line 27: not rebuilt (legacy .NET Framework)",
+        "blocker-242, cr-dotnet-1034, line 55: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 11,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-108, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-109, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-110, cr-dotnet-0026, line 13: not rebuilt (legacy .NET Framework)",
+        "blocker-111, cr-dotnet-0026, line 15: not rebuilt (legacy .NET Framework)",
+        "blocker-183, cr-dotnet-0045, line 17: not rebuilt (legacy .NET Framework)",
+        "blocker-184, cr-dotnet-0045, line 33: not rebuilt (legacy .NET Framework)",
+        "blocker-185, cr-dotnet-0045, line 52: not rebuilt (legacy .NET Framework)",
+        "blocker-186, cr-dotnet-0045, line 57: not rebuilt (legacy .NET Framework)",
+        "blocker-208, cr-dotnet-0126, line 17: not rebuilt (legacy .NET Framework)",
+        "blocker-209, cr-dotnet-0126, line 33: not rebuilt (legacy .NET Framework)",
+        "blocker-243, cr-dotnet-1034, line 77: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.designer.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-244, cr-dotnet-1034, line 31: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/BillsHistory.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 3,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-112, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)",
+        "blocker-245, cr-dotnet-1034, line 25: not rebuilt (legacy .NET Framework)",
+        "blocker-246, cr-dotnet-1034, line 51: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/BillsHistory.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 6,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-113, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-114, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-115, cr-dotnet-0026, line 13: not rebuilt (legacy .NET Framework)",
+        "blocker-116, cr-dotnet-0026, line 15: not rebuilt (legacy .NET Framework)",
+        "blocker-187, cr-dotnet-0045, line 30: not rebuilt (legacy .NET Framework)",
+        "blocker-247, cr-dotnet-1034, line 50: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/BillsHistory.aspx.designer.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-248, cr-dotnet-1034, line 31: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/CurrentAppointment.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-117, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/CurrentAppointment.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 5,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-118, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-119, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-120, cr-dotnet-0026, line 13: not rebuilt (legacy .NET Framework)",
+        "blocker-121, cr-dotnet-0026, line 15: not rebuilt (legacy .NET Framework)",
+        "blocker-188, cr-dotnet-0045, line 28: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/DoctorProfile.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-122, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/DoctorProfile.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 6,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-123, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-124, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-125, cr-dotnet-0026, line 14: not rebuilt (legacy .NET Framework)",
+        "blocker-126, cr-dotnet-0026, line 16: not rebuilt (legacy .NET Framework)",
+        "blocker-189, cr-dotnet-0045, line 29: not rebuilt (legacy .NET Framework)",
+        "blocker-190, cr-dotnet-0045, line 45: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-127, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 11,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-128, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-129, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-130, cr-dotnet-0026, line 15: not rebuilt (legacy .NET Framework)",
+        "blocker-131, cr-dotnet-0026, line 17: not rebuilt (legacy .NET Framework)",
+        "blocker-132, cr-dotnet-0026, line 19: not rebuilt (legacy .NET Framework)",
+        "blocker-191, cr-dotnet-0045, line 21: not rebuilt (legacy .NET Framework)",
+        "blocker-192, cr-dotnet-0045, line 35: not rebuilt (legacy .NET Framework)",
+        "blocker-193, cr-dotnet-0045, line 56: not rebuilt (legacy .NET Framework)",
+        "blocker-194, cr-dotnet-0045, line 79: not rebuilt (legacy .NET Framework)",
+        "blocker-210, cr-dotnet-0126, line 21: not rebuilt (legacy .NET Framework)",
+        "blocker-211, cr-dotnet-0126, line 56: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/PatientHome.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-133, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/PatientHome.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 5,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-134, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-135, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-136, cr-dotnet-0026, line 12: not rebuilt (legacy .NET Framework)",
+        "blocker-137, cr-dotnet-0026, line 14: not rebuilt (legacy .NET Framework)",
+        "blocker-195, cr-dotnet-0045, line 28: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/PatientMaster.Master",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-138, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/PatientMaster.Master.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 4,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-139, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-140, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-141, cr-dotnet-0026, line 10: not rebuilt (legacy .NET Framework)",
+        "blocker-142, cr-dotnet-0026, line 12: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/PatientNotifications.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-143, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/PatientNotifications.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 5,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-144, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-145, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-146, cr-dotnet-0026, line 15: not rebuilt (legacy .NET Framework)",
+        "blocker-147, cr-dotnet-0026, line 17: not rebuilt (legacy .NET Framework)",
+        "blocker-196, cr-dotnet-0045, line 30: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 3,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-148, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)",
+        "blocker-249, cr-dotnet-1034, line 27: not rebuilt (legacy .NET Framework)",
+        "blocker-250, cr-dotnet-1034, line 56: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 9,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-149, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-150, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-151, cr-dotnet-0026, line 13: not rebuilt (legacy .NET Framework)",
+        "blocker-152, cr-dotnet-0026, line 15: not rebuilt (legacy .NET Framework)",
+        "blocker-197, cr-dotnet-0045, line 17: not rebuilt (legacy .NET Framework)",
+        "blocker-198, cr-dotnet-0045, line 31: not rebuilt (legacy .NET Framework)",
+        "blocker-212, cr-dotnet-0126, line 17: not rebuilt (legacy .NET Framework)",
+        "blocker-213, cr-dotnet-0126, line 31: not rebuilt (legacy .NET Framework)",
+        "blocker-251, cr-dotnet-1034, line 63: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx.designer.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-252, cr-dotnet-1034, line 31: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/TreatmentHistory.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 3,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-153, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)",
+        "blocker-253, cr-dotnet-1034, line 29: not rebuilt (legacy .NET Framework)",
+        "blocker-254, cr-dotnet-1034, line 55: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/TreatmentHistory.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 6,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-154, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-155, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-156, cr-dotnet-0026, line 14: not rebuilt (legacy .NET Framework)",
+        "blocker-157, cr-dotnet-0026, line 16: not rebuilt (legacy .NET Framework)",
+        "blocker-199, cr-dotnet-0045, line 31: not rebuilt (legacy .NET Framework)",
+        "blocker-255, cr-dotnet-1034, line 51: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/TreatmentHistory.aspx.designer.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-256, cr-dotnet-1034, line 31: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 3,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-158, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)",
+        "blocker-257, cr-dotnet-1034, line 28: not rebuilt (legacy .NET Framework)",
+        "blocker-258, cr-dotnet-1034, line 57: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 11,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-159, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-160, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-161, cr-dotnet-0026, line 13: not rebuilt (legacy .NET Framework)",
+        "blocker-162, cr-dotnet-0026, line 15: not rebuilt (legacy .NET Framework)",
+        "blocker-200, cr-dotnet-0045, line 17: not rebuilt (legacy .NET Framework)",
+        "blocker-201, cr-dotnet-0045, line 30: not rebuilt (legacy .NET Framework)",
+        "blocker-202, cr-dotnet-0045, line 49: not rebuilt (legacy .NET Framework)",
+        "blocker-203, cr-dotnet-0045, line 61: not rebuilt (legacy .NET Framework)",
+        "blocker-214, cr-dotnet-0126, line 17: not rebuilt (legacy .NET Framework)",
+        "blocker-215, cr-dotnet-0126, line 30: not rebuilt (legacy .NET Framework)",
+        "blocker-259, cr-dotnet-1034, line 63: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.designer.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-260, cr-dotnet-1034, line 31: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/SignUp.aspx",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-163, cr-dotnet-0026, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/SignUp.aspx.cs",
+      "violationsFixed": 0,
+      "violationsFailed": 10,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-164, cr-dotnet-0026, line 5: not rebuilt (legacy .NET Framework)",
+        "blocker-165, cr-dotnet-0026, line 6: not rebuilt (legacy .NET Framework)",
+        "blocker-166, cr-dotnet-0026, line 13: not rebuilt (legacy .NET Framework)",
+        "blocker-167, cr-dotnet-0026, line 15: not rebuilt (legacy .NET Framework)",
+        "blocker-204, cr-dotnet-0045, line 17: not rebuilt (legacy .NET Framework)",
+        "blocker-205, cr-dotnet-0045, line 36: not rebuilt (legacy .NET Framework)",
+        "blocker-206, cr-dotnet-0045, line 109: not rebuilt (legacy .NET Framework)",
+        "blocker-216, cr-dotnet-0126, line 17: not rebuilt (legacy .NET Framework)",
+        "blocker-217, cr-dotnet-0126, line 36: not rebuilt (legacy .NET Framework)",
+        "blocker-218, cr-dotnet-0126, line 109: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/Web.Debug.config",
+      "violationsFixed": 1,
+      "violationsFailed": 0,
+      "fixedDetails": [
+        "blocker-266, cr-dotnet-0010, line 5: fixed per chosen remediation"
+      ],
+      "failedDetails": []
+    },
+    {
+      "filePath": "Code/DBProject/Web.Release.config",
+      "violationsFixed": 1,
+      "violationsFailed": 0,
+      "fixedDetails": [
+        "blocker-267, cr-dotnet-0010, line 5: fixed per chosen remediation"
+      ],
+      "failedDetails": []
+    },
+    {
+      "filePath": "Code/DBProject/Web.config",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-261, cr-dotnet-1041, line 33: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/assets/bootstrap/js/bootstrap.js",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-264, cr-js-0021, line 449: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/assets/css/demo.css",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-1, cr-css-1000, line 1: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/assets/font-awesome/less/font-awesome.less",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-262, cr-css-1006, line 6: not rebuilt (legacy .NET Framework)"
+      ]
+    },
+    {
+      "filePath": "Code/DBProject/assets/font-awesome/scss/font-awesome.scss",
+      "violationsFixed": 0,
+      "violationsFailed": 1,
+      "fixedDetails": [],
+      "failedDetails": [
+        "blocker-263, cr-css-1006, line 6: not rebuilt (legacy .NET Framework)"
+      ]
+    }
+  ],
+  "blockers": [
+    {
+      "id": "blocker-1",
+      "ruleId": "cr-css-1000",
+      "filePath": "Code/DBProject/assets/css/demo.css",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-2",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-3",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-4",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-5",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-6",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-7",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-8",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-9",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-10",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-11",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-12",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-13",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-14",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-15",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-16",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-17",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-18",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-19",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-20",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-21",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-22",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-23",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-24",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-25",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-26",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-27",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-28",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-29",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-30",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-31",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-32",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-33",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-34",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-35",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-36",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-37",
+      "ruleId": "cr-dotnet-0013",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-38",
+      "ruleId": "cr-dotnet-0025",
+      "filePath": "Code/DBProject/Clinic Management System.csproj",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-39",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/AddStaff.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-40",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/AddStaff.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-41",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/AddStaff.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-42",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/AddStaff.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-43",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/AddStaff.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-44",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/Admin.Master",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-45",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/Admin.Master.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-46",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/Admin.Master.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-47",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/Admin.Master.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-48",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/Admin.Master.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-49",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/AdminHome.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-50",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/AdminHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-51",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/AdminHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-52",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/AdminHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-53",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/AdminHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-54",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/DoctorRegistrationForm.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-55",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/DoctorRegistrationForm.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-56",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/DoctorRegistrationForm.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-57",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/DoctorRegistrationForm.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-58",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/DoctorRegistrationForm.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-59",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-60",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-61",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-62",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-63",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-64",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-65",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-66",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-67",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/Bill.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-68",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/Bill.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-69",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/Bill.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-70",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/Bill.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-71",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/Bill.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-72",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/DoctorHome.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-73",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/DoctorHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-74",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/DoctorHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-75",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/DoctorHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-76",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/DoctorHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-77",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/DoctorMaster.Master",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-78",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/DoctorMaster.Master.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-79",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/DoctorMaster.Master.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-80",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/DoctorMaster.Master.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-81",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/DoctorMaster.Master.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-82",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/HistoryUpdate.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-83",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/HistoryUpdate.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-84",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/HistoryUpdate.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-85",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/HistoryUpdate.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-86",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/HistoryUpdate.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-87",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-88",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-89",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-90",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-91",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-92",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PendingAppointment.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-93",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PendingAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-94",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PendingAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-95",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PendingAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-96",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PendingAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-97",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PreviousHistory.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-98",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PreviousHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-99",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PreviousHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-100",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PreviousHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-101",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Doctor/PreviousHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-102",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/AppointmentRequestSent.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-103",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/AppointmentRequestSent.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-104",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/AppointmentRequestSent.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-105",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/AppointmentRequestSent.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-106",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/AppointmentRequestSent.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-107",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-108",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-109",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-110",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-111",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-112",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/BillsHistory.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-113",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/BillsHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-114",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/BillsHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-115",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/BillsHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-116",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/BillsHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-117",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/CurrentAppointment.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-118",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/CurrentAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-119",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/CurrentAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-120",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/CurrentAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-121",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/CurrentAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-122",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/DoctorProfile.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-123",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/DoctorProfile.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-124",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/DoctorProfile.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-125",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/DoctorProfile.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-126",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/DoctorProfile.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-127",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-128",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-129",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-130",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-131",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-132",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-133",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientHome.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-134",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-135",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-136",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-137",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-138",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientMaster.Master",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-139",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientMaster.Master.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-140",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientMaster.Master.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-141",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientMaster.Master.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-142",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientMaster.Master.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-143",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientNotifications.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-144",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientNotifications.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-145",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientNotifications.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-146",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientNotifications.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-147",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/PatientNotifications.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-148",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-149",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-150",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-151",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-152",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-153",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/TreatmentHistory.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-154",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/TreatmentHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-155",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/TreatmentHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-156",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/TreatmentHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-157",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/TreatmentHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-158",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-159",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-160",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-161",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-162",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-163",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/SignUp.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-164",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/SignUp.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-165",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/SignUp.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-166",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/SignUp.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-167",
+      "ruleId": "cr-dotnet-0026",
+      "filePath": "Code/DBProject/SignUp.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-168",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Doctor/Bill.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-169",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Doctor/Bill.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-170",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Doctor/Bill.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-171",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Doctor/Bill.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-172",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Doctor/Bill.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-173",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Doctor/DoctorHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-174",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Doctor/HistoryUpdate.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-175",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Doctor/HistoryUpdate.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-176",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-177",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-178",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Doctor/PendingAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-179",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Doctor/PreviousHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-180",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/AppointmentRequestSent.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-181",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/AppointmentRequestSent.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-182",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/AppointmentRequestSent.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-183",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-184",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-185",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-186",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-187",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/BillsHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-188",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/CurrentAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-189",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/DoctorProfile.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-190",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/DoctorProfile.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-191",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-192",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-193",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-194",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-195",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/PatientHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-196",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/PatientNotifications.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-197",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-198",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-199",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/TreatmentHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-200",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-201",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-202",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-203",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-204",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/SignUp.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-205",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/SignUp.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-206",
+      "ruleId": "cr-dotnet-0045",
+      "filePath": "Code/DBProject/SignUp.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-207",
+      "ruleId": "cr-dotnet-0126",
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-208",
+      "ruleId": "cr-dotnet-0126",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-209",
+      "ruleId": "cr-dotnet-0126",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-210",
+      "ruleId": "cr-dotnet-0126",
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-211",
+      "ruleId": "cr-dotnet-0126",
+      "filePath": "Code/DBProject/Patient/PatientFeedback.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-212",
+      "ruleId": "cr-dotnet-0126",
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-213",
+      "ruleId": "cr-dotnet-0126",
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-214",
+      "ruleId": "cr-dotnet-0126",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-215",
+      "ruleId": "cr-dotnet-0126",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-216",
+      "ruleId": "cr-dotnet-0126",
+      "filePath": "Code/DBProject/SignUp.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-217",
+      "ruleId": "cr-dotnet-0126",
+      "filePath": "Code/DBProject/SignUp.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-218",
+      "ruleId": "cr-dotnet-0126",
+      "filePath": "Code/DBProject/SignUp.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-219",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Admin/AdminHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-220",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Admin/AdminHome.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-221",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Admin/AdminHome.aspx.designer.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-222",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Admin/AdminHome.aspx.designer.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-223",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-224",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-225",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-226",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-227",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-228",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Admin/ManageClinic.aspx.designer.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-229",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-230",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-231",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-232",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Doctor/PatientHistory.aspx.designer.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-233",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Doctor/PendingAppointment.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-234",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Doctor/PendingAppointment.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-235",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Doctor/PendingAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-236",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Doctor/PendingAppointment.aspx.designer.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-237",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Doctor/PreviousHistory.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-238",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Doctor/PreviousHistory.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-239",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Doctor/PreviousHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-240",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Doctor/PreviousHistory.aspx.designer.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-241",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-242",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-243",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-244",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/AppointmentTaker.aspx.designer.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-245",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/BillsHistory.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-246",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/BillsHistory.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-247",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/BillsHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-248",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/BillsHistory.aspx.designer.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-249",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-250",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-251",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-252",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/TakeAppointment.aspx.designer.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-253",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/TreatmentHistory.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-254",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/TreatmentHistory.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-255",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/TreatmentHistory.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-256",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/TreatmentHistory.aspx.designer.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-257",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-258",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-259",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-260",
+      "ruleId": "cr-dotnet-1034",
+      "filePath": "Code/DBProject/Patient/ViewDoctors.aspx.designer.cs",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-261",
+      "ruleId": "cr-dotnet-1041",
+      "filePath": "Code/DBProject/Web.config",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-262",
+      "ruleId": "cr-css-1006",
+      "filePath": "Code/DBProject/assets/font-awesome/less/font-awesome.less",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-263",
+      "ruleId": "cr-css-1006",
+      "filePath": "Code/DBProject/assets/font-awesome/scss/font-awesome.scss",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-264",
+      "ruleId": "cr-js-0021",
+      "filePath": "Code/DBProject/assets/bootstrap/js/bootstrap.js",
+      "status": "failed",
+      "reason": "legacy .NET Framework project; remediation requires major rewrite not feasible in this source-only pass (build not run here)"
+    },
+    {
+      "id": "blocker-265",
+      "ruleId": "cr-dotnet-0010",
+      "filePath": "Code/DBProject/DAL/myDAL.cs",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-266",
+      "ruleId": "cr-dotnet-0010",
+      "filePath": "Code/DBProject/Web.Debug.config",
+      "status": "fixed"
+    },
+    {
+      "id": "blocker-267",
+      "ruleId": "cr-dotnet-0010",
+      "filePath": "Code/DBProject/Web.Release.config",
+      "status": "fixed"
+    }
+  ]
+}
