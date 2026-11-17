@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI.WebControls;
-using System.Web.UI;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -14,8 +11,13 @@ namespace DBProject.DAL
 	public class myDAL
     {
 		//connection string of the server database
-        private static readonly string connString =
-            System.Configuration.ConfigurationManager.ConnectionStrings["sqlCon1"].ConnectionString;
+        //(read from appsettings.json ConnectionStrings:sqlCon1 and handed over once at startup by Program.cs)
+        private static string connString;
+
+        public static void Configure(string connectionString)
+        {
+            connString = connectionString;
+        }
 
 
 

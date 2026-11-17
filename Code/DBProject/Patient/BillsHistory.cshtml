@@ -1,0 +1,44 @@
+@page "/Patient/BillsHistory.aspx"
+@model DBProject.BillsHistoryModel
+
+@section head {
+
+    <title>Bills History</title>
+
+}
+
+    <!------------------Styling------------------>
+    <link rel="stylesheet" href="/assets/css/grid-view.css"/>
+
+
+    <h1><strong style="margin:37%">Your Bill(s) History</strong></h1>
+    <br /><br />
+
+    <span id="BHistory">@Model.BHistory</span>
+    <br /><br />
+
+@if (Model.BHistoryGrid != null)
+{
+    <table class="GridView-d" cellspacing="0" cellpadding="4" rules="cols" border="1" id="BHistoryGrid" style="color:Black;background-color:White;border-color:#DEDFDE;border-width:1px;border-style:None;width:800px;border-collapse:collapse;">
+        <tr style="color:White;background-color:#6B696B;font-weight:bold;">
+            <th scope="col">No.</th>
+            @foreach (DataColumn col in Model.BHistoryGrid.Columns)
+            {
+                <th scope="col">@col.ColumnName</th>
+            }
+        </tr>
+        @for (int i = 0; i < Model.BHistoryGrid.Rows.Count; i++)
+        {
+            <tr style="background-color:@(i % 2 == 0 ? "#F7F7DE" : "White");">
+                <td style="width:50px;">@(i + 1)</td>
+                @foreach (DataColumn col in Model.BHistoryGrid.Columns)
+                {
+                    string cell = Model.BHistoryGrid.Rows[i][col].ToString();
+                    <td>@(cell == "" ? Html.Raw("&nbsp;") : Html.Raw(Html.Encode(cell)))</td>
+                }
+            </tr>
+        }
+    </table>
+}
+
+    <br /><br />

@@ -1,0 +1,38 @@
+@page "/Doctor/PendingAppointment.aspx"
+@model doctor.pendingappointmentModel
+
+@section head {
+<title>Pending Appointments</title>
+}
+
+    <!------------------Styling------------------>
+    <link rel="stylesheet" href="/assets/css/grid-view.css"/>
+
+
+     <h1><strong style="margin:25%">Pending Appointments</strong></h1>
+    <br /><br />
+    <div style="margin-left:300px">
+
+@if (Model.Pendingappointments != null && Model.Pendingappointments.Rows.Count > 0)
+{
+     <table class="GridView-d" cellspacing="0" cellpadding="4" rules="cols" border="1" id="pendingappointments" style="color:Black;background-color:White;border-color:#DEDFDE;border-width:1px;border-style:None;border-collapse:collapse;">
+         <tr style="color:White;background-color:#6B696B;font-weight:bold;">
+             <th scope="col">&nbsp;</th>
+             @foreach (DataColumn col in Model.Pendingappointments.Columns)
+             {
+                 <th scope="col">@col.ColumnName</th>
+             }
+         </tr>
+         @for (int i = 0; i < Model.Pendingappointments.Rows.Count; i++)
+         {
+             <tr style="background-color:@(i % 2 == 0 ? "#F7F7DE" : "White");">
+                 <td><button type="submit" name="rowIndex" value="@i" formaction="?handler=Delete" style="background:none;border:none;padding:0;color:#0000EE;text-decoration:underline;cursor:pointer;">Delete</button>&nbsp;<button type="submit" name="rowIndex" value="@i" formaction="?handler=Select" style="background:none;border:none;padding:0;color:#0000EE;text-decoration:underline;cursor:pointer;">Select</button></td>
+                 @foreach (DataColumn col in Model.Pendingappointments.Columns)
+                 {
+                     <td>@Model.Pendingappointments.Rows[i][col]</td>
+                 }
+             </tr>
+         }
+     </table>
+}
+ </div>

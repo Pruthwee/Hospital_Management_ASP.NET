@@ -1,0 +1,15 @@
+@using System.Text.Encodings.Web
+@* Replaces the Response.Write("<script>alert('...');</script>") calls of the Web Forms pages.
+   A page sets ViewData["Alert"] (same request) or TempData["Alert"] (before a redirect). *@
+@{
+    var alertMessage = ViewData["Alert"] as string;
+    var tempAlert = TempData["Alert"] as string;
+}
+@if (!string.IsNullOrEmpty(alertMessage))
+{
+    <script>alert('@Html.Raw(JavaScriptEncoder.Default.Encode(alertMessage))');</script>
+}
+@if (!string.IsNullOrEmpty(tempAlert))
+{
+    <script>alert('@Html.Raw(JavaScriptEncoder.Default.Encode(tempAlert))');</script>
+}

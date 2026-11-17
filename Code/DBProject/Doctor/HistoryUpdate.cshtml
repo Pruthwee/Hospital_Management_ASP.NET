@@ -1,0 +1,24 @@
+@page "/Doctor/HistoryUpdate.aspx"
+@model doctor.HistoryupdateModel
+
+@section head {
+
+<title>Update History</title>
+
+}
+
+@section Cp1 {
+
+<h1>Update history  </h1>
+
+<h4>Disease:</h4><input type="text" id="Disease" name="Disease" value="@Model.Disease" />
+   <h4>Progress:</h4> <input type="text" id="progress" name="progress" value="@Model.progress" />
+    <h4>Prescription</h4><input type="text" id="Prescription" name="Prescription" value="@Model.Prescription" />
+    <br />
+      <br />
+      <br />
+
+    <input type="submit" name="submit" id="submit" value="Accept &amp; Save" formaction="?handler=Save" style="font-weight:bold;" />  
+    <input type="submit" name="Bill" id="Bill" value="Generate Bill" formaction="?handler=GenerateBill" style="font-weight:bold;" />
+
+}

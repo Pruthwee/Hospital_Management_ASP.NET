@@ -1,0 +1,25 @@
+@page "/Patient/CurrentAppointment.aspx"
+@model DBProject.CurrentAppointmentModel
+
+@section head {
+
+    <title>Current Appointment</title>
+
+}
+
+
+    <h1><strong style="margin:30%">Current Appointments</strong></h1>
+    <br /><br />
+
+    <div style="margin-left: 70px">
+
+    <span id="Appointment" style="font-size:Medium;font-weight:bold;">@Model.Appointment</span>
+    <br /><br />
+
+    <span id="ADoctor" style="font-size:Medium;font-weight:bold;">@Model.ADoctor</span>
+    <br /><br />
+
+    <span id="ATimings" style="font-size:Medium;font-weight:bold;">@Model.ATimings</span>
+    <br /><br />
+
+    </div>

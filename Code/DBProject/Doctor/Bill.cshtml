@@ -1,0 +1,32 @@
+@page "/Doctor/Bill.aspx"
+@model doctor.billModel
+
+@section head {
+
+<title>Generate Bill</title>
+
+}
+
+    <h1>Your Bill For this Appointment is :      <span id="Label1" style="font-size:Medium;font-weight:bold;">@Model.Label1</span> </h1>
+   
+     <br />
+     <br />
+     <br />
+     <br />
+     <br />
+     <br />
+     <br />
+     <br />
+     <br />
+     <br />
+     <br />
+     <br />
+     <br />
+     <br />
+     <br />
+
+
+    &nbsp&nbsp&nbsp&nbsp<input type="submit" name="Bill" id="Bill" value="Bill Paid" formaction="?handler=Paid" style="font-weight:bold;" />
+   
+
+     &nbsp&nbsp&nbsp&nbsp<input type="submit" name="Button1" id="Button1" value="Bill Unpaid" formaction="?handler=Unpaid" style="font-weight:bold;" />

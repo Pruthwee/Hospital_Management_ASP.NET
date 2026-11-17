@@ -1,0 +1,63 @@
+@page "/Patient/PatientFeedback.aspx"
+@model DBProject.PatientFeedbackModel
+
+@section head {
+
+    <title>Feedback</title>
+
+}
+
+
+    <h1><strong style="margin:37%">Feedback</strong></h1>
+    <br /><br />
+
+    <div style="margin-left: 70px">
+
+    <span id="Feedback" style="font-size:Medium;font-weight:bold;">@Model.Feedback</span>
+    <br /><br />
+
+    <span id="FDoctor" style="font-size:Medium;font-weight:bold;">@Model.FDoctor</span>
+    <br /><br />
+
+    <span id="FTimings" style="font-size:Medium;font-weight:bold;">@Model.FTimings</span>
+    <br /><br />
+
+    <br /><br />
+    @if (Model.ShowFeedback)
+    {
+        <span id="Message" style="font-size:Medium;font-weight:bold;">Dear Patient, How was your treatment experience with our specialized Doctor on a rating of 1 - 5:</span>
+        <input type="hidden" id="FDoctor_state" name="FDoctor" value="@Model.FDoctor" />
+        <input type="hidden" id="FTimings_state" name="FTimings" value="@Model.FTimings" />
+    }
+
+
+    <div  style="margin-left: 790px">
+        @if (Model.ShowFeedback)
+        {
+            <select name="List" id="List" style="font-weight:bold;">
+                @foreach (var rating in new[] { "1", "2", "3", "4", "5" })
+                {
+                    if (Model.List == rating)
+                    {
+                        <option selected="selected" value="@rating">@rating</option>
+                    }
+                    else
+                    {
+                        <option value="@rating">@rating</option>
+                    }
+                }
+            </select>
+
+            <br /><br />
+
+            <input type="submit" name="button1" value="Give Feedback" id="button1" formaction="?handler=GiveFeedback" style="font-weight:bold;" />
+        }
+       
+        <br /><br />
+        <span id="F" style="font-size:Medium;font-weight:bold;">@Model.F</span>
+
+     </div>
+
+
+     <br /><br />
+    </div>

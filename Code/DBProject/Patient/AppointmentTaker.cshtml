@@ -1,0 +1,47 @@
+@page "/Patient/AppointmentTaker.aspx"
+@model DBProject.AppointmentTakerModel
+
+@section head {
+
+    <title>Appointment Taker</title>
+
+}
+
+    <!------------------Styling------------------>
+    <link rel="stylesheet" href="/assets/css/grid-view.css"/>
+
+
+    <h1><strong style="margin:37%">Free Time Slots</strong></h1>
+    <br /><br />
+
+    <span id="PAppointment">@Model.PAppointment</span>
+    <br /><br />
+
+    @if (Model.PAppointmentGrid != null)
+    {
+    <table class="GridView-d" cellspacing="0" cellpadding="4" rules="cols" border="1" id="PAppointmentGrid" style="color:Black;background-color:White;border-color:#DEDFDE;border-width:1px;border-style:None;width:800px;border-collapse:collapse;">
+        <tr style="color:White;background-color:#6B696B;font-weight:bold;">
+            <th scope="col">&nbsp;</th>
+            <th scope="col">No.</th>
+            @foreach (DataColumn col in Model.PAppointmentGrid.Columns)
+            {
+            <th scope="col">@col.ColumnName</th>
+            }
+        </tr>
+        @for (int i = 0; i < Model.PAppointmentGrid.Rows.Count; i++)
+        {
+            string rowColor = (i % 2 == 0) ? "#F7F7DE" : "White";
+        <tr style="background-color:@rowColor;">
+            <td><button type="submit" formaction="?handler=Select&amp;rowIndex=@i" style="background:none;border:none;padding:0;color:#337ab7;text-decoration:underline;cursor:pointer;">Select</button></td>
+            <td style="width:50px;"><span>@(i + 1)</span></td>
+            @foreach (DataColumn col in Model.PAppointmentGrid.Columns)
+            {
+                string cell = Convert.ToString(Model.PAppointmentGrid.Rows[i][col]);
+            <td>@(string.IsNullOrEmpty(cell) ? Html.Raw("&nbsp;") : Html.Raw(Html.Encode(cell)))</td>
+            }
+        </tr>
+        }
+    </table>
+    }
+
+    <br /><br />

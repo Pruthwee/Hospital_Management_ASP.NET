@@ -1,0 +1,25 @@
+@page "/Patient/PatientNotifications.aspx"
+@model DBProject.PatientNotificationsModel
+
+@section head {
+
+    <title>Notifications</title>
+
+}
+
+
+    <h1><strong style="margin:37%">Notifications</strong></h1>
+    <br /><br />
+
+    <div style="margin-left: 70px">
+
+    <span id="Notify" style="font-size:Medium;font-weight:bold;">@Model.Notify</span>
+    <br /><br />
+
+    <span id="NDoctor" style="font-size:Medium;font-weight:bold;">@Model.NDoctor</span>
+    <br /><br />
+
+    <span id="NTimings" style="font-size:Medium;font-weight:bold;">@Model.NTimings</span>
+    <br /><br />
+
+    </div>

@@ -1,0 +1,129 @@
+@page "/Admin/ManageClinic.aspx"
+@using System.Data
+@model DBProject.Admin.ManageClinicModel
+@{
+    // Layout comes from Admin/_ViewStart.cshtml (/Shared/_AdminLayout.cshtml, the former Admin.Master)
+}
+
+@section head {
+
+<style type = "text/css">
+
+    .outer {
+       margin-left:20%;
+       display:inline-block;
+    }
+    .mydiv
+    {
+        display:inline-block;
+    }
+
+    /* Look of the former Manage GridView */
+    table.manage {
+        background-color: White;
+        border: 2px double #336666;
+        border-collapse: separate;
+        border-spacing: 3px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 380px;
+    }
+    table.manage caption {
+        caption-side: top;
+        text-align: center;
+    }
+    table.manage th {
+        background-color: #336666;
+        color: White;
+        font-weight: bold;
+        padding: 8px;
+    }
+    table.manage td {
+        color: #333333;
+        background-color: White;
+        padding: 8px;
+        border-bottom: 1px solid #336666;
+    }
+    table.manage .btn-link {
+        padding: 0;
+        border: 0;
+    }
+
+</style>
+
+}
+
+<form method="post">
+
+    <div class="outer">
+
+        <div>
+
+            <h4 style="font:bold">Select Catagory :</h4>
+            <br />
+
+            <input type="radio" id="Doctor" name="Category" value="D" checked="@Model.IsDoctor" onchange="document.getElementById('categoryChanged').click()" /><label for="Doctor">Doctor</label>
+
+            <input type="radio" id="Patient" name="Category" value="P" checked="@Model.IsPatient" onchange="document.getElementById('categoryChanged').click()" /><label for="Patient">Patient</label>
+
+            <input type="radio" id="OtherStaff" name="Category" value="O" checked="@Model.IsOtherStaff" onchange="document.getElementById('categoryChanged').click()" /><label for="OtherStaff">Other Staff</label>
+
+        </div>
+
+        <div>
+            <div>
+                <input asp-for="SearchText" type="text" />
+                <button type="submit" asp-page-handler="Search" class="btn btn-primary">Search</button>
+                <button type="submit" id="categoryChanged" asp-page-handler="ChangeCategory" style="display:none" tabindex="-1">Change</button>
+                <br />
+                <span id="Msg" style="font-weight:bold;">@Model.Message</span>
+
+                @if (Model.Table != null && Model.Table.Rows.Count > 0)
+                {
+                    <table id="Manage" class="manage" cellpadding="8">
+                        <caption>@Model.Caption</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">&nbsp;</th>
+                                @foreach (DataColumn column in Model.Table.Columns)
+                                {
+                                    <th scope="col">@column.ColumnName</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DataRow row in Model.Table.Rows)
+                            {
+                                <tr>
+                                    <td>
+                                        <button type="submit" name="id" value="@row[0]" asp-page-handler="Delete" class="btn btn-link">Delete</button>
+                                        <button type="submit" name="id" value="@row[0]" asp-page-handler="Select" class="btn btn-link">Select</button>
+                                    </td>
+                                    @foreach (DataColumn column in Model.Table.Columns)
+                                    {
+                                        <td>@row[column]</td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="display:inline-block; float:right;margin-right:10%" id="mydiv">
+        @if (Model.Details != null)
+        {
+            foreach (var detail in Model.Details)
+            {
+                <p><b>@detail.Key</b></p>
+                @detail.Value
+            }
+        }
+    </div>
+
+</form>

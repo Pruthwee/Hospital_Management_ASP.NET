@@ -1,0 +1,39 @@
+@page "/Doctor/DoctorHome.aspx"
+@model doctor.doctorhomeModel
+
+@section head {
+
+<title>Doctor's Home</title>
+
+}
+
+@section Cp1 {
+
+    <div style="background-image:url(/assets/img/backgrounds/PatientHome.jpg); background-position:center; background-size:20px; margin-left:50px">
+
+            <h1>Your Profile</h1>
+             <br />        
+            <h3>Name:       <span id="Label1" style="font-size:Medium;font-weight:bold;">@Model.Label1</span><br /><br /> </h3>   
+            <h4>Phone:      <span id="Label2" style="font-size:Medium;font-weight:bold;">@Model.Label2</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Address: <span id="Label3" style="font-size:Medium;font-weight:bold;">@Model.Label3</span>  </h4>
+             <br />
+            <h4> BirthDate:   <span id="Label4" style="font-size:Medium;font-weight:bold;">@Model.Label4</span></h4>
+
+            <br />
+            <br />
+            <h4>Gender:  <span id="Label5" style="font-size:Medium;font-weight:bold;">@Model.Label5</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  Department No: <span id="Label6" style="font-size:Medium;font-weight:bold;">@Model.Label6</span></h4>
+
+            <br />
+            <br />
+           <h4>Charges Per Visit: <span id="Label7" style="font-size:Medium;font-weight:bold;">@Model.Label7</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  Monthly Salary: <span id="Label8" style="font-size:Medium;font-weight:bold;">@Model.Label8</span></h4>
+            <br />
+            <br />
+           <h4>Repute Index: <span id="Label9" style="font-size:Medium;font-weight:bold;">@Model.Label9</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp  Patients Treated: <span id="Label10" style="font-size:Medium;font-weight:bold;">@Model.Label10</span></h4>
+            <br />
+             <br />
+          
+            <h4>Qualification: <span id="Label11" style="font-size:Medium;font-weight:bold;">@Model.Label11</span> <br /><br /> Specialization: <span id="Label12" style="font-size:Medium;font-weight:bold;">@Model.Label12</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </h4>
+            <h4>Work Experience: <span id="Label13" style="font-size:Medium;font-weight:bold;">@Model.Label13</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  Status: <span id="Label14" style="font-size:Medium;font-weight:bold;">@Model.Label14</span></h4>
+            <br />
+</div>    
+        
+}

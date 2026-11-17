@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "DBProject": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "SignUp.aspx",
+      "applicationUrl": "http://localhost:1972",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+@page "/Patient/ViewDoctors.aspx"
+@model DBProject.ViewDoctorsModel
+
+@section head {
+
+            <title>Doctors</title>
+
+}
+
+
+    <!------------------Styling------------------>
+    <link rel="stylesheet" href="/assets/css/grid-view.css"/>
+
+
+
+    <h1><strong style="margin:23%">Select a Doctor to view his Profile</strong></h1>
+    <br /><br />
+
+    <span id="TDoctor">@Model.TDoctor</span>
+    <br /><br />
+
+    @if (Model.TDoctorGrid != null)
+    {
+    <table class="GridView-d" cellspacing="0" cellpadding="4" rules="cols" border="1" id="TDoctorGrid" style="color:Black;background-color:White;border-color:#DEDFDE;border-width:1px;border-style:None;width:1000px;border-collapse:collapse;">
+        <tr style="color:White;background-color:#6B696B;font-weight:bold;">
+            <th scope="col">&nbsp;</th>
+            <th scope="col">No.</th>
+            @foreach (DataColumn col in Model.TDoctorGrid.Columns)
+            {
+            <th scope="col">@col.ColumnName</th>
+            }
+        </tr>
+        @for (int i = 0; i < Model.TDoctorGrid.Rows.Count; i++)
+        {
+            string rowColor = (i % 2 == 0) ? "#F7F7DE" : "White";
+        <tr style="background-color:@rowColor;">
+            <td><button type="submit" formaction="?handler=Select&amp;rowIndex=@i" style="background:none;border:none;padding:0;color:#337ab7;text-decoration:underline;cursor:pointer;">Select</button></td>
+            <td style="width:50px;"><span>@(i + 1)</span></td>
+            @foreach (DataColumn col in Model.TDoctorGrid.Columns)
+            {
+                string cell = Convert.ToString(Model.TDoctorGrid.Rows[i][col]);
+            <td>@(string.IsNullOrEmpty(cell) ? Html.Raw("&nbsp;") : Html.Raw(Html.Encode(cell)))</td>
+            }
+        </tr>
+        }
+    </table>
+    }
+
+    <br /><br />

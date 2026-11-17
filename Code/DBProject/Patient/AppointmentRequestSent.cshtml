@@ -1,0 +1,17 @@
+@page "/Patient/AppointmentRequestSent.aspx"
+@model DBProject.AppointmentNotificationSentModel
+
+@section head {
+
+        <title>Send Appointment Request</title>
+
+}
+
+    <br /><br /><br /><br />
+    <h3><strong>Click on this button to send an appointment request to the Doctor</strong> </h3>
+   
+    <input type="submit" value="Send Request" formaction="?handler=SendARequest" style="font-weight:bold;" />
+
+    <br /><br />
+    <span id="Message">@Model.Message</span>
+    <br /><br />

@@ -1,0 +1,118 @@
+@page "/Admin/AdminHome.aspx"
+@model DBProject.Admin.AdminHomeModel
+@{
+    // Layout comes from Admin/_ViewStart.cshtml (/Shared/_AdminLayout.cshtml, the former Admin.Master)
+}
+
+@section head {
+    <style type="text/css">
+        /* Look of the former GridView controls */
+        table.grid {
+            border: 1px solid #DEDFDE;
+            background-color: White;
+            color: Black;
+            border-collapse: collapse;
+        }
+        table.grid th {
+            background-color: #6B696B;
+            color: White;
+            font-weight: bold;
+            padding: 4px;
+            border-left: 1px solid #DEDFDE;
+            border-right: 1px solid #DEDFDE;
+        }
+        table.grid td {
+            padding: 4px;
+            border-left: 1px solid #DEDFDE;
+            border-right: 1px solid #DEDFDE;
+        }
+        table.grid tr.row td {
+            background-color: #F7F7DE;
+        }
+        table.grid tr.alt td {
+            background-color: White;
+        }
+    </style>
+}
+
+    <br />
+    <h1 style="font-family: 'Times New Roman', Times, serif;border-radius:5px; text-decoration: underline; background-color: #CCCCCC"><strong style="margin:37%">Clinic Stats</strong></h1>
+    <br /><br />
+
+
+    <div style="margin-left: 70px">
+
+        <h4><strong>Total Number of Regstered Doctors: </strong></h4>
+        <span id="TotalPatients" style="font-weight:bold;font-size:Medium;">@Model.TotalDoctors</span>
+        <br /><br />
+
+        <h4><strong>Total Registered Patients: </strong></h4>
+        <span id="Total_Doctors" style="font-weight:bold;font-size:Medium;">@Model.TotalPatients</span>
+        <br /><br />
+
+        <h4><strong>Total Income: </strong></h4>
+        <span id="TotalIncome" style="font-weight:bold;font-size:Medium;">@Model.TotalIncome</span>
+        <br /><br />
+
+
+
+        <h3><strong style="margin:5%">Current Appointments</strong></h3>
+
+        @if (Model.AppointmentView != null && Model.AppointmentView.Rows.Count > 0)
+        {
+            <table id="Appointment_view" class="grid" cellpadding="4">
+                <thead>
+                    <tr>
+                        @foreach (DataColumn column in Model.AppointmentView.Columns)
+                        {
+                            <th scope="col">@column.ColumnName</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.AppointmentView.Rows.Count; i++)
+                    {
+                        <tr class="@(i % 2 == 0 ? "row" : "alt")">
+                            @foreach (DataColumn column in Model.AppointmentView.Columns)
+                            {
+                                <td>@Model.AppointmentView.Rows[i][column]</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+
+
+    <div style="margin:20%">
+
+        <h2><strong style="margin:20%">Department Information</strong></h2>
+
+        @if (Model.DepartmentView != null && Model.DepartmentView.Rows.Count > 0)
+        {
+            <table id="department_View" class="grid" cellpadding="4" style="height:50px">
+                <thead>
+                    <tr>
+                        @foreach (DataColumn column in Model.DepartmentView.Columns)
+                        {
+                            <th scope="col">@column.ColumnName</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.DepartmentView.Rows.Count; i++)
+                    {
+                        <tr class="@(i % 2 == 0 ? "row" : "alt")">
+                            @foreach (DataColumn column in Model.DepartmentView.Columns)
+                            {
+                                <td>@Model.DepartmentView.Rows[i][column]</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
